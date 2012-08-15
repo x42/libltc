@@ -17,6 +17,10 @@ config.*
 tests/ltcdecode
 tests/ltcencode
 doc/html/
+doc/man/man3/mainpage.dox.3
+doc/man/man3/*libltc_src_.3
+
+doc/libltc.xcf
 
 atconfig
 depcomp

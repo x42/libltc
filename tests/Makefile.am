@@ -2,6 +2,11 @@ check_PROGRAMS = ltcencode ltcdecode
 
 CLEANFILES = output.raw
 
+EXTRA_DIST= \
+	example_encode.c \
+	timecode.raw timecode.txt \
+	expect_48k_2sec.txt expect_96k_2sec.txt
+
 LIBLTCDIR =../src
 INCLUDES = -I$(srcdir)/$(LIBLTCDIR)
 

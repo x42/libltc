@@ -1,2 +1,2 @@
-2012-Aug-15 Robin Gareus <robin@gareus.org>
-refactored libltcsmpte.sf.net into libltc
+2012-07-15 (v0.5.0) Robin Gareus <robin@gareus.org>
+* refactored libltcsmpte.sf.net into libltc
