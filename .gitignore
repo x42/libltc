@@ -16,11 +16,14 @@ config.*
 *.swp
 tests/ltcdecode
 tests/ltcencode
+tests/output.raw
+
 doc/html/
 doc/man/man3/mainpage.dox.3
 doc/man/man3/*libltc_src_.3
 
 doc/libltc.xcf
+libltc-[0-9\.]*.tar.gz
 
 atconfig
 depcomp
