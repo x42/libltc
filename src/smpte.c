@@ -275,7 +275,7 @@ int ltc_frame_increment(LTCFrame* frame, int fps, int use_date) {
 									 * ((stime.years%4)==0 && ( (stime.years%100) != 0 || (stime.years%400) == 0) )
 									 * simplified since year is 0..99
 									 */
-									if ((stime.years%4)==0 && stime.years!=0)
+									if ((stime.years%4)==0 /* && stime.years!=0 */ ) /* year 2000 was a leap-year */
 										dpm[1]=29;
 									stime.days++;
 									if (stime.days > dpm[stime.months-1])
