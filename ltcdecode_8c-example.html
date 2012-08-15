@@ -90,7 +90,7 @@
 <div class="line">                <span class="keywordflow">while</span> (<a name="a3"></a><a class="code" href="ltc_8h.html#a3cb40ff1bede260caeafae14bafb9a95">ltc_decoder_read</a>(decoder, &amp;frame)) {</div>
 <div class="line">                        <a name="_a4"></a><a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> stime;</div>
 <div class="line"></div>
-<div class="line">                        <a name="a5"></a><a class="code" href="ltc_8h.html#a3481e79dc12bbf52c78b47bde9d69848">ltc_frame_to_time</a>(&amp;stime, &amp;frame.<a name="a6"></a><a class="code" href="ltc_8h.html#a86f7f99e839dc30ac5eb1d650061d1d1" title="the LTC frame see LTCFrame">ltc</a>, 1);</div>
+<div class="line">                        <a name="a5"></a><a class="code" href="ltc_8h.html#a3481e79dc12bbf52c78b47bde9d69848">ltc_frame_to_time</a>(&amp;stime, &amp;frame.<a name="a6"></a><a class="code" href="ltc_8h.html#a86f7f99e839dc30ac5eb1d650061d1d1" title="the actual LTC frame. see LTCFrame">ltc</a>, 1);</div>
 <div class="line"></div>
 <div class="line">                        printf(<span class="stringliteral">&quot;%04d-%02d-%02d %s &quot;</span>,</div>
 <div class="line">                                ((stime.<a name="a7"></a><a class="code" href="ltc_8h.html#af4fc85d71e69e87bcfc269c6e4dfcf25" title="LTC-date uses 2-digit year 00.99.">years</a> &lt; 67) ? 2000+stime.<a class="code" href="ltc_8h.html#af4fc85d71e69e87bcfc269c6e4dfcf25" title="LTC-date uses 2-digit year 00.99.">years</a> : 1900+stime.<a class="code" href="ltc_8h.html#af4fc85d71e69e87bcfc269c6e4dfcf25" title="LTC-date uses 2-digit year 00.99.">years</a>),</div>
@@ -102,7 +102,7 @@
 <div class="line">                        printf(<span class="stringliteral">&quot;%02d:%02d:%02d%c%02d | %8ld %8ld\n&quot;</span>,</div>
 <div class="line">                                   stime.<a name="a11"></a><a class="code" href="ltc_8h.html#a46a49bf0cc03a662959d96145b543bf3" title="hour 0..23">hours</a>, stime.<a name="a12"></a><a class="code" href="ltc_8h.html#a3a61b5ec33a92b13bc7ce21cb54e55ce" title="minute 0..60">mins</a>,</div>
 <div class="line">                                   stime.<a name="a13"></a><a class="code" href="ltc_8h.html#acabc2874dae09c842660cda082cbd7d1" title="second 0..60">secs</a>,</div>
-<div class="line">                                   (frame.<a class="code" href="ltc_8h.html#a86f7f99e839dc30ac5eb1d650061d1d1" title="the LTC frame see LTCFrame">ltc</a>.<a name="a14"></a><a class="code" href="ltc_8h.html#aae3b62d98a52478317057b87ba180b72" title="indicated drop-frame timecode">dfbit</a>) ? <span class="charliteral">&#39;.&#39;</span> : <span class="charliteral">&#39;:&#39;</span>,</div>
+<div class="line">                                   (frame.<a class="code" href="ltc_8h.html#a86f7f99e839dc30ac5eb1d650061d1d1" title="the actual LTC frame. see LTCFrame">ltc</a>.<a name="a14"></a><a class="code" href="ltc_8h.html#aae3b62d98a52478317057b87ba180b72" title="indicated drop-frame timecode">dfbit</a>) ? <span class="charliteral">&#39;.&#39;</span> : <span class="charliteral">&#39;:&#39;</span>,</div>
 <div class="line">                                   stime.<a name="a15"></a><a class="code" href="ltc_8h.html#a1b22b2e8db1d8d2b526919e0f8cef0ee" title="sub-second frame 0..{FPS-1}">frame</a>,</div>
 <div class="line">                                   frame.<a name="a16"></a><a class="code" href="ltc_8h.html#a55623a01fa17b0baf1921ea1ac07db08" title="the approximate sample in the stream corresponding to the start of the LTC frame.">off_start</a>,</div>
 <div class="line">                                   frame.<a name="a17"></a><a class="code" href="ltc_8h.html#a24a4f2b471e59889a9e5363bcf24931f" title="the sample in the stream corresponding to the end of the LTC frame.">off_end</a></div>
@@ -121,7 +121,7 @@
 </div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 15 2012 14:47:11 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 15 2012 22:07:53 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

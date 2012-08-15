@@ -46,6 +46,7 @@
 Introduction</h1>
 <p>Linear (or Longitudinal) Timecode (LTC) is an encoding of <a href="http://en.wikipedia.org/wiki/SMPTE_timecode">SMPTE timecode</a> data as a <a href="http://en.wikipedia.org/wiki/Manchester_Code">Manchester-Biphase</a> encoded audio signal. The audio signal is commonly recorded on a VTR track or other storage media.</p>
 <p>libltc provides functionality to encode and decode LTC from/to SMPTE timecode, including SMPTE date support.</p>
+<p>libltc is the successor of libltcsmpte.</p>
 <h1><a class="anchor" id="download"></a>
 Download</h1>
 <ul>
@@ -60,9 +61,23 @@ Installation</h1>
 <p>run <code>./configure</code> and build libltc with <code>make</code>. See the INSTALL file for further instructions.</p>
 <p>The tar.gz package release includes the build-environment (<code>configure</code> script, etc), but if you get the source from the repository, you first need to generate the build environment with something alike: <code>aclocal; autoheader; libtoolize &ndash;copy; autoconf; automake &ndash;gnu &ndash;add-missing &ndash;copy</code>. (<em>OSX users use <code>glibtoolize</code></em>).</p>
 <p>If <a href="http://doxygen.org/">Doxygen</a> is available, the documentation can be [re-]generated from the source by calling <code>make dox</code>. Self-test scenarios and example code can be compiled and executed with <code>make check</code>.</p>
+<h1><a class="anchor" id="usage"></a>
+Usage</h1>
+<p>Consult <a class="el" href="ltc_8h.html">ltc.h</a> for a detailed reference of available functions. The documentation is also available as Unix manual pages.</p>
+<p>The self-test code lends itself as good examples on how to get started. See <code>tests/decoder.c</code> and <code>tests/encoder.c</code> .</p>
 <h1><a class="anchor" id="about"></a>
-About</h1>
-<p>libltc is the successor of libltcsmpte.</p>
+Q&amp;A</h1>
+<p><b>Q</b>: How can I get help?</p>
+<p><b>A</b>: The preferred way is to use the issue-tracker at <a href="https://github.com/x42/libltc/issues">https://github.com/x42/libltc/issues</a> . You can also send a private-mail to the author.</p>
+<p><b>Q</b>: How good is the LTC-decoder? Will it decode my file?</p>
+<p><b>A</b>: It's doing very well, thanks. :) We did extensive testing using LTC samples from various sources and have not yet found one that libLTC can not decode. It may well be that there are edge-cases or degraded LTC waveforms that will not be reconstructed correctly. If you find such a sample, please contact us, we will look into ways to improve libLTC.</p>
+<p><b>Q</b>: does it support vari-speed LTC?</p>
+<p><b>A</b>: Yes. libltc tracks speed variations. Each LTC-frame is tagged with the corresponding audio-sample number (start/end).</p>
+<p><b>Q</b>: does it support backwards played LTC - reverse tape direction</p>
+<p><b>A</b>: No, not yet.</p>
+<p><b>Q</b>: Is there free software is using libltc? ltc-tools is in the making. It comprises two JACK applications to generate and decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from audio-files. Stay tuned (ETA Sept/2012).</p>
+<p>Currently there is self-test code, which can en&amp;decode LTC from raw audio-data (it reads 8 bit, mono .wav files, too. because they're basically just raw audio-data, but the timestamps are off by the length of the .wav header.)</p>
+<p>There are lots of tools (incl iOS applications and NLEs) using libltcsmpte. We dare say that many - if not most - of them will be updated to libLTC in time.</p>
 <p><b>Q</b>: What is the difference between libltcsmpte and libltc?</p>
 <p><b>A</b>: Functionally, there is little difference, usage and work-flow are very similar, too. The API has changed almost completely, yet the majority of these changes are only parameter and function names.</p>
 <p>libltc introduces support for encoding vari-speed LTC and drops support for operations on SMPTE timecode such as converting video-timecode to real-time (seconds, audio-frames).</p>
@@ -70,13 +85,14 @@ About</h1>
 <p>libltc works with LTC-frames. It is ignorant about SMPTE semantics and should require knowledge or make assumptions about SMPTE of the end-user application.</p>
 <p>In general: the API was simplified and cleaned up.</p>
 <p><b>Q</b>: Why not continue to develop libltcsmpte?</p>
-<p><b>A</b>: Mostly because of API and ABI compatibility issues. libltcsmpte was one of the first libraries that I have written. It includes a lot of mistakes: Naming conventions (functions, structure and variables) were chosen unwisely and may cause conflists. Merging LTC date-support and making it compile-time optional was the next mistake. Versions compiled with-date do not offer to use the user-bits of the LTC frame for anything else that date. Even worse is the compile-time option to set the sample-data encoding (signed/unsigned, 8/16bit or 32bit float). This made the ABI incompatible between versions compiled with different variants.</p>
+<p><b>A</b>: Mostly because of API and ABI compatibility issues. libltcsmpte was one of the first libraries that I have written. and I've made mistakes: Naming conventions (functions, structure and variables) were chosen unwisely and may cause conflists. Merging LTC date-support and making it compile-time optional was the next mistake. Versions compiled with-date do not allow using the user-bits of the LTC frame for anything else that date. Even worse is the compile-time option to set the sample-format and encoding (signed/unsigned, 8/16bit or 32bit float). This made the ABI incompatible between variants compiled with different options.</p>
 <p><b>Q</b>: But you could still have called it libltcsmpte-2.0.0..</p>
-<p><b>A</b>: yes. I could have done that.</p>
-<h1><a class="anchor" id="usage"></a>
-Usage</h1>
-<p>Consult <a class="el" href="ltc_8h.html">ltc.h</a> for a detailed reference of available functions. The documentation is also available as Unix manual pages.</p>
-<p>The self-test code lends itself as good examples on how to get started. See <code>tests/decoder.c</code> and <code>tests/encoder.c</code> .</p>
+<p><b>A</b>: yes. We could have done that.</p>
+<p><b>Q</b>: libltcsmpte can be compiled to use any kind of audio-sample (float, 16bit,..) Why is libltc limited to 8bit unsigned?</p>
+<p><b>A</b>: Selecting the sample-format is a compile-time option in libltcsmpte. Changing it breaks the ABI (applications using the library will only work with the exact same variant of the libarary it has been compiled for - which makes a shared-lib useless.)</p>
+<p>8bit samples are more than sufficient to carry LTC information.</p>
+<p>Changing the audio-sample type from one encoding to another is [mostly] trivial. There is no way that libLTC could include an interface for every possible way to represent audio-data. This is application specific.</p>
+<p>The internal decoder has been re-factored since libltcsmpte, so that it performs really well, even when feeding one sample at a time. Audio- samples can be converted and fed into it on the fly. - Future versions of libltc may actually include wrappers that do the conversion for common formats.</p>
 <h1><a class="anchor" id="references"></a>
 References</h1>
 <ul>
@@ -102,7 +118,7 @@ License</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 15 2012 14:47:11 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 15 2012 22:07:53 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
