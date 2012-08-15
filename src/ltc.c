@@ -36,19 +36,19 @@ LTCDecoder* ltc_decoder_create(int apv, int queue_len) {
 	LTCDecoder* d = (LTCDecoder*) calloc(1, sizeof(LTCDecoder));
 	if (!d) return NULL;
 
-	d->qLen = queue_len;
-	d->queue = (LTCFrameExt*) calloc(d->qLen, sizeof(LTCFrameExt));
+	d->queue_len = queue_len;
+	d->queue = (LTCFrameExt*) calloc(d->queue_len, sizeof(LTCFrameExt));
 	if (!d->queue) {
 		free(d);
 		return NULL;
 	}
-	d->biphaseToBinaryState = 1;
-	d->soundToBiphasePeriod = apv / 80;
-	d->soundToBiphaseLimit = (d->soundToBiphasePeriod * 14) / 4;
+	d->biphase_state = 1;
+	d->snd_to_biphase_period = apv / 80;
+	d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 14) / 4;
 
-	d->soundToBiphaseMin = SAMPLE_CENTER;
-	d->soundToBiphaseMax = SAMPLE_CENTER;
-	d->poffset = -1;
+	d->snd_to_biphase_min = SAMPLE_CENTER;
+	d->snd_to_biphase_max = SAMPLE_CENTER;
+	d->frame_start_prev = -1;
 
 	return d;
 }
@@ -83,26 +83,26 @@ void ltc_decoder_write(LTCDecoder *d, ltcsnd_sample_t *buf, size_t size, long in
 
 int ltc_decoder_read(LTCDecoder* d, LTCFrameExt* frame) {
 	if (!frame) return -1;
-	if (d->qReadPos != d->qWritePos) {
-		memcpy(frame, &d->queue[d->qReadPos], sizeof(LTCFrameExt));
-		d->qReadPos++;
-		if (d->qReadPos == d->qLen)
-			d->qReadPos = 0;
+	if (d->queue_read_off != d->queue_write_off) {
+		memcpy(frame, &d->queue[d->queue_read_off], sizeof(LTCFrameExt));
+		d->queue_read_off++;
+		if (d->queue_read_off == d->queue_len)
+			d->queue_read_off = 0;
 		return 1;
 	}
 	return 0;
 }
 
 void ltc_decoder_queue_flush(LTCDecoder* d) {
-	while (d->qReadPos != d->qWritePos) {
-		d->qReadPos++;
-		if (d->qReadPos == d->qLen)
-			d->qReadPos = 0;
+	while (d->queue_read_off != d->queue_write_off) {
+		d->queue_read_off++;
+		if (d->queue_read_off == d->queue_len)
+			d->queue_read_off = 0;
 	}
 }
 
 int ltc_decoder_queue_length(LTCDecoder* d) {
-	return (d->qWritePos - d->qReadPos + d->qLen) % d->qLen;
+	return (d->queue_write_off - d->queue_read_off + d->queue_len) % d->queue_len;
 }
 
 /* -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -124,9 +124,9 @@ LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
 	e->sample_rate = sample_rate;
 	e->fps = fps;
 	e->use_date = use_date;
-	e->samplesPerClock = sample_rate / (fps * 80.0);
-	e->samplesPerHalveClock = e->samplesPerClock / 2.0;
-	e->remainder = 0.5;
+	e->samples_per_clock = sample_rate / (fps * 80.0);
+	e->samples_per_clock_2 = e->samples_per_clock / 2.0;
+	e->sample_remainder = 0.5;
 	ltc_frame_reset(&e->f);
 
 	if (fps==29.97 || fps == 30000.0/1001.0)
@@ -145,9 +145,9 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed) {
 }
 
 void ltc_encoder_encode_frame(LTCEncoder *e) {
-	int byteCnt;
-	for (byteCnt = 0 ; byteCnt < 10 ; byteCnt++) {
-		encode_byte(e, byteCnt, 1.0);
+	int byte;
+	for (byte = 0 ; byte < 10 ; byte++) {
+		encode_byte(e, byte, 1.0);
 	}
 }
 

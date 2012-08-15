@@ -32,9 +32,9 @@ struct LTCEncoder {
 
 	char state;
 
-	double samplesPerClock;
-	double samplesPerHalveClock;
-	double remainder;
+	double samples_per_clock;
+	double samples_per_clock_2;
+	double sample_remainder;
 
 	LTCFrame f;
 };

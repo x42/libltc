@@ -82,32 +82,32 @@ static int addvalues(LTCEncoder *e, int n) {
 	return n;
 }
 
-int encode_byte(LTCEncoder *e, int byteCnt, double speed) {
-	if (byteCnt < 0 || byteCnt > 9) return -1;
+int encode_byte(LTCEncoder *e, int byte, double speed) {
+	if (byte < 0 || byte > 9) return -1;
 	if (speed <=0) return -1;
 
 	int err = 0;
-	const unsigned char c = ((unsigned char*)&e->f)[byteCnt];
+	const unsigned char c = ((unsigned char*)&e->f)[byte];
 	unsigned char b = 1; // bit
-	const double spc = e->samplesPerClock * speed;
-	const double sph = e->samplesPerHalveClock * speed;
+	const double spc = e->samples_per_clock * speed;
+	const double sph = e->samples_per_clock_2 * speed;
 
 	do
 	{
 		int n;
 		if ((c & b) == 0) {
-			n = (int)(spc + e->remainder);
-			e->remainder = spc + e->remainder - n;
+			n = (int)(spc + e->sample_remainder);
+			e->sample_remainder = spc + e->sample_remainder - n;
 			e->state = !e->state;
 			err |= addvalues(e, n);
 		} else {
-			n = (int)(sph + e->remainder);
-			e->remainder = sph + e->remainder - n;
+			n = (int)(sph + e->sample_remainder);
+			e->sample_remainder = sph + e->sample_remainder - n;
 			e->state = !e->state;
 			err |= addvalues(e, n);
 
-			n = (int)(sph + e->remainder);
-			e->remainder = sph + e->remainder - n;
+			n = (int)(sph + e->sample_remainder);
+			e->sample_remainder = sph + e->sample_remainder - n;
 			e->state = !e->state;
 			err |= addvalues(e, n);
 		}

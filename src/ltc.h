@@ -127,7 +127,7 @@ typedef struct LTCFrame {
 	unsigned int reserved:1;
 	unsigned int hours_tens:2;
 
-	unsigned int syncWord:16;
+	unsigned int sync_word:16;
 } LTCFrame;
 
 #else
@@ -163,7 +163,7 @@ typedef struct LTCFrame {
 	unsigned int binary_group_flag_bit2:1;
 	unsigned int user8:4;
 
-	unsigned int syncWord:16;
+	unsigned int sync_word:16;
 } LTCFrame;
 
 #endif

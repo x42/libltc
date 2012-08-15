@@ -210,10 +210,10 @@ void ltc_frame_reset(LTCFrame* frame) {
 	// syncword = 0x3FFD
 #ifdef __BIG_ENDIAN__
 	// mirrored BE bit order: FCBF
-	frame->syncWord = 0xFCBF;
+	frame->sync_word = 0xFCBF;
 #else
 	// mirrored LE bit order: BFFC
-	frame->syncWord = 0xBFFC;
+	frame->sync_word = 0xBFFC;
 #endif
 }
 

@@ -25,26 +25,26 @@
 
 struct LTCDecoder {
 	LTCFrameExt* queue;
-	int qLen;
-	int qReadPos;
-	int qWritePos;
+	int queue_len;
+	int queue_read_off;
+	int queue_write_off;
 
-	unsigned char biphaseToBinaryState;
-	unsigned char biphaseToBinaryPrev;
-	unsigned char soundToBiphaseState;
-	int soundToBiphaseCnt;		///< counts the samples in the current period
-	int soundToBiphaseLimit;	///< specifies when a state-change is considered biphase-clock or 2*biphase-clock
-	double soundToBiphasePeriod;	///< track length of a period - used to set soundToBiphaseLimit
+	unsigned char biphase_state;
+	unsigned char biphase_prev;
+	unsigned char snd_to_biphase_state;
+	int snd_to_biphase_cnt;		///< counts the samples in the current period
+	int snd_to_biphase_lmt;	///< specifies when a state-change is considered biphase-clock or 2*biphase-clock
+	double snd_to_biphase_period;	///< track length of a period - used to set snd_to_biphase_lmt
 
-	ltcsnd_sample_t soundToBiphaseMin;
-	ltcsnd_sample_t soundToBiphaseMax;
+	ltcsnd_sample_t snd_to_biphase_min;
+	ltcsnd_sample_t snd_to_biphase_max;
 
-	unsigned short decodeSyncWord;
-	LTCFrame decodeFrame;
-	int decodeBitCnt;
+	unsigned short decoder_sync_word;
+	LTCFrame ltc_frame;
+	int bit_cnt;
 
-	long int decodeFrameStartPos;
-	int poffset;
+	long int frame_start_off;
+	int frame_start_prev;
 };
 
 

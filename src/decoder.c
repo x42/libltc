@@ -97,26 +97,26 @@
 #include "decoder.h"
 
 static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, long int posinfo) {
-	int bitNum, bitSet, bytePos;
+	int bit_num, bit_set, byte_num;
 
-	if (d->decodeBitCnt == 0) {
-		memset(&d->decodeFrame, 0, sizeof(LTCFrame));
+	if (d->bit_cnt == 0) {
+		memset(&d->ltc_frame, 0, sizeof(LTCFrame));
 
-		if (d->poffset < 0) {
-			d->decodeFrameStartPos = posinfo - d->soundToBiphasePeriod; // or d->soundToBiphaseLimit
+		if (d->frame_start_prev < 0) {
+			d->frame_start_off = posinfo - d->snd_to_biphase_period; // or d->snd_to_biphase_lmt
 		} else {
-			d->decodeFrameStartPos = d->poffset;
+			d->frame_start_off = d->frame_start_prev;
 		}
 	}
-	d->poffset = offset + posinfo;
+	d->frame_start_prev = offset + posinfo;
 
-	if (d->decodeBitCnt >= LTC_FRAME_BIT_COUNT) {
+	if (d->bit_cnt >= LTC_FRAME_BIT_COUNT) {
 		/* shift bits backwards */
 		int k = 0;
-		const int maxBytePos = LTC_FRAME_BIT_COUNT >> 3;
+		const int byte_num_max = LTC_FRAME_BIT_COUNT >> 3;
 
-		for (k=0; k< maxBytePos; k++) {
-			const unsigned char bi = ((unsigned char*)&d->decodeFrame)[k];
+		for (k=0; k< byte_num_max; k++) {
+			const unsigned char bi = ((unsigned char*)&d->ltc_frame)[k];
 			unsigned char bo = 0;
 			bo |= (bi & B8(10000000) ) ? B8(01000000) : 0;
 			bo |= (bi & B8(01000000) ) ? B8(00100000) : 0;
@@ -125,65 +125,65 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, long int pos
 			bo |= (bi & B8(00001000) ) ? B8(00000100) : 0;
 			bo |= (bi & B8(00000100) ) ? B8(00000010) : 0;
 			bo |= (bi & B8(00000010) ) ? B8(00000001) : 0;
-			if (k+1 < maxBytePos) {
-				bo |= ( (((unsigned char*)&d->decodeFrame)[k+1]) & B8(00000001) ) ? B8(10000000): B8(00000000);
+			if (k+1 < byte_num_max) {
+				bo |= ( (((unsigned char*)&d->ltc_frame)[k+1]) & B8(00000001) ) ? B8(10000000): B8(00000000);
 			}
-			((unsigned char*)&d->decodeFrame)[k] = bo;
+			((unsigned char*)&d->ltc_frame)[k] = bo;
 		}
 
-		d->decodeFrameStartPos += ceil(d->soundToBiphasePeriod);
-		d->decodeBitCnt--;
+		d->frame_start_off += ceil(d->snd_to_biphase_period);
+		d->bit_cnt--;
 	}
 
-	d->decodeSyncWord <<= 1;
+	d->decoder_sync_word <<= 1;
 	if (bit) {
 
-		d->decodeSyncWord |= B16(00000000,00000001);
+		d->decoder_sync_word |= B16(00000000,00000001);
 
-		if (d->decodeBitCnt < LTC_FRAME_BIT_COUNT) {
+		if (d->bit_cnt < LTC_FRAME_BIT_COUNT) {
 			// Isolating the lowest three bits: the location of this bit in the current byte
-			bitNum = (d->decodeBitCnt & B8(00000111));
+			bit_num = (d->bit_cnt & B8(00000111));
 			// Using the bit number to define which of the eight bits to set
-			bitSet = (B8(00000001) << bitNum);
+			bit_set = (B8(00000001) << bit_num);
 			// Isolating the higher bits: the number of the byte/char the target bit is contained in
-			bytePos = d->decodeBitCnt >> 3;
+			byte_num = d->bit_cnt >> 3;
 
-			(((unsigned char*)&d->decodeFrame)[bytePos]) |= bitSet;
+			(((unsigned char*)&d->ltc_frame)[byte_num]) |= bit_set;
 		}
 
 	}
-	d->decodeBitCnt++;
+	d->bit_cnt++;
 
-	if (d->decodeSyncWord == B16(00111111,11111101) /*LTC Sync Word 0x3ffd*/) {
-		if (d->decodeBitCnt == LTC_FRAME_BIT_COUNT) {
+	if (d->decoder_sync_word == B16(00111111,11111101) /*LTC Sync Word 0x3ffd*/) {
+		if (d->bit_cnt == LTC_FRAME_BIT_COUNT) {
 
-			memcpy( &d->queue[d->qWritePos].ltc,
-				&d->decodeFrame,
+			memcpy( &d->queue[d->queue_write_off].ltc,
+				&d->ltc_frame,
 				sizeof(LTCFrame));
 
-			d->queue[d->qWritePos].off_start = d->decodeFrameStartPos;
-			d->queue[d->qWritePos].off_end = posinfo + offset - 1;
+			d->queue[d->queue_write_off].off_start = d->frame_start_off;
+			d->queue[d->queue_write_off].off_end = posinfo + offset - 1;
 
-			d->qWritePos++;
+			d->queue_write_off++;
 
-			if (d->qWritePos == d->qLen)
-				d->qWritePos = 0;
+			if (d->queue_write_off == d->queue_len)
+				d->queue_write_off = 0;
 		}
-		d->decodeBitCnt = 0;
+		d->bit_cnt = 0;
 	}
 }
 
 static inline void biphase_decode2(LTCDecoder *d, int offset, long int pos) {
-	if (d->soundToBiphaseState == d->biphaseToBinaryPrev) {
-		d->biphaseToBinaryState = 1;
+	if (d->snd_to_biphase_state == d->biphase_prev) {
+		d->biphase_state = 1;
 		parse_ltc(d, 0, offset, pos);
 	} else {
-		d->biphaseToBinaryState = 1 - d->biphaseToBinaryState;
-		if (d->biphaseToBinaryState == 1) {
+		d->biphase_state = 1 - d->biphase_state;
+		if (d->biphase_state == 1) {
 			parse_ltc(d, 1, offset, pos);
 		}
 	}
-	d->biphaseToBinaryPrev = d->soundToBiphaseState;
+	d->biphase_prev = d->snd_to_biphase_state;
 }
 
 void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, long int posinfo) {
@@ -193,24 +193,24 @@ void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, long int posinf
 		ltcsnd_sample_t max_threshold, min_threshold;
 
 		/* track minimum and maximum values */
-		d->soundToBiphaseMin = SAMPLE_CENTER - (((SAMPLE_CENTER - d->soundToBiphaseMin) * 15) / 16);
-		d->soundToBiphaseMax = SAMPLE_CENTER + (((d->soundToBiphaseMax - SAMPLE_CENTER) * 15) / 16);
+		d->snd_to_biphase_min = SAMPLE_CENTER - (((SAMPLE_CENTER - d->snd_to_biphase_min) * 15) / 16);
+		d->snd_to_biphase_max = SAMPLE_CENTER + (((d->snd_to_biphase_max - SAMPLE_CENTER) * 15) / 16);
 
-		if (sound[i] < d->soundToBiphaseMin)
-			d->soundToBiphaseMin = sound[i];
-		if (sound[i] > d->soundToBiphaseMax)
-			d->soundToBiphaseMax = sound[i];
+		if (sound[i] < d->snd_to_biphase_min)
+			d->snd_to_biphase_min = sound[i];
+		if (sound[i] > d->snd_to_biphase_max)
+			d->snd_to_biphase_max = sound[i];
 
 		/* set the thresholds for hi/lo state tracking */
-		min_threshold = SAMPLE_CENTER - (((SAMPLE_CENTER - d->soundToBiphaseMin) * 8) / 16);
-		max_threshold = SAMPLE_CENTER + (((d->soundToBiphaseMax - SAMPLE_CENTER) * 8) / 16);
+		min_threshold = SAMPLE_CENTER - (((SAMPLE_CENTER - d->snd_to_biphase_min) * 8) / 16);
+		max_threshold = SAMPLE_CENTER + (((d->snd_to_biphase_max - SAMPLE_CENTER) * 8) / 16);
 
 		if ( /* Check for a biphase state change */
-			   (  d->soundToBiphaseState && (sound[i] > max_threshold) )
-			|| ( !d->soundToBiphaseState && (sound[i] < min_threshold) )
+			   (  d->snd_to_biphase_state && (sound[i] > max_threshold) )
+			|| ( !d->snd_to_biphase_state && (sound[i] < min_threshold) )
 		   ) {
 			/* If the sample count has risen above the biphase length limit */
-			if (d->soundToBiphaseCnt > d->soundToBiphaseLimit) {
+			if (d->snd_to_biphase_cnt > d->snd_to_biphase_lmt) {
 				/* single state change within a biphase priod. decode to a 0 */
 				biphase_decode2(d, i, posinfo);
 				biphase_decode2(d, i, posinfo);
@@ -219,26 +219,26 @@ void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, long int posinf
 				/* "short" state change covering half a period
 				 * together with the next or previous state change decode to a 1
 				 */
-				d->soundToBiphaseCnt *= 2;
+				d->snd_to_biphase_cnt *= 2;
 				biphase_decode2(d, i, posinfo);
 
 			}
 
 			/* track speed variations
 			 * As this is only executed at a state change,
-			 * d->soundToBiphaseCnt is an accurate representation of the current period length.
+			 * d->snd_to_biphase_cnt is an accurate representation of the current period length.
 			 */
-			d->soundToBiphasePeriod = (d->soundToBiphasePeriod*3 + d->soundToBiphaseCnt) / 4.0;
+			d->snd_to_biphase_period = (d->snd_to_biphase_period*3 + d->snd_to_biphase_cnt) / 4.0;
 
 			/* This limit specifies when a state-change is
 			 * considered biphase-clock or 2*biphase-clock.
 			 * The relation with period has been determined
 			 * through trial-and-error */
-			d->soundToBiphaseLimit = (d->soundToBiphasePeriod * 13) / 16;
+			d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 13) / 16;
 
-			d->soundToBiphaseCnt = 0;
-			d->soundToBiphaseState = !d->soundToBiphaseState;
+			d->snd_to_biphase_cnt = 0;
+			d->snd_to_biphase_state = !d->snd_to_biphase_state;
 		}
-		d->soundToBiphaseCnt++;
+		d->snd_to_biphase_cnt++;
 	}
 }
