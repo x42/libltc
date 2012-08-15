@@ -21,8 +21,8 @@
 
 @section download Download
 <ul>
- <li><a href="git://github.com/x42/libltc.git/downloads">GitHub Downloads</a></li>
- <li><a href="git://github.com/x42/libltc.git/">GitHub Repository</a></li>
+ <li><a href="http://github.com/x42/libltc/downloads">GitHub Downloads</a></li>
+ <li><a href="http://github.com/x42/libltc/">GitHub Project Page</a></li>
 </ul>
 
 @section installation Installation
