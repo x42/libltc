@@ -2,7 +2,6 @@ cscope.*
 tags
 
 configure
-INSTALL
 stamp-*
 
 Makefile

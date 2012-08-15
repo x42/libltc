@@ -36,6 +36,46 @@
 @section about About
  libltc is the successor of libltcsmpte.
 
+ **Q**: How can I get help?
+ 
+ **A**: The preferred way is to use the issue-tracker at https://github.com/x42/libltc/issues
+    You can also send a private-mail to the author.
+
+
+ **Q**: How good is the LTC-decoder? Will it decode my file?
+
+ **A**: It's doing pretty good, thanks. :)
+    We did extensive testing using LTC samples from various
+    sources and have not yet found one that libLTC does not decode.
+    It may well be that there are edge-cases or degraded LTC waveforms
+		that will not be reconstructed correctly. If you find such an sample,
+		please contact us, we will look into ways to improve libLTC.
+
+
+ **Q**: does it support vari-speed LTC?
+
+ **A**: Yes. libltc tracks speed variations. Each LTC-frame is tagged with
+    the corresponding audio-sample number (start/end).
+
+
+ **Q**: does it support backwards played LTC - reverse tape direction
+
+ **A**: No, not yet.
+
+
+ **Q**: Is there free software is using libltc?
+    ltc-tools is in the making. It comprises two JACK applications to generate and
+		decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from 
+		audio-files. Stay tuned (ETA Sept/2012).
+
+		Currently there is self-test code, which can en&decode LTC from raw audio-data
+		(it reads 8 bit, mono .wav files, too. because they're basically just raw
+		audio-data, but the timestamps are off by the length of the .wav header.)
+
+		There are lots of tools (incl iOS applications and NLEs) using libltcsmpte.
+		We dare say that many - if not most - of them will be updated to libLTC in time.
+   
+
  **Q**: What is the difference between libltcsmpte and libltc?
 
  **A**: Functionally, there is little difference, usage and work-flow are very similar, too.
@@ -70,6 +110,21 @@
  **Q**: But you could still have called it libltcsmpte-2.0.0..
 
  **A**: yes. I could have done that.
+
+
+ **Q**: libltcsmpte can be compiled to use any kind of audio-sample (float, 16bit,..)
+    Why is libltc limited to 8bit unsigned?
+
+ **A**: Selecting the sample-format is a compile time option in libltcsmpte. Changing
+    it breaks the ABI (the shared-lib will only be usable for applications compiled
+		with exactly that version of libltcsmpte).
+		8bit samples are more than sufficient to carry LTC information.
+		Changing the audio-sample type from one format to another is trivial.
+
+		The internal decoder has been re-factored so that it performs really
+		well also when feeding one sample at a time. So samples can be 
+		converted and fed into it on the fly. - Future versions of 
+		libltc may actually include wrappers that do the conversion.
 
 
 @section usage Usage
@@ -112,5 +167,6 @@ Copyright (C) 2008-2010 by Jan Weiß
 
 \example ltcdecode.c
 \example ltcencode.c
+\example example_encode.c
 
 */

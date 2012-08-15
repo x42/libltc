@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Wed Aug 15 2012" "Version 0.0.1" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Wed Aug 15 2012" "Version 0.5.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -219,7 +219,7 @@ unsigned int \fIsecs_tens:3\fP
 unsigned int \fIsecs_units:4\fP 
 .br
 .PP
-unsigned int \fIsyncWord:16\fP 
+unsigned int \fIsync_word:16\fP 
 .br
 .PP
 unsigned int \fIuser1:4\fP 
@@ -275,7 +275,7 @@ Human readable time representation, decimal values\&.
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcdecode\&.c\fP, and \fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP, \fBltcdecode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .PP
 \fBData Fields:\fP
 .RS 4
@@ -466,7 +466,7 @@ moves the SMPTE to the next timecode frame\&. uses \fBltc_frame_increment()\fP i
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "\fBLTCEncoder\fP* ltc_encoder_create (doublesample_rate, doublefps, intuse_date)"
 Allocate and initialize LTC audio encoder\&.
 .PP
@@ -485,7 +485,7 @@ Note: if fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbi
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "int ltc_encoder_encode_byte (\fBLTCEncoder\fP *e, intbyte, doublespeed)"
 Generate LTC audio for given byte of the LTC-frame and place it into the internal buffer\&.
 .PP
@@ -511,7 +511,7 @@ LTC has 10 bytes per frame: 0 <= bytecnt < 10 use SMPTESetTime(\&.\&.) to set th
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP\&.
 .SS "void ltc_encoder_encode_frame (\fBLTCEncoder\fP *e)"
 encode a full LTC frame at fixed speed\&. This is equivalent to calling \fBltc_encoder_encode_byte\fP 10 times for bytes 0\&.\&.9 with speed 1\&.0\&.
 .PP
@@ -526,7 +526,7 @@ Note: The buffer must be empty before calling this function\&. This is usually t
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "void ltc_encoder_free (\fBLTCEncoder\fP *e)"
 release encoder data structure 
 .PP
@@ -539,7 +539,7 @@ release encoder data structure
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "int ltc_encoder_get_buffer (\fBLTCEncoder\fP *e, \fBltcsnd_sample_t\fP *buf)"
 copy the accumulated encoded audio to the given sample-buffer and flush the buffer\&.
 .PP
@@ -559,7 +559,7 @@ the number of bytes written to the memory area pointed to by buf\&.
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP\&.
 .SS "size_t ltc_encoder_get_buffersize (\fBLTCEncoder\fP *e)"
 query the length of the internal buffer\&. It is allocated to hold audio-frames for exactly one LTC frame for the given sample-rate and frame-rate\&. ie\&. (1 + sample-rate / fps) bytes
 .PP
@@ -577,7 +577,7 @@ size of the allocated internal buffer\&.
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP\&.
 .SS "\fBltcsnd_sample_t\fP* ltc_encoder_get_bufptr (\fBLTCEncoder\fP *e, int *size, intflush)"
 get a pointer to the accumulated encoded audio-data\&.
 .PP
@@ -599,7 +599,7 @@ pointer to encoder-buffer
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "void ltc_encoder_get_frame (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
 low-level access to the internal \fBLTCFrame\fP data
 .PP
@@ -651,7 +651,7 @@ set the encoder LTC-frame from given \fBSMPTETimecode\fP\&.
 .PP
 \fBExamples: \fP
 .in +1c
-\fBltcencode\&.c\fP\&.
+\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "int ltc_frame_increment (\fBLTCFrame\fP *frame, intfps, intuse_date)"
 increment the timecode by one SMPTE-Frame (1/framerate seconds)
 .PP
