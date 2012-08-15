@@ -16,11 +16,14 @@ ltcencode_LDADD = $(LIBLTCDIR)/libltc.la -lm
 check: $(check_PROGRAMS)
 	 date
 	 uname -a
+	 @echo "-----------------------------------------------------------------"
 	 ./ltcencode output.raw
 	 ./ltcdecode output.raw | diff -q expect_48k_2sec.txt -
 	 @echo "-----------------------------------------------------------------"
 	 ./ltcencode output.raw 192000
 	 ./ltcdecode output.raw 7680 | diff -q expect_96k_2sec.txt -
+	 @echo "-----------------------------------------------------------------"
+	 ./ltcdecode timecode.raw 882 | diff -q timecode.txt -
 	 @echo "-----------------------------------------------------------------"
 	 @echo "  ${PACKAGE}-${VERSION} passed all tests."
 	 @echo "-----------------------------------------------------------------"

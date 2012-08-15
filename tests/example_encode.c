@@ -1,6 +1,6 @@
 /**
-   @brief self-test (and example code) for libltc LTCEncoder
-   @file ltcencoder.c
+   @brief example code for libltc LTCEncoder
+   @file example_encode.c
    @author Robin Gareus <robin@gareus.org>
 
    Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 	FILE* file;
 	double length = 2; // in seconds
 	double fps = 25;
-	double sampleRate = 48000;
+	double sample_rate = 48000;
 	char *filename;
 
 	int total = 0;
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 	if (argc > 1) {
 		filename = argv[1];
 		if (argc > 2) {
-			sampleRate = atof(argv[2]);
+			sample_rate = atof(argv[2]);
 		}
 		if (argc > 3) {
 			fps = atof(argv[3]);
@@ -79,12 +79,18 @@ int main(int argc, char **argv) {
 	st.secs = 59;
 	st.frame = 0;
 
-	encoder = ltc_encoder_create(sampleRate, fps, 1);
+	encoder = ltc_encoder_create(sample_rate, fps, 1);
 
+#ifdef USE_LOCAL_BUFFER
+	buf = calloc(ltc_encoder_get_buffersize(encoder), sizeof(ltcsnd_sample_t));
+	if (!buf) {
+		return -1;
+	}
+#endif
 
 	ltc_encoder_set_timecode(encoder, &st);
 
-	printf("sample rate: %.2f\n", sampleRate);
+	printf("sample rate: %.2f\n", sample_rate);
 	printf("frames/sec: %.2f\n", fps);
 	printf("secs to write: %.2f\n", length);
 	printf("sample format: 8bit unsigned mono\n");
@@ -93,15 +99,37 @@ int main(int argc, char **argv) {
 	int vframe_last = length * fps;
 
 	while (vframe_cnt++ < vframe_last) {
+#if 1 /* encode and write each of the 80 LTC frame bits (10 bytes) */
+		int byte_cnt;
+		for (byte_cnt = 0 ; byte_cnt < 10 ; byte_cnt++) {
+			ltc_encoder_encode_byte(encoder, byte_cnt, 1.0);
+
+#ifdef USE_LOCAL_BUFFER
+			int len = ltc_encoder_get_buffer(encoder, buf);
+#else
+			int len;
+			buf = ltc_encoder_get_bufptr(encoder, &len, 1);
+#endif
+			if (len > 0) {
+				fwrite(buf, sizeof(ltcsnd_sample_t), len, file);
+				total+=len;
+			}
+		}
+#else /* encode a complete LTC frame in one step */
 		ltc_encoder_encode_frame(encoder);
 
+#ifdef USE_LOCAL_BUFFER
+		int len = ltc_encoder_get_buffer(encoder, buf);
+#else
 		int len;
 		buf = ltc_encoder_get_bufptr(encoder, &len, 1);
+#endif
 
 		if (len > 0) {
 			fwrite(buf, sizeof(ltcsnd_sample_t), len, file);
 			total+=len;
 		}
+#endif
 
 		ltc_encoder_bump_timecode(encoder);
 	}
@@ -109,6 +137,10 @@ int main(int argc, char **argv) {
 	ltc_encoder_free(encoder);
 
 	printf("Done: wrote %d samples to '%s'\n", total, filename);
+
+#ifdef USE_LOCAL_BUFFER
+	free(buf);
+#endif
 
 	return 0;
 }
