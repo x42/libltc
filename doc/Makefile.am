@@ -11,5 +11,4 @@ EXTRA_DIST= \
 	mainpage.dox \
 	man/man3/ltc.h.3 \
 	libltc.png \
-	smptefmt.png \
-	favicon.ico
+	smptefmt.png

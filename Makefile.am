@@ -16,5 +16,4 @@ dox: stamp-doxygen
 
 stamp-doxygen: src/ltc.h doc/mainpage.dox Doxyfile
 	$(DOXYGEN) Doxyfile
-	cp doc/favicon.ico doc/html/
 	touch stamp-doxygen
