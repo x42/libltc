@@ -22,11 +22,25 @@
 
 */
 
+/*
+ * compile with
+ *  gcc -o ltc-encoder example_encode.c -lltc -lm
+ *
+ * from the source-folder this can be compiled after building libltc:
+ *  gcc -o ltc-encoder example_encode.c ../src/.libs/libltc.a -lm -I../src
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <ltc.h>
+
+/* define "USE_LOCAL_BUFFER" to
+ * use a local buffer instead of a pointer to
+ * libltc's internal buffer
+ */
+//#ifdef USE_LOCAL_BUFFER
 
 int main(int argc, char **argv) {
 	FILE* file;
@@ -35,11 +49,28 @@ int main(int argc, char **argv) {
 	double sample_rate = 48000;
 	char *filename;
 
+	int vframe_cnt;
+	int vframe_last;
+
 	int total = 0;
 	ltcsnd_sample_t *buf;
 
 	LTCEncoder *encoder;
+	SMPTETimecode st;
 
+	/* start encoding at this timecode */
+	const char timezone[6] = "+0100";
+	strcpy(st.timezone, timezone);
+	st.years =  8;
+	st.months = 12;
+	st.days =   31;
+
+	st.hours = 23;
+	st.mins = 59;
+	st.secs = 59;
+	st.frame = 0;
+
+	/* parse commandline args */
 	if (argc > 1) {
 		filename = argv[1];
 		if (argc > 2) {
@@ -52,34 +83,24 @@ int main(int argc, char **argv) {
 			length = atof(argv[4]);
 		}
 	} else {
-		printf("ltcencode - test/example application to encode LTC to a file\n\n");
-		printf("Usage: ltcencode <filename> [sample rate [frame rate [duration in s]]]\n\n");
+		printf("ltc-encoder - test/example application to encode LTC to a file\n\n");
+		printf("Usage: ltc-encoder <filename> [sample rate [frame rate [duration in s]]]\n\n");
 		printf("default-values:\n");
 		printf(" sample rate: 48000.0 [SPS], frame rate: 25.0 [fps], duration: 2.0 [sec]\n");
 		printf("Report bugs to Robin Gareus <robin@gareus.org>\n");
 		return 1;
 	}
 
+	/* open output file */
 	file = fopen(filename, "wb");
 	if (!file) {
 		fprintf(stderr, "Error: can not open file '%s' for writing.\n", filename);
 		return 1;
 	}
 
-	SMPTETimecode st;
-
-	const char timezone[6] = "+0100";
-	strcpy(st.timezone, timezone);
-	st.years =  8;
-	st.months = 12;
-	st.days =   31;
-
-	st.hours = 23;
-	st.mins = 59;
-	st.secs = 59;
-	st.frame = 0;
-
+	/* prepare encoder */
 	encoder = ltc_encoder_create(sample_rate, fps, 1);
+	ltc_encoder_set_timecode(encoder, &st);
 
 #ifdef USE_LOCAL_BUFFER
 	buf = calloc(ltc_encoder_get_buffersize(encoder), sizeof(ltcsnd_sample_t));
@@ -88,15 +109,15 @@ int main(int argc, char **argv) {
 	}
 #endif
 
-	ltc_encoder_set_timecode(encoder, &st);
+	/* ready to go, print some info first */
 
 	printf("sample rate: %.2f\n", sample_rate);
 	printf("frames/sec: %.2f\n", fps);
 	printf("secs to write: %.2f\n", length);
 	printf("sample format: 8bit unsigned mono\n");
 
-	int vframe_cnt = 0;
-	int vframe_last = length * fps;
+	vframe_cnt = 0;
+	vframe_last = length * fps;
 
 	while (vframe_cnt++ < vframe_last) {
 #if 1 /* encode and write each of the 80 LTC frame bits (10 bytes) */

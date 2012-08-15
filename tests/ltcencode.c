@@ -36,9 +36,24 @@ int main(int argc, char **argv) {
 	char *filename;
 
 	int total = 0;
-	ltcsnd_sample_t *buf;
+
+	int vframe_cnt;
+	int vframe_last;
 
 	LTCEncoder *encoder;
+	SMPTETimecode st;
+
+	const char timezone[6] = "+0100";
+
+	strcpy(st.timezone, timezone);
+	st.years =  8;
+	st.months = 12;
+	st.days =   31;
+
+	st.hours = 23;
+	st.mins = 59;
+	st.secs = 59;
+	st.frame = 0;
 
 	if (argc > 1) {
 		filename = argv[1];
@@ -66,21 +81,7 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	SMPTETimecode st;
-
-	const char timezone[6] = "+0100";
-	strcpy(st.timezone, timezone);
-	st.years =  8;
-	st.months = 12;
-	st.days =   31;
-
-	st.hours = 23;
-	st.mins = 59;
-	st.secs = 59;
-	st.frame = 0;
-
 	encoder = ltc_encoder_create(sampleRate, fps, 1);
-
 
 	ltc_encoder_set_timecode(encoder, &st);
 
@@ -89,13 +90,15 @@ int main(int argc, char **argv) {
 	printf("secs to write: %.2f\n", length);
 	printf("sample format: 8bit unsigned mono\n");
 
-	int vframe_cnt = 0;
-	int vframe_last = length * fps;
+	vframe_cnt = 0;
+	vframe_last = length * fps;
 
 	while (vframe_cnt++ < vframe_last) {
+		int len;
+		ltcsnd_sample_t *buf;
+
 		ltc_encoder_encode_frame(encoder);
 
-		int len;
 		buf = ltc_encoder_get_bufptr(encoder, &len, 1);
 
 		if (len > 0) {
