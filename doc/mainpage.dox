@@ -44,100 +44,120 @@
 
 @section about Q&A
 
- **Q**: How can I get help?
+<dl>
+ <dt>How can I get help?</dt>
+ <dd>
+  The preferred way is to use the issue-tracker at https://github.com/x42/libltc/issues .
+  You can also send a private-mail to the author.
+ </dd>
 
- **A**: The preferred way is to use the issue-tracker at https://github.com/x42/libltc/issues .
-    You can also send a private-mail to the author.
+ <dt>How good is the LTC-decoder? Will it decode my file?</dt>
+ <dd>
+  It's doing very well, thanks. :)
+  We did extensive testing using LTC samples from various
+  sources and have not yet found one that libLTC can not decode.
+  It may well be that there are edge-cases or degraded LTC waveforms
+  that will not be reconstructed correctly. If you find such a sample,
+  please contact us, we will look into ways to improve libLTC.
+ </dd>
 
-
- **Q**: How good is the LTC-decoder? Will it decode my file?
-
- **A**: It's doing very well, thanks. :)
-    We did extensive testing using LTC samples from various
-    sources and have not yet found one that libLTC can not decode.
-    It may well be that there are edge-cases or degraded LTC waveforms
-    that will not be reconstructed correctly. If you find such a sample,
-    please contact us, we will look into ways to improve libLTC.
-
-
- **Q**: does it support vari-speed LTC?
-
- **A**: Yes. libltc tracks speed variations. Each LTC-frame is tagged with
+ <dt>Does it support vari-speed LTC?</dt>
+ <dd>
+  Yes. libltc tracks speed variations. Each decoded LTC-frame is tagged with
     the corresponding audio-sample number (start/end).
+    The LTC encoder has a 'speed' parameter that can be set for each byte.
+ </dd>
 
+ <dt>Does libltc support decoding backwards played LTC - reverse tape direction</dt>
 
- **Q**: does it support backwards played LTC - reverse tape direction
+ <dd>
+  Yes it does. see the documentation for \ref LTCFrameExt
+ </dd>
 
- **A**: No, not yet.
+ <dt>Is there free software is using libltc?</dt>
+ <dd>
+  ltc-tools is in the making. It comprises two JACK applications to generate and
+  decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from
+  audio-files. Stay tuned (ETA Sept/2012).
 
+  Currently there is self-test code, which can en&decode LTC from raw audio-data
+  (it reads 8 bit, mono .wav files, too. because they're basically just raw
+  audio-data, but the timestamps are off by the length of the .wav header.)
 
- **Q**: Is there free software is using libltc?
-    ltc-tools is in the making. It comprises two JACK applications to generate and
-    decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from
-    audio-files. Stay tuned (ETA Sept/2012).
+  There are lots of tools (incl iOS applications and NLEs) using libltcsmpte.
+  We dare say that many - if not most - of them will be updated to libLTC in time.
+ </dd>
 
-    Currently there is self-test code, which can en&decode LTC from raw audio-data
-    (it reads 8 bit, mono .wav files, too. because they're basically just raw
-    audio-data, but the timestamps are off by the length of the .wav header.)
+ <dt>What is the difference between libltcsmpte and libltc?</dt>
+ <dd>
+  Functionally, there is little difference, usage and work-flow are very similar.
+  But, the API has changed almost completely. Yet the majority of these changes are
+  only parameter and function names.
 
-    There are lots of tools (incl iOS applications and NLEs) using libltcsmpte.
-    We dare say that many - if not most - of them will be updated to libLTC in time.
+  libltc introduces support for encoding vari-speed LTC and reverse played LTC.
+  The internal code-path was optimized and the phase-tracking was slightly improved.
+  libltc drops support for operations on SMPTE timecode such as converting
+  video-timecode to real-time (seconds, audio-frames), etc.
 
+  Some related inappropriate functionality of libltcsmpte was dropped, as well.
+  e.g. The ability to detect timecode discontinuities in decoded LTC/SMPTE.
 
- **Q**: What is the difference between libltcsmpte and libltc?
+  The reasoning behind this is that libltc operates on LTC-frames.
+  It is ignorant about SMPTE semantics and should not make assumptions
+  about the SMPTE data which is application dependent.
 
- **A**: Functionally, there is little difference, usage and work-flow are very similar, too.
-    The API has changed almost completely, yet the majority of these changes are
-    only parameter and function names.
+  In general: the API was simplified and cleaned up.
+ </dd>
 
-    libltc introduces support for encoding vari-speed LTC and drops support
-    for operations on SMPTE timecode such as converting
-    video-timecode to real-time (seconds, audio-frames).
+ <dt>Why not continue to develop libltcsmpte?</dt>
+ <dd>
+  Mostly because of API and ABI compatibility issues. libltcsmpte was one of the first
+  shared libraries that I have written. I've made mistakes: Naming conventions
+  (functions, structure and variables) were chosen unwisely and can cause conflicts.
 
-    Some of the related inappropriate functionality of libltcsmpte was dropped as well,
-    e.g. detect timecode discontinuities in decoded LTC/SMPTE.
+  Merging LTC date-support and making it compile-time optional was the next mistake:
+  Versions compiled with-date do not allow using the user-bits of the LTC frame for
+  anything else that date. Even worse is the compile-time option to change the sample-format
+  and its encoding (signed/unsigned, 8/16bit or 32bit float). This really made the ABI
+  incompatible between variants compiled with different options...
 
-    libltc works with LTC-frames. It is ignorant about SMPTE semantics and should
-    require knowledge or make assumptions about SMPTE of the end-user application.
+  Cleaning up this mess, while retaining compatibility with existing applications would
+  probably have made things worse. libltcsmpte was the pilot system "built to be thrown away".
+  That being said, "it works, NTL".
+ </dd>
 
-    In general: the API was simplified and cleaned up.
+ <dt>But you could still have called it libltcsmpte-2.0.0..</dt>
+ <dd>
+  Yes, we could have done that.
+ </dd>
 
+ <dt>libltcsmpte supports a variety of audio-sample formats/encodings (float, 16bit,..).
+    Why is libltc limited to 8bit unsigned?</dt>
+ <dd>
+  Selecting the sample-format is a compile-time option in libltcsmpte. Changing
+  it breaks the ABI (applications using the library will only work with the exact
+  same variant of the libarary it has been compiled for - which makes a shared-lib
+  useless.)
 
- **Q**: Why not continue to develop libltcsmpte?
+  8bit samples are more than sufficient to carry LTC information.
 
- **A**: Mostly because of API and ABI compatibility issues. libltcsmpte was one of the first
-    libraries that I have written. and I've made mistakes: Naming conventions
-    (functions, structure and variables) were chosen unwisely and may cause conflists.
-    Merging LTC date-support and making it compile-time optional was the next mistake.
-    Versions compiled with-date do not allow using the user-bits of the LTC frame for
-    anything else that date. Even worse is the compile-time option to set the sample-format
-    and encoding (signed/unsigned, 8/16bit or 32bit float). This made the ABI incompatible
-    between variants compiled with different options.
+  Changing the audio-sample type from one encoding to another is [mostly] trivial.
+  There is no way that libLTC could include an interface for every possible way
+  to represent audio-data. This is application specific.
 
+  The internal decoder has been re-factored since libltcsmpte, so that it performs
+  really well, even when feeding one sample at a time. Audio- samples can be
+  converted and fed into it on the fly. - Future versions of
+  libltc may actually include wrappers that do the conversion for common formats.
 
- **Q**: But you could still have called it libltcsmpte-2.0.0..
-
- **A**: yes. We could have done that.
-
-
- **Q**: libltcsmpte can be compiled to use any kind of audio-sample (float, 16bit,..)
-    Why is libltc limited to 8bit unsigned?
-
- **A**: Selecting the sample-format is a compile-time option in libltcsmpte. Changing
-    it breaks the ABI (applications using the library will only work with the exact
-    same variant of the libarary it has been compiled for - which makes a shared-lib
-    useless.)
-
-    8bit samples are more than sufficient to carry LTC information.
-
-    Changing the audio-sample type from one encoding to another is [mostly] trivial.
-    There is no way that libLTC could include an interface for every possible way
-    to represent audio-data. This is application specific.
-
-    The internal decoder has been re-factored since libltcsmpte, so that it performs
-    really well, even when feeding one sample at a time. Audio- samples can be
-    converted and fed into it on the fly. - Future versions of
-    libltc may actually include wrappers that do the conversion for common formats.
+  Note: Yes, libltcsmpte is/was superior in the sense that it can detect, track and
+  filter very low signals-levels.
+  Due to the 8bit limitation, libltc requires a minimum amplitude of -36db.
+  This is usually a non-issue in real-world applications, but yes, if you want
+  to analyze very low signals, possibly with DC-offset, you must implement your
+  own amp and low-pass filter.
+ </dd>
+</dl>
 
 
 @section references References
