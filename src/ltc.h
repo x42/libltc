@@ -182,6 +182,7 @@ struct LTCFrameExt {
 	LTCFrame ltc; ///< the actual LTC frame. see \ref LTCFrame
 	long int off_start; ///< the approximate sample in the stream corresponding to the start of the LTC frame.
 	long int off_end; ///< the sample in the stream corresponding to the end of the LTC frame.
+	int reverse; ///< if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end > off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected).
 };
 
 /**
@@ -283,7 +284,7 @@ int ltc_decoder_free(LTCDecoder *d);
  * @param d decoder handle
  * @param buf pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data
  * @param size number of samples to parse
- * @param posinfo (optional) sample-offset in audio-stream. It is added to off_start, off_end in \ref LTCFrameExt
+ * @param posinfo (optional, recommended) sample-offset in the audio-stream. It is added to off_start, off_end in \ref LTCFrameExt and should be monotonic (ie incremented by size for every call to ltc_decoder_write)
  */
 void ltc_decoder_write(LTCDecoder *d,
 		ltcsnd_sample_t *buf, size_t size,

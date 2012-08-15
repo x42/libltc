@@ -96,6 +96,25 @@
 
 #include "decoder.h"
 
+#define DEBUG_DUMP(msg, f) \
+{ \
+	int _ii; \
+	printf("%s", msg); \
+	for (_ii=0; _ii < (LTC_FRAME_BIT_COUNT >> 3); _ii++) { \
+		const unsigned char _bit = ((unsigned char*)(f))[_ii]; \
+		printf("%c", (_bit & B8(10000000) ) ? '1' : '0'); \
+		printf("%c", (_bit & B8(01000000) ) ? '1' : '0'); \
+		printf("%c", (_bit & B8(00100000) ) ? '1' : '0'); \
+		printf("%c", (_bit & B8(00010000) ) ? '1' : '0'); \
+		printf("%c", (_bit & B8(00001000) ) ? '1' : '0'); \
+		printf("%c", (_bit & B8(00000100) ) ? '1' : '0'); \
+		printf("%c", (_bit & B8(00000010) ) ? '1' : '0'); \
+		printf("%c", (_bit & B8(00000001) ) ? '1' : '0'); \
+		printf(" "); \
+	}\
+	printf("\n"); \
+}
+
 static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, long int posinfo) {
 	int bit_num, bit_set, byte_num;
 
@@ -163,6 +182,52 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, long int pos
 
 			d->queue[d->queue_write_off].off_start = d->frame_start_off;
 			d->queue[d->queue_write_off].off_end = posinfo + offset - 1;
+			d->queue[d->queue_write_off].reverse = 0;
+
+			d->queue_write_off++;
+
+			if (d->queue_write_off == d->queue_len)
+				d->queue_write_off = 0;
+		}
+		d->bit_cnt = 0;
+	}
+
+	if (d->decoder_sync_word == B16(10111111,11111100) /* reverse sync-word*/) {
+		if (d->bit_cnt == LTC_FRAME_BIT_COUNT) {
+			/* reverse frame */
+			int k = 0;
+			int byte_num_max = LTC_FRAME_BIT_COUNT >> 3;
+
+			/* swap bits */
+			for (k=0; k< byte_num_max; k++) {
+				const unsigned char bi = ((unsigned char*)&d->ltc_frame)[k];
+				unsigned char bo = 0;
+				bo |= (bi & B8(10000000) ) ? B8(00000001) : 0;
+				bo |= (bi & B8(01000000) ) ? B8(00000010) : 0;
+				bo |= (bi & B8(00100000) ) ? B8(00000100) : 0;
+				bo |= (bi & B8(00010000) ) ? B8(00001000) : 0;
+				bo |= (bi & B8(00001000) ) ? B8(00010000) : 0;
+				bo |= (bi & B8(00000100) ) ? B8(00100000) : 0;
+				bo |= (bi & B8(00000010) ) ? B8(01000000) : 0;
+				bo |= (bi & B8(00000001) ) ? B8(10000000) : 0;
+				((unsigned char*)&d->ltc_frame)[k] = bo;
+			}
+
+			/* swap bytes */
+			byte_num_max-=2; // skip sync-word
+			for (k=0; k< (byte_num_max)/2; k++) {
+				const unsigned char bi = ((unsigned char*)&d->ltc_frame)[k];
+				((unsigned char*)&d->ltc_frame)[k] = ((unsigned char*)&d->ltc_frame)[byte_num_max-1-k];
+				((unsigned char*)&d->ltc_frame)[byte_num_max-1-k] = bi;
+			}
+
+			memcpy( &d->queue[d->queue_write_off].ltc,
+				&d->ltc_frame,
+				sizeof(LTCFrame));
+
+			d->queue[d->queue_write_off].off_start = d->frame_start_off - 16 * d->snd_to_biphase_period;
+			d->queue[d->queue_write_off].off_end = posinfo + offset - 1 - 16 * d->snd_to_biphase_period;
+			d->queue[d->queue_write_off].reverse = (LTC_FRAME_BIT_COUNT >> 3) * 8 * d->snd_to_biphase_period;
 
 			d->queue_write_off++;
 

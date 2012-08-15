@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Wed Aug 15 2012" "Version 0.5.0" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Thu Aug 16 2012" "Version 0.5.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -267,6 +267,9 @@ long int \fIoff_end\fP the sample in the stream corresponding to the end of the 
 long int \fIoff_start\fP the approximate sample in the stream corresponding to the start of the LTC frame\&. 
 .br
 .PP
+int \fIreverse\fP if non-zero, a reverse played LTC frame was detected\&. Since the frame was reversed, it started at off_end and finishes as off_start (off_end > off_start)\&. (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected)\&. 
+.br
+.PP
 .RE
 .PP
 .SH "struct SMPTETimecode"
@@ -410,7 +413,7 @@ Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded
 .br
 \fIsize\fP number of samples to parse 
 .br
-\fIposinfo\fP (optional) sample-offset in audio-stream\&. It is added to off_start, off_end in \fBLTCFrameExt\fP 
+\fIposinfo\fP (optional, recommended) sample-offset in the audio-stream\&. It is added to off_start, off_end in \fBLTCFrameExt\fP and should be monotonic (ie incremented by size for every call to ltc_decoder_write) 
 .RE
 .PP
 
