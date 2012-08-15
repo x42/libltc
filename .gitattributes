@@ -1,0 +1,6 @@
+.gitignore export-ignore
+.gitattributes export-ignore
+debian export-ignore
+build-deb.sh export-ignore
+release.sh export-ignore
+autogen.sh export-ignore

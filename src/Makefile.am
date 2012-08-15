@@ -1,4 +1,3 @@
-ACLOCAL_AMFLAGS= -I m4
 lib_LTLIBRARIES = libltc.la
 include_HEADERS = ltc.h
 

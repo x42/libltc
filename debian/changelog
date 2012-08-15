@@ -1,0 +1,5 @@
+libltc (0.5.0-1) unstable; urgency=low
+
+  * Initial release. (Closes: #NNNNNN).
+
+ -- Robin Gareus <robin@gareus.org>  Tue, 14 Aug 2012 11:47:35 +0200

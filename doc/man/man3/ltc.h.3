@@ -1,0 +1,714 @@
+.TH "ltc.h" 3 "Wed Aug 15 2012" "Version 0.0.1" "libltc" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ltc.h \- 
+.PP
+libltc - en+decode linear timecode  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBLTCFrame\fP"
+.br
+.ti -1c
+.RI "struct \fBLTCFrameExt\fP"
+.br
+.ti -1c
+.RI "struct \fBSMPTETimecode\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned char \fBltcsnd_sample_t\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBLTCFrame\fP \fBLTCFrame\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBLTCFrameExt\fP \fBLTCFrameExt\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBSMPTETimecode\fP \fBSMPTETimecode\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBLTCDecoder\fP \fBLTCDecoder\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBLTCEncoder\fP \fBLTCEncoder\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBltc_frame_to_time\fP (\fBSMPTETimecode\fP *stime, \fBLTCFrame\fP *frame, int set_date)"
+.br
+.ti -1c
+.RI "void \fBltc_time_to_frame\fP (\fBLTCFrame\fP *frame, \fBSMPTETimecode\fP *stime, int set_date)"
+.br
+.ti -1c
+.RI "void \fBltc_frame_reset\fP (\fBLTCFrame\fP *frame)"
+.br
+.ti -1c
+.RI "int \fBltc_frame_increment\fP (\fBLTCFrame\fP *frame, int fps, int use_date)"
+.br
+.ti -1c
+.RI "\fBLTCDecoder\fP * \fBltc_decoder_create\fP (int apv, int queue_size)"
+.br
+.ti -1c
+.RI "int \fBltc_decoder_free\fP (\fBLTCDecoder\fP *d)"
+.br
+.ti -1c
+.RI "void \fBltc_decoder_write\fP (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_t size, long int posinfo)"
+.br
+.ti -1c
+.RI "int \fBltc_decoder_read\fP (\fBLTCDecoder\fP *d, \fBLTCFrameExt\fP *frame)"
+.br
+.ti -1c
+.RI "void \fBltc_decoder_queue_flush\fP (\fBLTCDecoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBltc_decoder_queue_length\fP (\fBLTCDecoder\fP *d)"
+.br
+.ti -1c
+.RI "\fBLTCEncoder\fP * \fBltc_encoder_create\fP (double sample_rate, double fps, int use_date)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_free\fP (\fBLTCEncoder\fP *e)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_set_timecode\fP (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_get_timecode\fP (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
+.br
+.ti -1c
+.RI "int \fBltc_encoder_bump_timecode\fP (\fBLTCEncoder\fP *e)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_set_frame\fP (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_get_frame\fP (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
+.br
+.ti -1c
+.RI "int \fBltc_encoder_get_buffer\fP (\fBLTCEncoder\fP *e, \fBltcsnd_sample_t\fP *buf)"
+.br
+.ti -1c
+.RI "\fBltcsnd_sample_t\fP * \fBltc_encoder_get_bufptr\fP (\fBLTCEncoder\fP *e, int *size, int flush)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_buffer_flush\fP (\fBLTCEncoder\fP *e)"
+.br
+.ti -1c
+.RI "size_t \fBltc_encoder_get_buffersize\fP (\fBLTCEncoder\fP *e)"
+.br
+.ti -1c
+.RI "int \fBltc_encoder_encode_byte\fP (\fBLTCEncoder\fP *e, int byte, double speed)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_encode_frame\fP (\fBLTCEncoder\fP *e)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+libltc - en+decode linear timecode 
+
+\fBAuthor:\fP
+.RS 4
+Robin Gareus robin@gareus.org
+.RE
+.PP
+Copyright (C) 2006-2012 Robin Gareus robin@gareus.org Copyright (C) 2008-2009 Jan jan@geheimwerk.de
+.PP
+inspired by SMPTE Decoder - Maarten de Boer mdeboer@iua.upf.es
+.PP
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser Public License as published by the Free Software Foundation; either version 3, or (at your option) any later version\&.
+.PP
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\&. See the GNU Lesser Public License for more details\&.
+.PP
+You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc\&., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA 
+.SH "Data Structure Documentation"
+.PP 
+.SH "struct LTCFrame"
+.PP 
+Raw 80 bit SMPTE frame
+.PP
+The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods\&.
+.PP
+At a frame-rate of 30 fps, the bit-rate corresponds to 30 [fps] * 80 [bits/f] = 2400 bits per second\&. The frequency for a stream of zeros would be 1\&.2 kHz and for a stream of ones it would be 2\&.4 kHz\&.  With all commonly used video-frame-rates and audio-sample-rates, LTC timecode can be recorded easily into a audio-track\&.
+.PP
+In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal\&.
+.PP
+These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS\&. The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment)\&.
+.PP
+32 bits are assigned as eight groups of four USER-BITS (also sometimes called the 'Binary Groups')\&. This capacity is generally used to carry extra info such as reel number and/or date\&. The User Bits may be allocated howsoever one wishes as long as both Binary Group Flag Bits are cleared\&.
+.PP
+The last 16 Bits make up the SYNC WORD\&. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone\&. The values of these Bits are fixed as 0011 1111 1111 1101
+.PP
+The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase of the pulse train in every Sync Word will be the same\&.
+.PP
+Bit 10 indicates drop-frame timecode\&. The Colour Frame Flag col\&.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set\&.
+.PP
+Bit 58 is not required for the BCD count for HOURS-TENS (which has a maximum value of two) and has not been given any other special purpose so remains unassigned\&. This Bit has been RESERVED for future assignment\&.
+.PP
+Bits 43 and 59 are assigned as the Binary Group Flag Bits\&. These Bits are used to indicate when a standard character set is used to format the User Bits data\&. The Binary Group Flag Bits should be used only as shown in the truth table below\&. The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future\&.
+.PP
+.PP
+.nf
+
+                                  Bit 43  Bit 59
+  No User Bits format specified     0       0
+  Eight-bit character set           1       0
+  Unassigned (Reserved)             0       1
+  Unassigned (Reserved)             1       1
+ 
+.fi
+.PP
+.PP
+further information: http://www.philrees.co.uk/articles/timecode.htm 
+.PP
+\fBData Fields:\fP
+.RS 4
+unsigned int \fIbinary_group_flag_bit1:1\fP 
+.br
+.PP
+unsigned int \fIbinary_group_flag_bit2:1\fP 
+.br
+.PP
+unsigned int \fIbiphase_mark_phase_correction:1\fP 
+.br
+.PP
+unsigned int \fIcol_frame:1\fP 
+.br
+.PP
+unsigned int \fIdfbit:1\fP indicated drop-frame timecode 
+.br
+.PP
+unsigned int \fIframe_tens:2\fP 
+.br
+.PP
+unsigned int \fIframe_units:4\fP 
+.br
+.PP
+unsigned int \fIhours_tens:2\fP 
+.br
+.PP
+unsigned int \fIhours_units:4\fP 
+.br
+.PP
+unsigned int \fImins_tens:3\fP 
+.br
+.PP
+unsigned int \fImins_units:4\fP 
+.br
+.PP
+unsigned int \fIreserved:1\fP 
+.br
+.PP
+unsigned int \fIsecs_tens:3\fP 
+.br
+.PP
+unsigned int \fIsecs_units:4\fP 
+.br
+.PP
+unsigned int \fIsyncWord:16\fP 
+.br
+.PP
+unsigned int \fIuser1:4\fP 
+.br
+.PP
+unsigned int \fIuser2:4\fP 
+.br
+.PP
+unsigned int \fIuser3:4\fP 
+.br
+.PP
+unsigned int \fIuser4:4\fP 
+.br
+.PP
+unsigned int \fIuser5:4\fP 
+.br
+.PP
+unsigned int \fIuser6:4\fP 
+.br
+.PP
+unsigned int \fIuser7:4\fP 
+.br
+.PP
+unsigned int \fIuser8:4\fP 
+.br
+.PP
+.RE
+.PP
+.SH "struct LTCFrameExt"
+.PP 
+Extended SMPTE frame - includes audio-sample position offsets 
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcdecode\&.c\fP\&.
+.PP
+\fBData Fields:\fP
+.RS 4
+\fBLTCFrame\fP \fIltc\fP the LTC frame see \fBLTCFrame\fP 
+.br
+.PP
+long int \fIoff_end\fP the sample in the stream corresponding to the end of the LTC frame\&. 
+.br
+.PP
+long int \fIoff_start\fP the approximate sample in the stream corresponding to the start of the LTC frame\&. 
+.br
+.PP
+.RE
+.PP
+.SH "struct SMPTETimecode"
+.PP 
+Human readable time representation, decimal values\&. 
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcdecode\&.c\fP, and \fBltcencode\&.c\fP\&.
+.PP
+\fBData Fields:\fP
+.RS 4
+unsigned char \fIdays\fP day of month 1\&.\&.31 
+.br
+.PP
+unsigned char \fIframe\fP sub-second frame 0\&.\&.{FPS-1} 
+.br
+.PP
+unsigned char \fIhours\fP hour 0\&.\&.23 
+.br
+.PP
+unsigned char \fImins\fP minute 0\&.\&.60 
+.br
+.PP
+unsigned char \fImonths\fP valid months are 1\&.\&.12 
+.br
+.PP
+unsigned char \fIsecs\fP second 0\&.\&.60 
+.br
+.PP
+char \fItimezone\fP 
+.br
+.PP
+unsigned char \fIyears\fP LTC-date uses 2-digit year 00\&.99\&. 
+.br
+.PP
+.RE
+.PP
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBLTCDecoder\fP \fBLTCDecoder\fP"
+opaque structure\&. see: SMPTEDecoderCreate, SMPTEFreeDecoder 
+.SS "typedef struct \fBLTCEncoder\fP \fBLTCEncoder\fP"
+opaque structure see: LTCEncoderCreate, LTCFreeEncoder 
+.SS "typedef struct \fBLTCFrame\fP  \fBLTCFrame\fP"
+Raw 80 bit SMPTE frame
+.PP
+The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods\&.
+.PP
+At a frame-rate of 30 fps, the bit-rate corresponds to 30 [fps] * 80 [bits/f] = 2400 bits per second\&. The frequency for a stream of zeros would be 1\&.2 kHz and for a stream of ones it would be 2\&.4 kHz\&.  With all commonly used video-frame-rates and audio-sample-rates, LTC timecode can be recorded easily into a audio-track\&.
+.PP
+In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal\&.
+.PP
+These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS\&. The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment)\&.
+.PP
+32 bits are assigned as eight groups of four USER-BITS (also sometimes called the 'Binary Groups')\&. This capacity is generally used to carry extra info such as reel number and/or date\&. The User Bits may be allocated howsoever one wishes as long as both Binary Group Flag Bits are cleared\&.
+.PP
+The last 16 Bits make up the SYNC WORD\&. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone\&. The values of these Bits are fixed as 0011 1111 1111 1101
+.PP
+The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase of the pulse train in every Sync Word will be the same\&.
+.PP
+Bit 10 indicates drop-frame timecode\&. The Colour Frame Flag col\&.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set\&.
+.PP
+Bit 58 is not required for the BCD count for HOURS-TENS (which has a maximum value of two) and has not been given any other special purpose so remains unassigned\&. This Bit has been RESERVED for future assignment\&.
+.PP
+Bits 43 and 59 are assigned as the Binary Group Flag Bits\&. These Bits are used to indicate when a standard character set is used to format the User Bits data\&. The Binary Group Flag Bits should be used only as shown in the truth table below\&. The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future\&.
+.PP
+.PP
+.nf
+
+                                  Bit 43  Bit 59
+  No User Bits format specified     0       0
+  Eight-bit character set           1       0
+  Unassigned (Reserved)             0       1
+  Unassigned (Reserved)             1       1
+ 
+.fi
+.PP
+.PP
+further information: http://www.philrees.co.uk/articles/timecode.htm 
+.SS "typedef struct \fBLTCFrameExt\fP  \fBLTCFrameExt\fP"
+Extended SMPTE frame - includes audio-sample position offsets 
+.SS "typedef unsigned char \fBltcsnd_sample_t\fP"
+
+.SS "typedef struct \fBSMPTETimecode\fP  \fBSMPTETimecode\fP"
+Human readable time representation, decimal values\&. 
+.SH "Function Documentation"
+.PP 
+.SS "\fBLTCDecoder\fP* ltc_decoder_create (intapv, intqueue_size)"
+Create a new LTC decoder\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIapv\fP audio-frames per video frame\&. This is just used for initial settings, the speed is tracked dynamically\&. setting this in the right ballpark is needed to properly decode the first LTC frame in a sequence\&. 
+.br
+\fIqueue_size\fP length of the internal queue to store decoded frames to SMPTEDecoderWrite\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+decoder handle or NULL if out-of-memory 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcdecode\&.c\fP\&.
+.SS "int ltc_decoder_free (\fBLTCDecoder\fP *d)"
+release memory of decoder-structure\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcdecode\&.c\fP\&.
+.SS "void ltc_decoder_queue_flush (\fBLTCDecoder\fP *d)"
+removed all frames from queue\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.RE
+.PP
+
+.SS "int ltc_decoder_queue_length (\fBLTCDecoder\fP *d)"
+count number of LTC frames currently in the queue 
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of queued frames 
+.RE
+.PP
+
+.SS "int ltc_decoder_read (\fBLTCDecoder\fP *d, \fBLTCFrameExt\fP *frame)"
+Decoded LTC frames are placed in a queue\&. This function retrieves a frame from the queue, and stores it at LTCFrameExt*
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.br
+\fIframe\fP the decoded LTC frame is copied there 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+1 on success or 0 when no frames queued\&. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcdecode\&.c\fP\&.
+.SS "void ltc_decoder_write (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_tsize, long intposinfo)"
+Feed the LTC decoder with new audio samples\&.
+.PP
+Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded it is pushed into a queue (\fBltc_decoder_read\fP)
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.br
+\fIbuf\fP pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data 
+.br
+\fIsize\fP number of samples to parse 
+.br
+\fIposinfo\fP (optional) sample-offset in audio-stream\&. It is added to off_start, off_end in \fBLTCFrameExt\fP 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcdecode\&.c\fP\&.
+.SS "void ltc_encoder_buffer_flush (\fBLTCEncoder\fP *e)"
+reset the write-pointer of the encoder-buffer 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.RE
+.PP
+
+.SS "int ltc_encoder_bump_timecode (\fBLTCEncoder\fP *e)"
+moves the SMPTE to the next timecode frame\&. uses \fBltc_frame_increment()\fP internally\&. 
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "\fBLTCEncoder\fP* ltc_encoder_create (doublesample_rate, doublefps, intuse_date)"
+Allocate and initialize LTC audio encoder\&.
+.PP
+Note: if fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbit' bit is set to 1 to indicate drop-frame timecode\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsample_rate\fP audio sample rate (eg\&. 48000) 
+.br
+\fIfps\fP video-frames per second (e\&.g\&. 25\&.0) 
+.br
+\fIuse_date\fP use LTC-user-data for date 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "int ltc_encoder_encode_byte (\fBLTCEncoder\fP *e, intbyte, doublespeed)"
+Generate LTC audio for given byte of the LTC-frame and place it into the internal buffer\&.
+.PP
+see \fBltc_encoder_get_buffer\fP and \fBltc_encoder_get_bufptr\fP
+.PP
+LTC has 10 bytes per frame: 0 <= bytecnt < 10 use SMPTESetTime(\&.\&.) to set the current frame before Encoding\&. see tests/encoder\&.c for an example\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIbyte\fP byte of the LTC-frame to encode 0\&.\&.9 
+.br
+\fIspeed\fP vari-speed, <1\&.0 faster, >1\&.0 slower ; must be > 0
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 if byte is invalud or buffer overflow (speed > 10\&.0) 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "void ltc_encoder_encode_frame (\fBLTCEncoder\fP *e)"
+encode a full LTC frame at fixed speed\&. This is equivalent to calling \fBltc_encoder_encode_byte\fP 10 times for bytes 0\&.\&.9 with speed 1\&.0\&.
+.PP
+Note: The buffer must be empty before calling this function\&. This is usually the case
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "void ltc_encoder_free (\fBLTCEncoder\fP *e)"
+release encoder data structure 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "int ltc_encoder_get_buffer (\fBLTCEncoder\fP *e, \fBltcsnd_sample_t\fP *buf)"
+copy the accumulated encoded audio to the given sample-buffer and flush the buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIbuf\fP place to store the audio-samples, needs to be large enough to hold \fBltc_encoder_get_buffersize\fP bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of bytes written to the memory area pointed to by buf\&. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "size_t ltc_encoder_get_buffersize (\fBLTCEncoder\fP *e)"
+query the length of the internal buffer\&. It is allocated to hold audio-frames for exactly one LTC frame for the given sample-rate and frame-rate\&. ie\&. (1 + sample-rate / fps) bytes
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+size of the allocated internal buffer\&. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "\fBltcsnd_sample_t\fP* ltc_encoder_get_bufptr (\fBLTCEncoder\fP *e, int *size, intflush)"
+get a pointer to the accumulated encoded audio-data\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIsize\fP if set, the number of valid bytes in the buffer is stored there 
+.br
+\fIflush\fP call \fBltc_encoder_buffer_flush\fP - reset the buffer write-pointer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+pointer to encoder-buffer 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "void ltc_encoder_get_frame (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
+low-level access to the internal \fBLTCFrame\fP data
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIf\fP return LTC frame data 
+.RE
+.PP
+
+.SS "void ltc_encoder_get_timecode (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
+query current encoder timecode\&.
+.PP
+Note: the decoder store its internal state in an LTC-frame, this function converts that LTC-Frame into \fBSMPTETimecode\fP on demand
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIt\fP is set to current timecode 
+.RE
+.PP
+
+.SS "void ltc_encoder_set_frame (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
+low-level access to the internal \fBLTCFrame\fP data\&.
+.PP
+Note: be careful to about f->dfbit, the encoder sets this [only] upon initialization\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIf\fP LTC frame data to use 
+.RE
+.PP
+
+.SS "void ltc_encoder_set_timecode (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
+set the encoder LTC-frame from given \fBSMPTETimecode\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIt\fP to encode on next call of \fBltc_encoder_encode_byte\fP or \fBltc_encoder_encode_frame\fP 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
+.SS "int ltc_frame_increment (\fBLTCFrame\fP *frame, intfps, intuse_date)"
+increment the timecode by one SMPTE-Frame (1/framerate seconds)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIframe\fP the LTC-timecode to increment 
+.br
+\fIfps\fP integer framerate (drop-frame-timecode should set frame->dfbit) 
+.br
+\fIuse_date\fP - interpret user-data as date and increment it if timecode wraps 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+1 if timecode was wrapped around after 23:59:59:ff, 0 otherwise 
+.RE
+.PP
+
+.SS "void ltc_frame_reset (\fBLTCFrame\fP *frame)"
+reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end\&. which is set according to architecture (big/little endian)\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIframe\fP the \fBLTCFrame\fP to reset 
+.RE
+.PP
+
+.SS "void ltc_frame_to_time (\fBSMPTETimecode\fP *stime, \fBLTCFrame\fP *frame, intset_date)"
+convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstime\fP output 
+.br
+\fIframe\fP input 
+.br
+\fIset_date\fP if non-zero, the user-fields in \fBLTCFrame\fP will be parsed into the date variable of \fBSMPTETimecode\fP 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcdecode\&.c\fP\&.
+.SS "void ltc_time_to_frame (\fBLTCFrame\fP *frame, \fBSMPTETimecode\fP *stime, intset_date)"
+convert \fBSMPTETimecode\fP struct into its binary LTC representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIframe\fP the frame to be set 
+.br
+\fIstime\fP timecode input 
+.br
+\fIset_date\fP if non-zero, the user-fields in \fBLTCFrame\fP will be set from the date in \fBSMPTETimecode\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for libltc from the source code\&.

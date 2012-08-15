@@ -1,7 +1,7 @@
-/* 
-   libltcsmpte - en+decode linear SMPTE timecode
+/*
+   libltc - en+decode linear timecode
 
-   Copyright (C) 2006, 2008 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU Lesser Public License as published by
@@ -29,9 +29,8 @@
 # include <config.h>
 #endif
 
-#ifdef ENABLE_DATE
 /**
- * SMPTE Timezones 
+ * SMPTE Timezones
  */
 struct SMPTETimeZonesStruct {
 	unsigned char code; //actually 6 bit!
@@ -41,7 +40,7 @@ struct SMPTETimeZonesStruct {
 /**
  * SMPTE Timezone codes as per http://www.barney-wol.net/time/timecode.html
  */
-struct SMPTETimeZonesStruct SMPTETimeZones[] =
+const static struct SMPTETimeZonesStruct smpte_time_zones[] =
 {
 	/*	code,	timezone (UTC+)		//Standard time					//Daylight saving	*/
 	{	0x00,	"+0000"				/* Greenwich */					/* - */				},
@@ -110,119 +109,104 @@ struct SMPTETimeZonesStruct SMPTETimeZones[] =
 	{	0x38,	"+XXXX"				/* User defined time offset */	/* - */				},
 /*	{	0x39,	"Undefined"			Unknown							Unknown				},*/
 /*	{	0x39,	"Undefined"			Unknown							Unknown				},*/
-	
+
 	{	0xFF,	""					/* The End */										}
 };
 
-static int SMPTESetTimeZoneString(SMPTEFrame* frame, SMPTETime* stime) {
-	int i = 0, j = 0;
+static void smpte_set_timezone_string(LTCFrame *frame, SMPTETimecode *stime) {
+	int i = 0;
 
-	unsigned char code;
-	code = frame->user7;
-	code += frame->user8 << 4;
+	const unsigned char code = frame->user7 + (frame->user8 << 4);
 
 	char timezone[6] = "+0000";
-	
-	// Find timezone string for code
-	// Primitive search
-	for (i = 0 ; SMPTETimeZones[i].code != 0xFF ; i++) {
-		if ( SMPTETimeZones[i].code == code ) {
-			// FIXME: There has to be a better way to passing the value of a char constant to a char array
-			for (j = 0 ; j < sizeof(timezone) ; j++) timezone[j] = SMPTETimeZones[i].timezone[j];
+
+	for (i = 0 ; smpte_time_zones[i].code != 0xFF ; i++) {
+		if ( smpte_time_zones[i].code == code ) {
+			strcpy(timezone, smpte_time_zones[i].timezone);
 			break;
 		}
 	}
-	
-	// FIXME: There has to be a better way
-	for (i = 0 ; i < sizeof(timezone) ; i++) stime->timezone[i] = timezone[i];
-
-	return 1;
+	strcpy(stime->timezone, timezone);
 }
 
-static int SMPTESetTimeZoneCode(SMPTETime* stime, SMPTEFrame* frame) {
+static void smpte_set_timezone_code(SMPTETimecode *stime, LTCFrame *frame) {
 	int i = 0;
 	unsigned char code = 0x00;
-	
+
 	// Find code for timezone string
 	// Primitive search
-	for (i = 0 ; SMPTETimeZones[i].code != 0xFF ; i++) {
-		if ( (strcmp(SMPTETimeZones[i].timezone, stime->timezone)) == 0 ) {
-			// FIXME: There has to be a better way to assing the value of a char constant to a char array
-			code = SMPTETimeZones[i].code;
+	for (i=0; smpte_time_zones[i].code != 0xFF; i++) {
+		if ( (strcmp(smpte_time_zones[i].timezone, stime->timezone)) == 0 ) {
+			code = smpte_time_zones[i].code;
 			break;
 		}
 	}
-	
+
 	frame->user7 = code & 0x0F;
 	frame->user8 = (code & 0xF0) >> 4;
-
-	return 1;
 }
-#endif
 
 /** Drop-frame support function
- * We skip the first two frame numbers (0 and 1) at the beginning of each minute, 
- * except for minutes 0, 10, 20, 30, 40, and 50 
- * (i.e. we skip frame numbers at the beginning of minutes for which minsUnits is not 0).
+ * We skip the first two frame numbers (0 and 1) at the beginning of each minute,
+ * except for minutes 0, 10, 20, 30, 40, and 50
+ * (i.e. we skip frame numbers at the beginning of minutes for which mins_units is not 0).
  */
-static void skip_drop_frames(SMPTEFrame* frame) {
-	if ((frame->minsUnits != 0) 
-		&& (frame->secsUnits == 0) 
-		&& (frame->secsTens == 0) 
-		&& (frame->frameUnits == 0)
-		&& (frame->frameTens == 0)
+static void skip_drop_frames(LTCFrame* frame) {
+	if ((frame->mins_units != 0)
+		&& (frame->secs_units == 0)
+		&& (frame->secs_tens == 0)
+		&& (frame->frame_units == 0)
+		&& (frame->frame_tens == 0)
 		) {
-		frame->frameUnits += 2;
+		frame->frame_units += 2;
 	}
 }
 
+void ltc_frame_to_time(SMPTETimecode *stime, LTCFrame *frame, int set_date) {
+	if (!stime) return;
 
-int SMPTEFrameToTime(SMPTEFrame* frame, SMPTETime* stime) {
-#ifdef ENABLE_DATE
-	// FIXME: what role does the MJD flag play?
-	SMPTESetTimeZoneString(frame, stime);
-	
-	stime->years = frame->user5 + frame->user6*10;
-	stime->months = frame->user3 + frame->user4*10;
-	stime->days = frame->user1 + frame->user2*10;
-#endif
-	stime->hours = frame->hoursUnits + frame->hoursTens*10;
-	stime->mins = frame->minsUnits + frame->minsTens*10;
-	stime->secs = frame->secsUnits + frame->secsTens*10;
-	stime->frame = frame->frameUnits + frame->frameTens*10;
-	return 1;
+	if (set_date) {
+		smpte_set_timezone_string(frame, stime);
+
+		stime->years  = frame->user5 + frame->user6*10;
+		stime->months = frame->user3 + frame->user4*10;
+		stime->days   = frame->user1 + frame->user2*10;
+	}
+
+	stime->hours = frame->hours_units + frame->hours_tens*10;
+	stime->mins  = frame->mins_units  + frame->mins_tens*10;
+	stime->secs  = frame->secs_units  + frame->secs_tens*10;
+	stime->frame = frame->frame_units + frame->frame_tens*10;
 }
 
-int SMPTETimeToFrame(SMPTETime* stime, SMPTEFrame* frame) {
-#ifdef ENABLE_DATE
-	// FIXME: what role does the MJD flag play?
-	SMPTESetTimeZoneCode(stime, frame);
-	frame->user6 = stime->years/10;
-	frame->user5 = stime->years - frame->user6*10;
-	frame->user4 = stime->months/10;
-	frame->user3 = stime->months - frame->user4*10;
-	frame->user2 = stime->days/10;
-	frame->user1 = stime->days - frame->user2*10;
-#endif
-	frame->hoursTens = stime->hours/10;
-	frame->hoursUnits = stime->hours - frame->hoursTens*10;
-	frame->minsTens = stime->mins/10;
-	frame->minsUnits = stime->mins - frame->minsTens*10;
-	frame->secsTens = stime->secs/10;
-	frame->secsUnits = stime->secs - frame->secsTens*10;
-	frame->frameTens = stime->frame/10;
-	frame->frameUnits = stime->frame - frame->frameTens*10;
-	
+void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date) {
+	if (set_date) {
+		smpte_set_timezone_code(stime, frame);
+		frame->user6 = stime->years/10;
+		frame->user5 = stime->years - frame->user6*10;
+		frame->user4 = stime->months/10;
+		frame->user3 = stime->months - frame->user4*10;
+		frame->user2 = stime->days/10;
+		frame->user1 = stime->days - frame->user2*10;
+	}
+
+	frame->hours_tens  = stime->hours/10;
+	frame->hours_units = stime->hours - frame->hours_tens*10;
+	frame->mins_tens   = stime->mins/10;
+	frame->mins_units  = stime->mins - frame->mins_tens*10;
+	frame->secs_tens   = stime->secs/10;
+	frame->secs_units  = stime->secs - frame->secs_tens*10;
+	frame->frame_tens  = stime->frame/10;
+	frame->frame_units = stime->frame - frame->frame_tens*10;
+
 	// Prevent illegal SMPTE frames
 	if (frame->dfbit) {
 		skip_drop_frames(frame);
 	}
-
-	return 1;
 }
 
-int SMPTEFrameReset(SMPTEFrame* frame) {
-	memset(frame,0,sizeof(SMPTEFrame));
+void ltc_frame_reset(LTCFrame* frame) {
+	memset(frame, 0, sizeof(LTCFrame));
 	// syncword = 0x3FFD
 #ifdef __BIG_ENDIAN__
 	// mirrored BE bit order: FCBF
@@ -231,88 +215,98 @@ int SMPTEFrameReset(SMPTEFrame* frame) {
 	// mirrored LE bit order: BFFC
 	frame->syncWord = 0xBFFC;
 #endif
-	return 1;
 }
 
-int SMPTEFrameIncrease(SMPTEFrame* frame, int framesPerSec) {
-	frame->frameUnits++;
-	
-	if (frame->frameUnits == 10)
-	{
-		frame->frameUnits = 0;
-		frame->frameTens++;
-	}
-	if (framesPerSec == frame->frameUnits+frame->frameTens*10)
-	{
-		frame->frameUnits = 0;
-		frame->frameTens = 0;
-		frame->secsUnits++;
-		if (frame->secsUnits == 10)
-		{
-			frame->secsUnits = 0;
-			frame->secsTens++;
-			if (frame->secsTens == 6)
-			{
-				frame->secsTens = 0;
-				frame->minsUnits++;
-				if (frame->minsUnits == 10)
-				{
-					frame->minsUnits = 0;
-					frame->minsTens++;
-					if (frame->minsTens == 6)
-					{
-						frame->minsTens = 0;
-						frame->hoursUnits++;
-						if (frame->hoursUnits == 10)
-						{
-							frame->hoursUnits = 0;
-							frame->hoursTens++;
-						}
-#ifdef ENABLE_DATE
-						if (frame->hoursUnits == 4 && frame->hoursTens==2) {
-							frame->hoursTens=0;
+int ltc_frame_increment(LTCFrame* frame, int fps, int use_date) {
+	int rv = 0;
 
-							//wrap date 
-							SMPTETime stime;
-							stime.years  = frame->user5 + frame->user6*10;
-							stime.months = frame->user3 + frame->user4*10;
-							stime.days   = frame->user1 + frame->user2*10;
-							if (stime.months>0 || stime.months<13) {
-								unsigned char dpm[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
-								if ((stime.years%4)==0 && stime.years!=0) dpm[1]=29; 
-								stime.days++;
-								if (stime.days>dpm[stime.months-1]){
-									stime.days=1;
-									stime.months++;
-									if (stime.months>12){
-										stime.months=1;
-										stime.years=(stime.years+1)%100;
+	frame->frame_units++;
+
+	if (frame->frame_units == 10)
+	{
+		frame->frame_units = 0;
+		frame->frame_tens++;
+	}
+	if (fps == frame->frame_units+frame->frame_tens*10)
+	{
+		frame->frame_units = 0;
+		frame->frame_tens = 0;
+		frame->secs_units++;
+		if (frame->secs_units == 10)
+		{
+			frame->secs_units = 0;
+			frame->secs_tens++;
+			if (frame->secs_tens == 6)
+			{
+				frame->secs_tens = 0;
+				frame->mins_units++;
+				if (frame->mins_units == 10)
+				{
+					frame->mins_units = 0;
+					frame->mins_tens++;
+					if (frame->mins_tens == 6)
+					{
+						frame->mins_tens = 0;
+						frame->hours_units++;
+						if (frame->hours_units == 10)
+						{
+							frame->hours_units = 0;
+							frame->hours_tens++;
+						}
+						if (frame->hours_units == 4 && frame->hours_tens==2)
+						{
+							/* 24h wrap around */
+							rv=1;
+							frame->hours_tens=0;
+							frame->hours_units = 0;
+
+							if (use_date)
+							{
+								/* wrap date */
+								SMPTETimecode stime;
+								stime.years  = frame->user5 + frame->user6*10;
+								stime.months = frame->user3 + frame->user4*10;
+								stime.days   = frame->user1 + frame->user2*10;
+
+								if (stime.months > 0 && stime.months < 13)
+								{
+									unsigned char dpm[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+									/* proper leap-year calc:
+									 * ((stime.years%4)==0 && ( (stime.years%100) != 0 || (stime.years%400) == 0) )
+									 * simplified since year is 0..99
+									 */
+									if ((stime.years%4)==0 && stime.years!=0)
+										dpm[1]=29;
+									stime.days++;
+									if (stime.days > dpm[stime.months-1])
+									{
+										stime.days=1;
+										stime.months++;
+										if (stime.months > 12) {
+											stime.months=1;
+											stime.years=(stime.years+1)%100;
+										}
 									}
+									frame->user6 = stime.years/10;
+									frame->user5 = stime.years%10;
+									frame->user4 = stime.months/10;
+									frame->user3 = stime.months%10;
+									frame->user2 = stime.days/10;
+									frame->user1 = stime.days%10;
+								} else {
+									rv=-1;
 								}
 							}
-							frame->user6 = stime.years/10;
-							frame->user5 = stime.years - frame->user6*10;
-							frame->user4 = stime.months/10;
-							frame->user3 = stime.months - frame->user4*10;
-							frame->user2 = stime.days/10;
-							frame->user1 = stime.days - frame->user2*10;
 						}
-#else
-						if (frame->hoursTens == 10) {
-							frame->hoursTens=0;
-						}
-#endif
 					}
 				}
 			}
 		}
 	}
-	
+
 	if (frame->dfbit) {
 		skip_drop_frames(frame);
 	}
-	
-	return 1;
+
+	return rv;
 }
-
-

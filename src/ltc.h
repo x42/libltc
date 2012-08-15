@@ -1,9 +1,9 @@
-/** 
-   @brief libltcsmpte - en+decode linear SMPTE timecode
-   @file ltcsmpte.h
+/**
+   @brief libltc - en+decode linear timecode
+   @file ltc.h
    @author Robin Gareus <robin@gareus.org>
 
-   Copyright (C) 2006 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
    Copyright (C) 2008-2009 Jan <jan@geheimwerk.de>
 
    inspired by SMPTE Decoder - Maarten de Boer <mdeboer@iua.upf.es>
@@ -23,301 +23,407 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
-#ifndef LTCSMPTE_H
-#define LTCSMPTE_H 1
+#ifndef LTC_H
+#define LTC_H 1
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 #ifndef DOXYGEN_IGNORE
 // libltcsmpte version
-#define LIBLTC_VERSION "0.0.1"
+#define LIBLTC_VERSION "0.5.0"
 #define LIBLTC_VERSION_MAJOR  0
-#define LIBLTC_VERSION_MINOR  0
-#define LIBLTC_VERSION_MICRO  1
+#define LIBLTC_VERSION_MINOR  5
+#define LIBLTC_VERSION_MICRO  0
 
 //interface revision number
 //http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-#define LIBLTC_CUR  0
+#define LIBLTC_CUR  2
 #define LIBLTC_REV  0
 #define LIBLTC_AGE  0
 #endif
 
-#include <sys/types.h>
+typedef unsigned char ltcsnd_sample_t;
 
-#define FPRNT_TIME "%lf"
-#define TIME_DELIM	"\t"
-
-#define USE8BIT
-typedef unsigned char sample_t;
-typedef short curve_sample_t;
-#define SAMPLE_AND_CURVE_ARE_DIFFERENT_TYPE
-#define SAMPLE_CENTER	128 // unsigned 8 bit.
-#define CURVE_MIN 	-127	
-#define CURVE_MAX 	127
-#define SAMPLE_IS_UNSIGNED
-#define SAMPLE_IS_INTEGER
-
-
-#define LTC_FRAME_BIT_COUNT	80
 /**
- * Raw 80 bit SMPTE frame 
+ * Raw 80 bit SMPTE frame
+ *
+ * The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods.
+ *
+ * At a frame-rate of 30 fps, the bit-rate corresponds to 30 [fps] * 80 [bits/f] = 2400 bits per second.
+ * The frequency for a stream of zeros would be 1.2 kHz and for a stream of ones it would be 2.4 kHz.
+ * \image html smptefmt.png
+ * With all commonly used video-frame-rates and audio-sample-rates,  LTC timecode can be recorded
+ * easily into a audio-track.
+ *
+ * In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal.
+ *
+ * These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS.
+ * The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment).
+ *
+ * 32 bits are assigned as eight groups of four USER-BITS (also sometimes called the "Binary Groups").
+ * This capacity is generally used to carry extra info such as reel number and/or date.
+ * The User Bits may be allocated howsoever one wishes as long as both Binary Group Flag Bits are cleared.
+ *
+ * The last 16 Bits make up the SYNC WORD. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone.
+ * The values of these Bits are fixed as 0011 1111 1111 1101
+ *
+ * The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes.
+ * This means that the phase of the pulse train in every Sync Word will be the same.
+ *
+ * Bit 10 indicates drop-frame timecode.
+ * The Colour Frame Flag col.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set.
+ *
+ * Bit 58 is not required for the BCD count for HOURS-TENS (which has a maximum value of two)
+ * and has not been given any other special purpose so remains unassigned.
+ * This Bit has been RESERVED for future assignment.
+ *
+ * Bits 43 and 59 are assigned as the Binary Group Flag Bits.
+ * These Bits are used to indicate when a standard character set is used to format the User Bits data.
+ * The Binary Group Flag Bits should be used only as shown in the truth table below.
+ * The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future.
+ *
+ * <pre>
+ *                                  Bit 43  Bit 59
+ *  No User Bits format specified     0       0
+ *  Eight-bit character set           1       0
+ *  Unassigned (Reserved)             0       1
+ *  Unassigned (Reserved)             1       1
+ * </pre>
+ *
+ * further information: http://www.philrees.co.uk/articles/timecode.htm
  */
-#ifdef __BIG_ENDIAN__
+#if (defined __BIG_ENDIAN__ && !defined DOXYGEN_IGNORE)
 // Big Endian version, bytes are "upside down"
-typedef struct SMPTEFrame {
+typedef struct LTCFrame {
 	unsigned int user1:4;
-	unsigned int frameUnits:4;
-	
+	unsigned int frame_units:4;
+
 	unsigned int user2:4;
-	unsigned int colFrm:1;
+	unsigned int col_frm:1;
 	unsigned int dfbit:1;
-	unsigned int frameTens:2;
-	
+	unsigned int frame_tens:2;
+
 	unsigned int user3:4;
-	unsigned int secsUnits:4;
-	
+	unsigned int secs_units:4;
+
 	unsigned int user4:4;
-	unsigned int biphaseMarkPhaseCorrection:1;
-	unsigned int secsTens:3;
-	
+	unsigned int biphase_mark_phase_correction:1;
+	unsigned int secs_tens:3;
+
 	unsigned int user5:4;
-	unsigned int minsUnits:4;
-	
+	unsigned int mins_units:4;
+
 	unsigned int user6:4;
-	unsigned int binaryGroupFlagBit1:1;
-	unsigned int minsTens:3;
-	
+	unsigned int binary_group_flag_bit1:1;
+	unsigned int mins_tens:3;
+
 	unsigned int user7:4;
-	unsigned int hoursUnits:4;
-	
+	unsigned int hours_units:4;
+
 	unsigned int user8:4;
-	unsigned int binaryGroupFlagBit2:1;
+	unsigned int binary_group_flag_bit2:1;
 	unsigned int reserved:1;
-	unsigned int hoursTens:2;
-	
+	unsigned int hours_tens:2;
+
 	unsigned int syncWord:16;
-} SMPTEFrame;
+} LTCFrame;
 
 #else
-// Little Endian version (default)
-typedef struct SMPTEFrame {
-	unsigned int frameUnits:4;
+// Little Endian version -- and doxygen doc
+typedef struct LTCFrame {
+	unsigned int frame_units:4;
 	unsigned int user1:4;
-	
-	unsigned int frameTens:2;
-	unsigned int dfbit:1;
-	unsigned int colFrm:1;
+
+	unsigned int frame_tens:2;
+	unsigned int dfbit:1; ///< indicated drop-frame timecode
+	unsigned int col_frame:1; //< colour-frame: timecode intentionally synchronized to a colour TV field sequence
 	unsigned int user2:4;
-	
-	unsigned int secsUnits:4;
+
+	unsigned int secs_units:4;
 	unsigned int user3:4;
-	
-	unsigned int secsTens:3;
-	unsigned int biphaseMarkPhaseCorrection:1;
+
+	unsigned int secs_tens:3;
+	unsigned int biphase_mark_phase_correction:1;
 	unsigned int user4:4;
-	
-	unsigned int minsUnits:4;
+
+	unsigned int mins_units:4;
 	unsigned int user5:4;
-	
-	unsigned int minsTens:3;
-	unsigned int binaryGroupFlagBit1:1;
+
+	unsigned int mins_tens:3;
+	unsigned int binary_group_flag_bit1:1;
 	unsigned int user6:4;
-	
-	unsigned int hoursUnits:4;
+
+	unsigned int hours_units:4;
 	unsigned int user7:4;
-	
-	unsigned int hoursTens:2;
+
+	unsigned int hours_tens:2;
 	unsigned int reserved:1;
-	unsigned int binaryGroupFlagBit2:1;
+	unsigned int binary_group_flag_bit2:1;
 	unsigned int user8:4;
-	
+
 	unsigned int syncWord:16;
-} SMPTEFrame;
+} LTCFrame;
 
 #endif
 
 /**
- * Human readable time representation
+ * Extended SMPTE frame - includes audio-sample position offsets
  */
-typedef struct SMPTETime {
-// these are only set when compiled with ENABLE_DATE
-	char timezone[6];
-	unsigned char years;
-	unsigned char months;
-	unsigned char days;
-// 
-	unsigned char hours;
-	unsigned char mins;
-	unsigned char secs;
-	unsigned char frame;
-} SMPTETime;
-
-
-
+typedef struct LTCFrameExt {
+	LTCFrame ltc; ///< the LTC frame see \ref LTCFrame
+	long int off_start; ///< the approximate sample in the stream corresponding to the start of the LTC frame.
+	long int off_end; ///< the sample in the stream corresponding to the end of the LTC frame.
+} LTCFrameExt;
 
 /**
- * Extended SMPTE frame 
- * The maximum error for startpos is 1/80 of a frame. Usually it is 0;
+ * Human readable time representation, decimal values.
  */
-typedef struct SMPTEFrameExt {
-	SMPTEFrame base; ///< the SMPTE decoded from the audio
-	int delayed; ///< detected jitter in LTC-framerate/80 unit(s) - bit count in LTC frame.
-	long int startpos; ///< the approximate sample in the stream corresponding to the start of the LTC SMPTE frame. 
-	long int endpos; ///< the sample in the stream corresponding to the end of the LTC SMPTE frame.
-} SMPTEFrameExt;
+typedef struct SMPTETimecode {
+	char timezone[6];
+	unsigned char years; ///< LTC-date uses 2-digit year 00.99
+	unsigned char months; ///< valid months are 1..12
+	unsigned char days; ///< day of month 1..31
+
+	unsigned char hours; ///< hour 0..23
+	unsigned char mins; ///< minute 0..60
+	unsigned char secs; ///< second 0..60
+	unsigned char frame; ///< sub-second frame 0..{FPS-1}
+} SMPTETimecode;
 
 
 /**
  * opaque structure.
  * see: SMPTEDecoderCreate, SMPTEFreeDecoder
  */
-typedef struct SMPTEDecoder SMPTEDecoder;
+typedef struct LTCDecoder LTCDecoder;
 
 /**
  * opaque structure
- * see: SMPTEEncoderCreate, SMPTEFreeEncoder
+ * see: LTCEncoderCreate, LTCFreeEncoder
  */
-typedef struct SMPTEEncoder SMPTEEncoder;
+typedef struct LTCEncoder LTCEncoder;
 
 
 /**
- * convert binary SMPTEFrame into SMPTETime struct 
+ * convert binary LTCFrame into SMPTETimecode struct
+ * @param stime output
+ * @param frame input
+ * @param set_date if non-zero, the user-fields in LTCFrame will be parsed into the date variable of SMPTETimecode
  */
-int SMPTEFrameToTime(SMPTEFrame* frame, SMPTETime* stime);
+void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_date);
 
 /**
- * convert SMPTETime struct into it's binary SMPTE representation.
+ * convert SMPTETimecode struct into its binary LTC representation.
+ * @param frame the frame to be set
+ * @param stime timecode input
+ * @param set_date if non-zero, the user-fields in LTCFrame will be set from the date in SMPTETimecode
  */
-int SMPTETimeToFrame(SMPTETime* stime, SMPTEFrame* frame);
+void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date);
 
 /**
- * set all values of a SMPTE FRAME to zero except for the sync-word (0x3FFD) at the end.
- * This will also clear the dfbit. 
+ * reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end.
+ * which is set according to architecture (big/little endian).
+ * @param frame the LTCFrame to reset
  */
-int SMPTEFrameReset(SMPTEFrame* frame);
+void ltc_frame_reset(LTCFrame* frame);
 
 /**
- * increments the SMPTE by one SMPTE-Frame (1/framerate seconds)
- */
-int SMPTEFrameIncrease(SMPTEFrame *frame, int framesPerSec);
-
-
-/**
- * Create a new decoder. Pass sample rate, number of smpte frames per 
- * seconds, and the size of the internal queue where decoded frames are
- * stored. Set correctJitter flag, to correct jitter resulting from
- * audio fragment size when decoding from a realtime audiostream. This
- * works only correctly when buffers of exactly fragment size are passed
- * to SMPTEDecoderWrite. (as discussed on LAD [msgID])
- */
-SMPTEDecoder * SMPTEDecoderCreate(int sampleRate, int queueSize, int correctJitter);
-
-
-/**
- * release memory of Decoder structure.
- */
-int SMPTEFreeDecoder(SMPTEDecoder *d);
-
-/**
- * Reset the decoder error tracking internals
- */
-int SMPTEDecoderErrorReset(SMPTEDecoder *decoder);
-
-/**
- * Feed the SMPTE decoder with new samples. 
+ * increment the timecode by one SMPTE-Frame (1/framerate seconds)
  *
- * parse raw audio for LTC timestamps. If found, store them in the 
- * Decoder queue (see SMPTEDecoderRead)
- * always returns 1 ;-)
- * d: the decoder 
- * buf: pointer to sample_t (defaults to unsigned 8 bit) mono audio data
- * size: number of bytes to parse
- * posinfo: (optional) byte offset in stream to set LTC location offset
+ * @param frame the LTC-timecode to increment
+ * @param fps integer framerate (drop-frame-timecode should set frame->dfbit)
+ * @param use_date - interpret user-data as date and increment it if timecode wraps
+ * @return 1 if timecode was wrapped around after 23:59:59:ff, 0 otherwise
  */
-int SMPTEDecoderWrite(SMPTEDecoder *decoder, sample_t *buf, int size, long int posinfo);
+int ltc_frame_increment(LTCFrame *frame, int fps, int use_date);
 
 /**
- * All decoded SMPTE frames are placed in a queue. This function gets 
- * a frame from the queue, and stores it in SMPTEFrameExt* frame.
- * Returns 1 on success, 0 when no frames where on the queue, and
- * and errorcode otherwise.
+ * Create a new LTC decoder.
+ *
+ * @param apv audio-frames per video frame. This is just used for initial settings, the speed is tracked dynamically. setting this in the right ballpark is needed to properly decode the first LTC frame in a sequence.
+ * @param queue_size length of the internal queue to store decoded frames
+ * to SMPTEDecoderWrite.
+ * @return decoder handle or NULL if out-of-memory
  */
-int SMPTEDecoderRead(SMPTEDecoder *decoder, SMPTEFrameExt *frame);
+LTCDecoder * ltc_decoder_create(int apv, int queue_size);
 
-/** 
- * flush unread LTCs in queue and return the last timestamp.
- * (note that the last timestamp may not be the latest if the queue has
- * overflown!)
+
+/**
+ * release memory of decoder-structure.
+ * @param d decoder handle
  */
-int SMPTEDecoderReadLast(SMPTEDecoder* decoder, SMPTEFrameExt* frame);
+int ltc_decoder_free(LTCDecoder *d);
 
-/** 
- * Convert the index or position of a sample to 
- * its position in time (seconds) relative to the first sample. 
+/**
+ * Feed the LTC decoder with new audio samples.
+ *
+ * Parse raw audio for LTC timestamps. Once a complete LTC frame has been
+ * decoded it is pushed into a queue (\ref ltc_decoder_read)
+ *
+ * @param d decoder handle
+ * @param buf pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data
+ * @param size number of samples to parse
+ * @param posinfo (optional) sample-offset in audio-stream. It is added to off_start, off_end in \ref LTCFrameExt
  */
-double SMPTEDecoderSamplesToSeconds(SMPTEDecoder* d, long int sampleCount);
+void ltc_decoder_write(LTCDecoder *d,
+		ltcsnd_sample_t *buf, size_t size,
+		long int posinfo);
 
-/** 
- * Allocate and initialize LTC encoder
- * @param sampleRate: audio sample rate (eg. 48000)
+/**
+ * Decoded LTC frames are placed in a queue. This function retrieves
+ * a frame from the queue, and stores it at LTCFrameExt*
+ *
+ * @param d decoder handle
+ * @param frame the decoded LTC frame is copied there
+ * @return 1 on success or 0 when no frames queued.
  */
-SMPTEEncoder * SMPTEEncoderCreate(int sampleRate, double fps);
+int ltc_decoder_read(LTCDecoder *d, LTCFrameExt *frame);
 
-/** 
+/**
+ * removed all frames from queue.
+ * @param d decoder handle
+ */
+void ltc_decoder_queue_flush(LTCDecoder* d);
+
+/**
+ * count number of LTC frames currently in the queue
+ * @param d decoder handle
+ * @return number of queued frames
+ */
+int ltc_decoder_queue_length(LTCDecoder* d);
+
+
+
+/**
+ * Allocate and initialize LTC audio encoder.
+ *
+ * Note: if fps equals to 29.97 or 30000.0/1001.0, the LTCFrame's 'dfbit' bit is set to 1
+ * to indicate drop-frame timecode.
+ *
+ * @param sample_rate audio sample rate (eg. 48000)
+ * @param fps video-frames per second (e.g. 25.0)
+ * @param use_date use LTC-user-data for date
+ */
+LTCEncoder * ltc_encoder_create(double sample_rate, double fps, int use_date);
+
+/**
  * release encoder data structure
+ * @param e encoder handle
  */
-int SMPTEFreeEncoder(SMPTEEncoder *e);
+void ltc_encoder_free(LTCEncoder *e);
 
 /**
- * set internal Audio-sample counter. 
- * SMPTEEncode() increments this counter when it encodes samples.
+ * set the encoder LTC-frame from given SMPTETimecode.
+ * @param e encoder handle
+ * @param t to encode on next call of \ref ltc_encoder_encode_byte or \ref ltc_encoder_encode_frame
  */
-int SMPTESetNsamples(SMPTEEncoder *e, int val);
+void ltc_encoder_set_timecode(LTCEncoder *e, SMPTETimecode *t);
 
 /**
- * returns the current values of the Audio-sample counter.
- * ie. the number of encoded samples.
- */
-int SMPTEGetNsamples(SMPTEEncoder *e);
-
-/**
- * moves the SMPTE to the next frame.
- * it uses SMPTEFrameIncrease().
- */
-int SMPTEEncIncrease(SMPTEEncoder *e, int fps);
-
-/**
- * sets the current encoder SMPTE frame to SMPTETime.
- */
-int SMPTESetTime(SMPTEEncoder *e, SMPTETime *t);
-
-/** 
- * set t from current Encoder timecode
- */
-int SMPTEGetTime(SMPTEEncoder *e, SMPTETime *t);
-
-/**
- * returns and flushes the accumulated Encoded Audio.
- * returns the number of bytes written to the memory area
- * pointed to by buf.
+ * query current encoder timecode.
  *
- * no overflow check is perfomed! use DTMFGetBuffersize().
+ * Note: the decoder store its internal state in an LTC-frame,
+ * this function converts that LTC-Frame into SMPTETimecode on demand
+ *
+ * @param e encoder handle
+ * @param t is set to current timecode
  */
-int SMPTEGetBuffer(SMPTEEncoder *e, sample_t *buf);
+void ltc_encoder_get_timecode(LTCEncoder *e, SMPTETimecode *t);
 
 /**
- * returns the size of the accumulated encoded Audio in bytes.
+ * moves the SMPTE to the next timecode frame.
+ * uses \ref ltc_frame_increment() internally.
  */
-size_t SMPTEGetBuffersize(SMPTEEncoder *e);
+int ltc_encoder_bump_timecode(LTCEncoder *e);
 
 /**
- * Generate LTC audio for byte "byteCnt" of the current frame into the buffer of Encoder e.
- * LTC has 10 bytes per frame: 0 <= bytecnt < 10 
+ * low-level access to the internal LTCFrame data.
+ *
+ * Note: be careful to about f->dfbit, the encoder sets this [only] upon
+ * initialization.
+ *
+ * @param e encoder handle
+ * @param f LTC frame data to use
+ */
+void ltc_encoder_set_frame(LTCEncoder *e, LTCFrame *f);
+
+/**
+ * low-level access to the internal LTCFrame data
+ *
+ * @param e encoder handle
+ * @param f return LTC frame data
+ */
+void ltc_encoder_get_frame(LTCEncoder *e, LTCFrame *f);
+
+/**
+ * copy the accumulated encoded audio to the given
+ * sample-buffer and flush the buffer.
+ *
+ * @param e encoder handle
+ * @param buf place to store the audio-samples, needs to be large enough
+ * to hold \ref ltc_encoder_get_buffersize bytes
+ * @return the number of bytes written to the memory area
+ * pointed to by buf.
+ */
+int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf);
+
+
+/**
+ * get a pointer to the accumulated encoded audio-data.
+ *
+ * @param e encoder handle
+ * @param size if set, the number of valid bytes in the buffer is stored there
+ * @param flush call \ref ltc_encoder_buffer_flush - reset the buffer write-pointer
+ * @return pointer to encoder-buffer
+ */
+ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush);
+
+/**
+ * reset the write-pointer of the encoder-buffer
+ * @param e encoder handle
+ */
+void ltc_encoder_buffer_flush(LTCEncoder *e);
+
+/**
+ * query the length of the internal buffer. It is allocated
+ * to hold audio-frames for exactly one LTC frame for the given
+ * sample-rate and frame-rate.  ie. (1 + sample-rate / fps) bytes
+ *
+ * @param e encoder handle
+ * @return size of the allocated internal buffer.
+ */
+size_t ltc_encoder_get_buffersize(LTCEncoder *e);
+
+/**
+ * Generate LTC audio for given byte of the LTC-frame and
+ * place it into the internal buffer.
+ *
+ * see \ref ltc_encoder_get_buffer and  \ref ltc_encoder_get_bufptr
+ *
+ * LTC has 10 bytes per frame: 0 <= bytecnt < 10
  * use SMPTESetTime(..) to set the current frame before Encoding.
  * see tests/encoder.c for an example.
+ *
+ * @param e encoder handle
+ * @param byte byte of the LTC-frame to encode 0..9
+ * @param speed vari-speed, <1.0 faster,  >1.0 slower ; must be > 0
+ *
+ * @return 0 on success, -1 if byte is invalud or buffer overflow (speed > 10.0)
  */
-int SMPTEEncode(SMPTEEncoder *e, int byteCnt);
+int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
+
+/**
+ * encode a full LTC frame at fixed speed.
+ * This is equivalent to calling \ref ltc_encoder_encode_byte 10 times for
+ * bytes 0..9 with speed 1.0.
+ *
+ * Note: The buffer must be empty before calling this function. This is usually the case
+ *
+ * @param e encoder handle
+ */
+void ltc_encoder_encode_frame(LTCEncoder *e);
 
 #ifdef __cplusplus
 }

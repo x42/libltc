@@ -1,0 +1,116 @@
+/*
+ * This is the main page of the LIBLTC manual, build using * doxygen.
+ */
+
+/**
+@mainpage LTC Library
+
+@section intro Introduction
+
+ Linear (or Longitudinal) Timecode (LTC) is an encoding of 
+ <a href="http://en.wikipedia.org/wiki/SMPTE_timecode">SMPTE timecode</a> data
+ as a 
+ <a href="http://en.wikipedia.org/wiki/Manchester_Code">Manchester-Biphase</a> 
+ encoded audio signal.
+ The audio signal is commonly recorded on a VTR track or other storage media.
+
+ libltc provides functionality to encode and decode LTC from/to 
+ SMPTE timecode, including SMPTE date support. 
+
+@section download Download
+<ul>
+ <li><a href="git://github.com/x42/libltc.git/downloads">GitHub Downloads</a></li>
+ <li><a href="git://github.com/x42/libltc.git/">GitHub Repository</a></li>
+</ul>
+
+@section installation Installation
+  libltc uses GNU autotools and libtool. The default auto-* workflow applies:
+
+ run <tt>./configure</tt> and build libltc with <tt>make</tt>. See the INSTALL file for further instructions.
+
+ The tar.gz package release includes the build-environment (<tt>configure</tt> script, etc), but if you get the source from the repository, you first need to generate the build environment with something alike:
+ <tt>aclocal; autoheader; libtoolize --copy; autoconf; automake --gnu --add-missing --copy</tt>. (<i>OSX users use <tt>glibtoolize</tt></i>). 
+
+ If <a href="http://doxygen.org/">Doxygen</a> is available, the documentation can be [re-]generated from the source by calling <tt>make dox</tt>. Self-test scenarios and example code can be compiled and executed with <tt>make check</tt>.
+
+@section about About
+ libltc is the successor of libltcsmpte.
+
+ **Q**: What is the difference between libltcsmpte and libltc?
+
+ **A**: Functionally, there is little difference, usage and work-flow are very similar, too.
+    The API has changed almost completely, yet the majority of these changes are 
+		only parameter and function names.
+
+		libltc introduces support for encoding vari-speed LTC and drops support
+		for operations on SMPTE timecode such as converting
+		video-timecode to real-time (seconds, audio-frames).
+
+		Some of the related inappropriate functionality of libltcsmpte was dropped as well,
+		e.g. detect timecode discontinuities in decoded LTC/SMPTE.
+
+		libltc works with LTC-frames. It is ignorant about SMPTE semantics and should
+		require knowledge or make assumptions about SMPTE of the end-user application.
+
+		In general: the API was simplified and cleaned up.
+
+
+ **Q**: Why not continue to develop libltcsmpte?
+
+ **A**: Mostly because of API and ABI compatibility issues. libltcsmpte was one of the first
+    libraries that I have written. It includes a lot of mistakes: Naming conventions 
+		(functions, structure and variables) were chosen unwisely and may cause conflists.
+		Merging LTC date-support and making it compile-time optional was the next mistake.
+		Versions compiled with-date do not offer to use the user-bits of the LTC frame for
+		anything else that date. Even worse is the compile-time option to set the sample-data
+		encoding (signed/unsigned, 8/16bit or 32bit float). This made the ABI incompatible
+		between versions compiled with different variants.
+
+
+ **Q**: But you could still have called it libltcsmpte-2.0.0..
+
+ **A**: yes. I could have done that.
+
+
+@section usage Usage
+ Consult \ref ltc.h for a detailed reference of available functions.
+ The documentation is also available as Unix manual pages.
+
+ The self-test code lends itself as good examples on how to get started.
+ See <tt>tests/decoder.c</tt> and <tt>tests/encoder.c</tt> .
+
+@section references References
+<ul>
+ <li><a href="https://github.com/x42/libltc/">libLTC GitHub Project Page</a></li>
+ <li><a href="https://sourceforge.net/projects/ltcsmpte/">libLTCSMPTE Sourceforge Project Page</a></li>
+ <li><a href="http://www.philrees.co.uk/articles/timecode.htm">Phil Rees' Article "Synchronisation and SMPTE timecode"</a></li>
+ <li><a href="http://en.wikipedia.org/wiki/Linear_timecode">Wikipedia Info on Linear Timecode</a></li>
+ <li><a href="http://en.wikipedia.org/wiki/SMPTE_timecode">Wikipedia Page on SMPTE</a></li>
+</ul>
+
+@section license License
+
+Copyright (C) 2003 by Maarten de Boer
+
+Copyright (C) 2006-2012 by Robin Gareus
+
+Copyright (C) 2008-2010 by Jan Weiß
+
+ ltcsmpte is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 3 of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+\example ltcdecode.c
+\example ltcencode.c
+
+*/

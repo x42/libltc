@@ -1,7 +1,7 @@
-/* 
-   libltcsmpte - en+decode linear SMPTE timecode
+/*
+   libltc - en+decode linear timecode
 
-   Copyright (C) 2006 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU Lesser Public License as published by
@@ -19,18 +19,24 @@
 
 */
 
-struct SMPTEEncoder {
-	int sampleRate;
-	int nsamples;
-	int offset;
+#include "ltc.h"
+
+struct LTCEncoder {
+	double fps;
+	double sample_rate;
+	int use_date;
+
+	size_t offset;
 	size_t bufsize;
-	sample_t *buf;
+	ltcsnd_sample_t *buf;
 
-	int state;
-	float samplesPerClock;
-	float samplesPerHalveClock;
-	float remainder;
+	char state;
 
-	SMPTEFrame f;
+	double samplesPerClock;
+	double samplesPerHalveClock;
+	double remainder;
+
+	LTCFrame f;
 };
 
+int encode_byte(LTCEncoder *e, int byte, double speed);

@@ -1,7 +1,7 @@
-/* 
-   libltcsmpte - en+decode linear SMPTE timecode
+/*
+   libltc - en+decode linear timecode
 
-   Copyright (C) 2006 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU Lesser Public License as published by
@@ -22,38 +22,97 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
-#include "ltcsmpte/ltcsmpte.h"
 #include "encoder.h"
 
 /**
  * add values to the output buffer
  */
-void addvalues(SMPTEEncoder *e, int n) {
-	curve_sample_t curve[256];
-	curve_sample_t val = 0;
-	curve_sample_t tgtval = e->state ? CURVE_MIN : CURVE_MAX;
+static int addvalues(LTCEncoder *e, int n) {
+	const ltcsnd_sample_t tgtval = e->state ? 38 : 218; // -3dbFS
+
+	if (e->offset + n >= e->bufsize) {
+		fprintf(stderr, "libltc: buffer overflow: %i/%lu\n", e->offset, (unsigned long) e->bufsize);
+		return -1;
+	}
+
+	ltcsnd_sample_t * const wave = &(e->buf[e->offset]);
+
+	/* LTC signal should have a rise time of 25 us +/- 5 us. */
+
+#if 0 /* fixed low-pass filter */
+	/* this implementation is "close-enough"
+	 * it is independent from the sample-rate and produces
+	 * [typically] longer rise-times than the spec,
+	 * but is more in line with modern sound-cards.
+	 * that overshoot and distort easily.
+	 */
 	int i;
-	int m = (n+1) / 2;
+	ltcsnd_sample_t val = 128;
+	int m = (n+1)>>1;
 	for (i = 0 ; i < m ; i++) {
-		// low pass filter to prevent aliasing
-		val = (val + tgtval) / 2;
-		curve[n-i-1] = curve[i] = val;
+		val = (val>>1) + (tgtval>>1);
+		wave[n-i-1] = wave[i] = val;
 	}
-	
-	// we could use %zu without converting e->bufsize, but that requires C99
-	if (e->offset+n >= e->bufsize) { fprintf(stderr, " buffer overflow: %i/%lu\n", e->offset, (unsigned long)e->bufsize); return; } 
-	
-#ifdef SAMPLE_AND_CURVE_ARE_DIFFERENT_TYPE
-	for (i = 0; i < n ; i++) {
-	#ifdef USE8BIT
-		e->buf[e->offset++] = (curve[i]) + SAMPLE_CENTER;
-	#else
-		e->buf[e->offset++] = (sample_t)(curve[i]) + SAMPLE_CENTER;
-	#endif
-	}
+#elif 1 /* LPF */
+	/* rise-time means from <10% to >90% of the signal.
+	 * in each call to addvalues() we start at 50%, so
+	 * here we need half-of it.
+	 */
+#if 0
+	const double tc = e->sample_rate * .0000125 / 2.71828; // audio-samples / exp(1)
+	const double cutoff = (tc<2)? 0.5 : (1.0/tc); // prevent overshoot & distortion
 #else
-	memcpy( &(e->buf[e->offset]), curve, (n * sizeof(sample_t)) );
-	e->offset += n;
+	const double cutoff =  1-exp( -1.0 / (e->sample_rate * .0000125 / exp(1)) );
 #endif
+
+	int i;
+	ltcsnd_sample_t val = 128;
+	int m = (n+1)>>1;
+	for (i = 0 ; i < m ; i++) {
+		val = val + cutoff * (tgtval - val);
+		wave[n-i-1] = wave[i] = val;
+	}
+#else /* perfect square wave */
+	memset(wave, tgtval, n);
+#endif
+
+	e->offset += n;
+	return n;
+}
+
+int encode_byte(LTCEncoder *e, int byteCnt, double speed) {
+	if (byteCnt < 0 || byteCnt > 9) return -1;
+	if (speed <=0) return -1;
+
+	int err = 0;
+	const unsigned char c = ((unsigned char*)&e->f)[byteCnt];
+	unsigned char b = 1; // bit
+	const double spc = e->samplesPerClock * speed;
+	const double sph = e->samplesPerHalveClock * speed;
+
+	do
+	{
+		int n;
+		if ((c & b) == 0) {
+			n = (int)(spc + e->remainder);
+			e->remainder = spc + e->remainder - n;
+			e->state = !e->state;
+			err |= addvalues(e, n);
+		} else {
+			n = (int)(sph + e->remainder);
+			e->remainder = sph + e->remainder - n;
+			e->state = !e->state;
+			err |= addvalues(e, n);
+
+			n = (int)(sph + e->remainder);
+			e->remainder = sph + e->remainder - n;
+			e->state = !e->state;
+			err |= addvalues(e, n);
+		}
+		b <<= 1;
+	} while (b);
+
+	return err;
 }
