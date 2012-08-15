@@ -126,7 +126,7 @@ libltc - en+decode linear timecode
 Robin Gareus robin@gareus.org
 .RE
 .PP
-Copyright (C) 2006-2012 Robin Gareus robin@gareus.org Copyright (C) 2008-2009 Jan jan@geheimwerk.de
+Copyright (C) 2006-2012 Robin Gareus robin@gareus.org Copyright (C) 2008-2009 Jan Weiß jan@geheimwerk.de
 .PP
 inspired by SMPTE Decoder - Maarten de Boer mdeboer@iua.upf.es
 .PP
@@ -145,7 +145,7 @@ The datastream for each video frame of Longitudinal TimeCode consists of eighty 
 .PP
 At a frame-rate of 30 fps, the bit-rate corresponds to 30 [fps] * 80 [bits/f] = 2400 bits per second\&. The frequency for a stream of zeros would be 1\&.2 kHz and for a stream of ones it would be 2\&.4 kHz\&.  With all commonly used video-frame-rates and audio-sample-rates, LTC timecode can be recorded easily into a audio-track\&.
 .PP
-In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal\&.
+In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal (BCD)\&.
 .PP
 These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS\&. The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment)\&.
 .PP
@@ -177,46 +177,46 @@ further information: http://www.philrees.co.uk/articles/timecode.htm
 .PP
 \fBData Fields:\fP
 .RS 4
-unsigned int \fIbinary_group_flag_bit1:1\fP 
+unsigned int \fIbinary_group_flag_bit1:1\fP indicate user-data char encoding, see table above 
 .br
 .PP
-unsigned int \fIbinary_group_flag_bit2:1\fP 
+unsigned int \fIbinary_group_flag_bit2:1\fP indicate user-data char encoding, see table above 
 .br
 .PP
-unsigned int \fIbiphase_mark_phase_correction:1\fP 
+unsigned int \fIbiphase_mark_phase_correction:1\fP unused - see note on Bit 27 in description\&. 
 .br
 .PP
-unsigned int \fIcol_frame:1\fP 
+unsigned int \fIcol_frame:1\fP colour-frame: timecode intentionally synchronized to a colour TV field sequence 
 .br
 .PP
 unsigned int \fIdfbit:1\fP indicated drop-frame timecode 
 .br
 .PP
-unsigned int \fIframe_tens:2\fP 
+unsigned int \fIframe_tens:2\fP SMPTE framenumber BCD tens 0\&.\&.3\&. 
 .br
 .PP
-unsigned int \fIframe_units:4\fP 
+unsigned int \fIframe_units:4\fP SMPTE framenumber BCD unit 0\&.\&.9\&. 
 .br
 .PP
-unsigned int \fIhours_tens:2\fP 
+unsigned int \fIhours_tens:2\fP SMPTE hours BCD tens 0\&.\&.2\&. 
 .br
 .PP
-unsigned int \fIhours_units:4\fP 
+unsigned int \fIhours_units:4\fP SMPTE hours BCD unit 0\&.\&.9\&. 
 .br
 .PP
-unsigned int \fImins_tens:3\fP 
+unsigned int \fImins_tens:3\fP SMPTE minutes BCD tens 0\&.\&.6\&. 
 .br
 .PP
-unsigned int \fImins_units:4\fP 
+unsigned int \fImins_units:4\fP SMPTE minutes BCD unit 0\&.\&.9\&. 
 .br
 .PP
 unsigned int \fIreserved:1\fP 
 .br
 .PP
-unsigned int \fIsecs_tens:3\fP 
+unsigned int \fIsecs_tens:3\fP SMPTE seconds BCD tens 0\&.\&.6\&. 
 .br
 .PP
-unsigned int \fIsecs_units:4\fP 
+unsigned int \fIsecs_units:4\fP SMPTE seconds BCD unit 0\&.\&.9\&. 
 .br
 .PP
 unsigned int \fIsync_word:16\fP 
@@ -258,7 +258,7 @@ Extended SMPTE frame - includes audio-sample position offsets
 .PP
 \fBData Fields:\fP
 .RS 4
-\fBLTCFrame\fP \fIltc\fP the LTC frame see \fBLTCFrame\fP 
+\fBLTCFrame\fP \fIltc\fP the actual LTC frame\&. see \fBLTCFrame\fP 
 .br
 .PP
 long int \fIoff_end\fP the sample in the stream corresponding to the end of the LTC frame\&. 
@@ -308,51 +308,17 @@ unsigned char \fIyears\fP LTC-date uses 2-digit year 00\&.99\&.
 .SH "Typedef Documentation"
 .PP 
 .SS "typedef struct \fBLTCDecoder\fP \fBLTCDecoder\fP"
-opaque structure\&. see: SMPTEDecoderCreate, SMPTEFreeDecoder 
+opaque structure\&. see: \fBltc_decoder_create\fP, \fBltc_decoder_free\fP 
 .SS "typedef struct \fBLTCEncoder\fP \fBLTCEncoder\fP"
-opaque structure see: LTCEncoderCreate, LTCFreeEncoder 
-.SS "typedef struct \fBLTCFrame\fP  \fBLTCFrame\fP"
-Raw 80 bit SMPTE frame
-.PP
-The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods\&.
-.PP
-At a frame-rate of 30 fps, the bit-rate corresponds to 30 [fps] * 80 [bits/f] = 2400 bits per second\&. The frequency for a stream of zeros would be 1\&.2 kHz and for a stream of ones it would be 2\&.4 kHz\&.  With all commonly used video-frame-rates and audio-sample-rates, LTC timecode can be recorded easily into a audio-track\&.
-.PP
-In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal\&.
-.PP
-These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS\&. The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment)\&.
-.PP
-32 bits are assigned as eight groups of four USER-BITS (also sometimes called the 'Binary Groups')\&. This capacity is generally used to carry extra info such as reel number and/or date\&. The User Bits may be allocated howsoever one wishes as long as both Binary Group Flag Bits are cleared\&.
-.PP
-The last 16 Bits make up the SYNC WORD\&. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone\&. The values of these Bits are fixed as 0011 1111 1111 1101
-.PP
-The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase of the pulse train in every Sync Word will be the same\&.
-.PP
-Bit 10 indicates drop-frame timecode\&. The Colour Frame Flag col\&.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set\&.
-.PP
-Bit 58 is not required for the BCD count for HOURS-TENS (which has a maximum value of two) and has not been given any other special purpose so remains unassigned\&. This Bit has been RESERVED for future assignment\&.
-.PP
-Bits 43 and 59 are assigned as the Binary Group Flag Bits\&. These Bits are used to indicate when a standard character set is used to format the User Bits data\&. The Binary Group Flag Bits should be used only as shown in the truth table below\&. The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future\&.
-.PP
-.PP
-.nf
-
-                                  Bit 43  Bit 59
-  No User Bits format specified     0       0
-  Eight-bit character set           1       0
-  Unassigned (Reserved)             0       1
-  Unassigned (Reserved)             1       1
- 
-.fi
-.PP
-.PP
-further information: http://www.philrees.co.uk/articles/timecode.htm 
-.SS "typedef struct \fBLTCFrameExt\fP  \fBLTCFrameExt\fP"
-Extended SMPTE frame - includes audio-sample position offsets 
+opaque structure see: \fBltc_encoder_create\fP, \fBltc_encoder_free\fP 
+.SS "typedef struct \fBLTCFrame\fP \fBLTCFrame\fP"
+see \fBLTCFrame\fP 
+.SS "typedef struct \fBLTCFrameExt\fP \fBLTCFrameExt\fP"
+see \fBLTCFrameExt\fP 
 .SS "typedef unsigned char \fBltcsnd_sample_t\fP"
-
-.SS "typedef struct \fBSMPTETimecode\fP  \fBSMPTETimecode\fP"
-Human readable time representation, decimal values\&. 
+default audio sample type: 8bit unsigned (mono) 
+.SS "typedef struct \fBSMPTETimecode\fP \fBSMPTETimecode\fP"
+see \fBSMPTETimecode\fP 
 .SH "Function Documentation"
 .PP 
 .SS "\fBLTCDecoder\fP* ltc_decoder_create (intapv, intqueue_size)"
@@ -638,13 +604,15 @@ Note: be careful to about f->dfbit, the encoder sets this [only] upon initializa
 .PP
 
 .SS "void ltc_encoder_set_timecode (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
-set the encoder LTC-frame from given \fBSMPTETimecode\fP\&. 
+set the encoder LTC-frame from given \fBSMPTETimecode\fP\&. The next call to \fBltc_encoder_encode_byte\fP or \fBltc_encoder_encode_frame\fP will encode this time to LTC audio-samples\&.
+.PP
+Internally this call uses \fBltc_time_to_frame\fP because the LTCEncoder operates on LTCframes only\&.
 .PP
 \fBParameters:\fP
 .RS 4
 \fIe\fP encoder handle 
 .br
-\fIt\fP to encode on next call of \fBltc_encoder_encode_byte\fP or \fBltc_encoder_encode_frame\fP 
+\fIt\fP timecode to set\&. 
 .RE
 .PP
 
@@ -659,9 +627,9 @@ increment the timecode by one SMPTE-Frame (1/framerate seconds)
 .RS 4
 \fIframe\fP the LTC-timecode to increment 
 .br
-\fIfps\fP integer framerate (drop-frame-timecode should set frame->dfbit) 
+\fIfps\fP integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps)\&. 
 .br
-\fIuse_date\fP - interpret user-data as date and increment it if timecode wraps 
+\fIuse_date\fP - interpret user-data as date and increment date if timecode wraps after 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
 .RE
 .PP
 \fBReturns:\fP
@@ -671,7 +639,7 @@ increment the timecode by one SMPTE-Frame (1/framerate seconds)
 .PP
 
 .SS "void ltc_frame_reset (\fBLTCFrame\fP *frame)"
-reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end\&. which is set according to architecture (big/little endian)\&. 
+reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end\&. The sync word is set according to architecture (big/little endian)\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -701,9 +669,9 @@ convert \fBSMPTETimecode\fP struct into its binary LTC representation\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIframe\fP the frame to be set 
+\fIframe\fP output - the frame to be set 
 .br
-\fIstime\fP timecode input 
+\fIstime\fP input - timecode input 
 .br
 \fIset_date\fP if non-zero, the user-fields in \fBLTCFrame\fP will be set from the date in \fBSMPTETimecode\fP 
 .RE

@@ -4,7 +4,7 @@
    @author Robin Gareus <robin@gareus.org>
 
    Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
-   Copyright (C) 2008-2009 Jan <jan@geheimwerk.de>
+   Copyright (C) 2008-2009 Jan Weiß <jan@geheimwerk.de>
 
    inspired by SMPTE Decoder - Maarten de Boer <mdeboer@iua.upf.es>
 
@@ -31,19 +31,23 @@ extern "C" {
 #endif
 
 #ifndef DOXYGEN_IGNORE
-// libltcsmpte version
+/* libltcsmpte version */
 #define LIBLTC_VERSION "0.5.0"
 #define LIBLTC_VERSION_MAJOR  0
 #define LIBLTC_VERSION_MINOR  5
 #define LIBLTC_VERSION_MICRO  0
 
-//interface revision number
-//http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
+/* interface revision number
+ * http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
+ */
 #define LIBLTC_CUR  2
 #define LIBLTC_REV  0
 #define LIBLTC_AGE  0
 #endif
 
+/**
+ * default audio sample type: 8bit unsigned (mono)
+ */
 typedef unsigned char ltcsnd_sample_t;
 
 /**
@@ -57,7 +61,7 @@ typedef unsigned char ltcsnd_sample_t;
  * With all commonly used video-frame-rates and audio-sample-rates,  LTC timecode can be recorded
  * easily into a audio-track.
  *
- * In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal.
+ * In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal (BCD).
  *
  * These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS.
  * The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment).
@@ -96,7 +100,7 @@ typedef unsigned char ltcsnd_sample_t;
  */
 #if (defined __BIG_ENDIAN__ && !defined DOXYGEN_IGNORE)
 // Big Endian version, bytes are "upside down"
-typedef struct LTCFrame {
+struct LTCFrame {
 	unsigned int user1:4;
 	unsigned int frame_units:4;
 
@@ -128,59 +132,67 @@ typedef struct LTCFrame {
 	unsigned int hours_tens:2;
 
 	unsigned int sync_word:16;
-} LTCFrame;
-
+};
 #else
-// Little Endian version -- and doxygen doc
-typedef struct LTCFrame {
-	unsigned int frame_units:4;
+/* Little Endian version -- and doxygen doc */
+struct LTCFrame {
+	unsigned int frame_units:4; ///< SMPTE framenumber BCD unit 0..9
 	unsigned int user1:4;
 
-	unsigned int frame_tens:2;
+	unsigned int frame_tens:2; ///< SMPTE framenumber BCD tens 0..3
 	unsigned int dfbit:1; ///< indicated drop-frame timecode
-	unsigned int col_frame:1; //< colour-frame: timecode intentionally synchronized to a colour TV field sequence
+	unsigned int col_frame:1; ///< colour-frame: timecode intentionally synchronized to a colour TV field sequence
 	unsigned int user2:4;
 
-	unsigned int secs_units:4;
+	unsigned int secs_units:4; ///< SMPTE seconds BCD unit 0..9
 	unsigned int user3:4;
 
-	unsigned int secs_tens:3;
-	unsigned int biphase_mark_phase_correction:1;
+	unsigned int secs_tens:3; ///< SMPTE seconds BCD tens 0..6
+	unsigned int biphase_mark_phase_correction:1; ///< unused - see note  on Bit 27 in description.
 	unsigned int user4:4;
 
-	unsigned int mins_units:4;
+	unsigned int mins_units:4; ///< SMPTE minutes BCD unit 0..9
 	unsigned int user5:4;
 
-	unsigned int mins_tens:3;
-	unsigned int binary_group_flag_bit1:1;
+	unsigned int mins_tens:3; ///< SMPTE minutes BCD tens 0..6
+	unsigned int binary_group_flag_bit1:1; ///< indicate user-data char encoding, see table above
 	unsigned int user6:4;
 
-	unsigned int hours_units:4;
+	unsigned int hours_units:4; ///< SMPTE hours BCD unit 0..9
 	unsigned int user7:4;
 
-	unsigned int hours_tens:2;
+	unsigned int hours_tens:2; ///< SMPTE hours BCD tens 0..2
 	unsigned int reserved:1;
-	unsigned int binary_group_flag_bit2:1;
+	unsigned int binary_group_flag_bit2:1; ///< indicate user-data char encoding, see table above
 	unsigned int user8:4;
 
 	unsigned int sync_word:16;
-} LTCFrame;
-
+};
 #endif
+
+/**
+ * see LTCFrame
+ */
+typedef struct LTCFrame LTCFrame;
 
 /**
  * Extended SMPTE frame - includes audio-sample position offsets
  */
-typedef struct LTCFrameExt {
-	LTCFrame ltc; ///< the LTC frame see \ref LTCFrame
+struct LTCFrameExt {
+	LTCFrame ltc; ///< the actual LTC frame. see \ref LTCFrame
 	long int off_start; ///< the approximate sample in the stream corresponding to the start of the LTC frame.
 	long int off_end; ///< the sample in the stream corresponding to the end of the LTC frame.
-} LTCFrameExt;
+};
+
+/**
+ * see \ref LTCFrameExt
+ */
+typedef struct LTCFrameExt LTCFrameExt;
 
 /**
  * Human readable time representation, decimal values.
  */
-typedef struct SMPTETimecode {
+struct SMPTETimecode {
 	char timezone[6];
 	unsigned char years; ///< LTC-date uses 2-digit year 00.99
 	unsigned char months; ///< valid months are 1..12
@@ -190,21 +202,25 @@ typedef struct SMPTETimecode {
 	unsigned char mins; ///< minute 0..60
 	unsigned char secs; ///< second 0..60
 	unsigned char frame; ///< sub-second frame 0..{FPS-1}
-} SMPTETimecode;
+};
+
+/**
+ * see \ref SMPTETimecode
+ */
+typedef struct SMPTETimecode SMPTETimecode;
 
 
 /**
  * opaque structure.
- * see: SMPTEDecoderCreate, SMPTEFreeDecoder
+ * see: \ref ltc_decoder_create, \ref ltc_decoder_free
  */
 typedef struct LTCDecoder LTCDecoder;
 
 /**
  * opaque structure
- * see: LTCEncoderCreate, LTCFreeEncoder
+ * see: \ref ltc_encoder_create, \ref ltc_encoder_free
  */
 typedef struct LTCEncoder LTCEncoder;
-
 
 /**
  * convert binary LTCFrame into SMPTETimecode struct
@@ -216,15 +232,15 @@ void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_date);
 
 /**
  * convert SMPTETimecode struct into its binary LTC representation.
- * @param frame the frame to be set
- * @param stime timecode input
+ * @param frame output - the frame to be set
+ * @param stime input - timecode input
  * @param set_date if non-zero, the user-fields in LTCFrame will be set from the date in SMPTETimecode
  */
 void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date);
 
 /**
  * reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end.
- * which is set according to architecture (big/little endian).
+ * The sync word is set according to architecture (big/little endian).
  * @param frame the LTCFrame to reset
  */
 void ltc_frame_reset(LTCFrame* frame);
@@ -233,8 +249,10 @@ void ltc_frame_reset(LTCFrame* frame);
  * increment the timecode by one SMPTE-Frame (1/framerate seconds)
  *
  * @param frame the LTC-timecode to increment
- * @param fps integer framerate (drop-frame-timecode should set frame->dfbit)
- * @param use_date - interpret user-data as date and increment it if timecode wraps
+ * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
+ * @param use_date - interpret user-data as date and increment date if timecode wraps after 24h.
+ * (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored.
+ * "00" is assumed to be year 2000 which was a leap year.)
  * @return 1 if timecode was wrapped around after 23:59:59:ff, 0 otherwise
  */
 int ltc_frame_increment(LTCFrame *frame, int fps, int use_date);
@@ -316,8 +334,14 @@ void ltc_encoder_free(LTCEncoder *e);
 
 /**
  * set the encoder LTC-frame from given SMPTETimecode.
+ * The next call to \ref ltc_encoder_encode_byte or
+ * \ref ltc_encoder_encode_frame will encode this time to LTC audio-samples.
+ *
+ * Internally this call uses \ref ltc_time_to_frame because
+ * the LTCEncoder operates on LTCframes only.
+ *
  * @param e encoder handle
- * @param t to encode on next call of \ref ltc_encoder_encode_byte or \ref ltc_encoder_encode_frame
+ * @param t timecode to set.
  */
 void ltc_encoder_set_timecode(LTCEncoder *e, SMPTETimecode *t);
 
