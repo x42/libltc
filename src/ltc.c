@@ -61,7 +61,7 @@ int ltc_decoder_free(LTCDecoder *d) {
 	return 0;
 }
 
-void ltc_decoder_write_float(LTCDecoder *d, float *buf, size_t size, long int posinfo) {
+void ltc_decoder_write_float(LTCDecoder *d, float *buf, size_t size, ltc_off_t posinfo) {
 	int i;
 	for (i=0; i<size; i++) {
 		ltcsnd_sample_t s = 128 + (buf[i] * 127.0);
@@ -69,7 +69,7 @@ void ltc_decoder_write_float(LTCDecoder *d, float *buf, size_t size, long int po
 	}
 }
 
-void ltc_decoder_write_s16(LTCDecoder *d, short *buf, size_t size, long int posinfo) {
+void ltc_decoder_write_s16(LTCDecoder *d, short *buf, size_t size, ltc_off_t posinfo) {
 	int i;
 	for (i=0; i<size; i++) {
 		ltcsnd_sample_t s = 128 + (buf[i] >> 8);
@@ -77,7 +77,7 @@ void ltc_decoder_write_s16(LTCDecoder *d, short *buf, size_t size, long int posi
 	}
 }
 
-void ltc_decoder_write(LTCDecoder *d, ltcsnd_sample_t *buf, size_t size, long int posinfo) {
+void ltc_decoder_write(LTCDecoder *d, ltcsnd_sample_t *buf, size_t size, ltc_off_t posinfo) {
 	decode_ltc(d, buf, size, posinfo);
 }
 

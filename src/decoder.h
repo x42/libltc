@@ -43,9 +43,9 @@ struct LTCDecoder {
 	LTCFrame ltc_frame;
 	int bit_cnt;
 
-	long int frame_start_off;
+	ltc_off_t frame_start_off;
 	int frame_start_prev;
 };
 
 
-void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, long int posinfo);
+void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, ltc_off_t posinfo);

@@ -51,6 +51,11 @@ extern "C" {
 typedef unsigned char ltcsnd_sample_t;
 
 /**
+ * sample-count offset - 64bit wide
+ */
+typedef long long int ltc_off_t;
+
+/**
  * Raw 80 bit SMPTE frame
  *
  * The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods.
@@ -180,8 +185,8 @@ typedef struct LTCFrame LTCFrame;
  */
 struct LTCFrameExt {
 	LTCFrame ltc; ///< the actual LTC frame. see \ref LTCFrame
-	long int off_start; ///< the approximate sample in the stream corresponding to the start of the LTC frame.
-	long int off_end; ///< the sample in the stream corresponding to the end of the LTC frame.
+	ltc_off_t off_start; ///< the approximate sample in the stream corresponding to the start of the LTC frame.
+	ltc_off_t off_end; ///< the sample in the stream corresponding to the end of the LTC frame.
 	int reverse; ///< if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end > off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected).
 };
 
@@ -288,7 +293,7 @@ int ltc_decoder_free(LTCDecoder *d);
  */
 void ltc_decoder_write(LTCDecoder *d,
 		ltcsnd_sample_t *buf, size_t size,
-		long int posinfo);
+		ltc_off_t posinfo);
 
 /**
  * Decoded LTC frames are placed in a queue. This function retrieves

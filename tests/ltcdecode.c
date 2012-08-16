@@ -81,15 +81,16 @@ int main(int argc, char **argv) {
 				stime.timezone
 				);
 
-			printf("%02d:%02d:%02d%c%02d | %8ld %8ld%s\n",
-				   stime.hours, stime.mins,
-				   stime.secs,
-				   (frame.ltc.dfbit) ? '.' : ':',
-				   stime.frame,
-				   frame.off_start,
-				   frame.off_end,
-					 frame.reverse?"  R":""
-				   );
+			printf("%02d:%02d:%02d%c%02d | %8lld %8lld%s\n",
+					stime.hours,
+					stime.mins,
+					stime.secs,
+					(frame.ltc.dfbit) ? '.' : ':',
+					stime.frame,
+					frame.off_start,
+					frame.off_end,
+					frame.reverse ? "  R" : ""
+					);
 		}
 
 		total += n;

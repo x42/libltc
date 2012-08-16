@@ -48,12 +48,6 @@
 /** for upto 16-bit binary constants, MSB first */
 #define B16(dmsb,dlsb) (((unsigned short)B8(dmsb)<<8) + B8(dlsb))
 
-/** for upto 32-bit binary constants, MSB first */
-#define B32(dmsb,db2,db3,dlsb) (((unsigned long)B8(dmsb)<<24) \
-	+ ((unsigned long)B8(db2)<<16) \
-	+ ((unsigned long)B8(db3)<<8)  \
-	+ B8(dlsb))
-
 /** turn a numeric literal into a hex constant
  *(avoids problems with leading zeroes)
  * 8-bit constants max value 0x11111111, always fits in unsigned long
@@ -77,16 +71,9 @@
 /** for upto 16-bit binary constants, MSB first */
 #define B16(dmsb,dlsb) (((unsigned short)B8(dmsb)<<8) + B8(dlsb))
 
-/** for upto 32-bit binary constants, MSB first */
-#define B32(dmsb,db2,db3,dlsb) (((unsigned long)B8(dmsb)<<24)	 \
-	+ ((unsigned long)B8(db2)<<16) \
-	+ ((unsigned long)B8(db3)<<8)  \
-	+ B8(dlsb))
-
 /* Example usage:
  * B8(01010101) = 85
  * B16(10101010,01010101) = 43605
- * B32(10000000,11111111,10101010,01010101) = 2164238933
  */
 
 #include <stdio.h>
@@ -115,7 +102,7 @@
 	printf("\n"); \
 }
 
-static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, long int posinfo) {
+static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t posinfo) {
 	int bit_num, bit_set, byte_num;
 
 	if (d->bit_cnt == 0) {
@@ -238,7 +225,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, long int pos
 	}
 }
 
-static inline void biphase_decode2(LTCDecoder *d, int offset, long int pos) {
+static inline void biphase_decode2(LTCDecoder *d, int offset, ltc_off_t pos) {
 	if (d->snd_to_biphase_state == d->biphase_prev) {
 		d->biphase_state = 1;
 		parse_ltc(d, 0, offset, pos);
@@ -251,7 +238,7 @@ static inline void biphase_decode2(LTCDecoder *d, int offset, long int pos) {
 	d->biphase_prev = d->snd_to_biphase_state;
 }
 
-void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, long int posinfo) {
+void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, ltc_off_t posinfo) {
 	int i;
 
 	for (i = 0 ; i < size ; i++) {
