@@ -276,17 +276,24 @@ void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, ltc_off_t posin
 
 			}
 
-			/* track speed variations
-			 * As this is only executed at a state change,
-			 * d->snd_to_biphase_cnt is an accurate representation of the current period length.
-			 */
-			d->snd_to_biphase_period = (d->snd_to_biphase_period*3 + d->snd_to_biphase_cnt) / 4.0;
+			if (d->snd_to_biphase_cnt > (d->snd_to_biphase_period * 4)) {
+				/* "long" silence in between
+				 * -> reset parser, don't use it for phase-tracking
+				 */
+				d->bit_cnt = 0;
+			} else  {
+				/* track speed variations
+				 * As this is only executed at a state change,
+				 * d->snd_to_biphase_cnt is an accurate representation of the current period length.
+				 */
+				d->snd_to_biphase_period = (d->snd_to_biphase_period*3 + d->snd_to_biphase_cnt) / 4.0;
 
-			/* This limit specifies when a state-change is
-			 * considered biphase-clock or 2*biphase-clock.
-			 * The relation with period has been determined
-			 * through trial-and-error */
-			d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 13) / 16;
+				/* This limit specifies when a state-change is
+				 * considered biphase-clock or 2*biphase-clock.
+				 * The relation with period has been determined
+				 * through trial-and-error */
+				d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 13) / 16;
+			}
 
 			d->snd_to_biphase_cnt = 0;
 			d->snd_to_biphase_state = !d->snd_to_biphase_state;
