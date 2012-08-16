@@ -318,6 +318,12 @@ the sample in the stream corresponding to the end of the LTC frame. </td></tr>
 off_start</td>
 <td class="fielddoc">
 the approximate sample in the stream corresponding to the start of the LTC frame. </td></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="a8695572f4b4f75bfaba7edd725b2fb4b"></a>int</td>
+<td class="fieldname">
+reverse</td>
+<td class="fielddoc">
+if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end &gt; off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected). </td></tr>
 </table>
 
 </div>
@@ -523,7 +529,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcdecode_8c-example.html#a18">ltcdecode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcdecode_8c-example.html#a19">ltcdecode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -652,7 +658,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
     <tr><td class="paramname">buf</td><td>pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data </td></tr>
     <tr><td class="paramname">size</td><td>number of samples to parse </td></tr>
-    <tr><td class="paramname">posinfo</td><td>(optional) sample-offset in audio-stream. It is added to off_start, off_end in <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> </td></tr>
+    <tr><td class="paramname">posinfo</td><td>(optional, recommended) sample-offset in the audio-stream. It is added to off_start, off_end in <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> and should be monotonic (ie incremented by size for every call to ltc_decoder_write) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1233,7 +1239,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 15 2012 22:36:31 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 16 2012 01:40:22 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
