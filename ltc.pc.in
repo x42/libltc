@@ -7,6 +7,6 @@ Name: libltc
 Description: linear/longitudinal timecode library
 Requires: 
 Version: @VERSION@
-Libs: -L${libdir} -lltcsmpte -lm
+Libs: -L${libdir} -lltc -lm
 Libs.static: -lm
 Cflags: -I${includedir} 
