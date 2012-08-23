@@ -48,7 +48,7 @@
  <dt>How can I get help?</dt>
  <dd>
   The preferred way is to use the issue-tracker at https://github.com/x42/libltc/issues .
-  You can also send a private-mail to the author.
+  You can also send a private-mail to the authors.
  </dd>
 
  <dt>How good is the LTC-decoder? Will it decode my file?</dt>
@@ -71,20 +71,18 @@
  <dt>Does libltc support decoding backwards played LTC - reverse tape direction</dt>
 
  <dd>
-  Yes it does. see the documentation for \ref LTCFrameExt
+  Yes it does. See the documentation for \ref LTCFrameExt
  </dd>
 
  <dt>Is there free software is using libltc?</dt>
  <dd>
-  ltc-tools is in the making. It comprises two JACK applications to generate and
+  <a href="https://github.com/x42/ltc-tools">ltc-tools</a> is in the making. It comprises two JACK applications to generate and
   decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from
   audio-files. Stay tuned (ETA Sept/2012).
 
-  Currently there is self-test code, which can en&decode LTC from raw audio-data
-  (it reads 8 bit, mono .wav files, too. because they're basically just raw
-  audio-data, but the timestamps are off by the length of the .wav header.)
+  Currently there is self-test code, which can en&decode LTC from raw audio-data.
 
-  There are lots of tools (incl iOS applications and NLEs) using libltcsmpte.
+  There are lots of apps (incl iOS applications and NLEs) using libltcsmpte.
   We dare say that many - if not most - of them will be updated to libLTC in time.
  </dd>
 
@@ -96,15 +94,17 @@
 
   libltc introduces support for encoding vari-speed LTC and reverse played LTC.
   The internal code-path was optimized and the phase-tracking was slightly improved.
+
   libltc drops support for operations on SMPTE timecode such as converting
-  video-timecode to real-time (seconds, audio-frames), etc.
+  video-timecode to real-time (seconds, audio-frames), etc. Some of this functionality
+  may reincarnate into libsmpte or libframerate.
+
+  The reasoning behind this is that libltc operates on LTC-frames.
+  It ought to be ignorant about SMPTE semantics and should not make assumptions
+  about the SMPTE data which is application dependent.
 
   Some related inappropriate functionality of libltcsmpte was dropped, as well.
   e.g. The ability to detect timecode discontinuities in decoded LTC/SMPTE.
-
-  The reasoning behind this is that libltc operates on LTC-frames.
-  It is ignorant about SMPTE semantics and should not make assumptions
-  about the SMPTE data which is application dependent.
 
   In general: the API was simplified and cleaned up.
  </dd>
@@ -177,7 +177,7 @@ Copyright (C) 2006-2012 by Robin Gareus
 
 Copyright (C) 2008-2010 by Jan Weiß
 
- ltcsmpte is free software; you can redistribute it and/or
+ libltc is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 3 of the License, or (at your option) any later version.
@@ -187,9 +187,8 @@ Copyright (C) 2008-2010 by Jan Weiß
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  Lesser Public License for more details.
 
- You should have received a copy of the GNU Lesser General Public
- License along with this library; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see http://www.gnu.org/licenses/
 
 \example ltcdecode.c
 \example ltcencode.c
