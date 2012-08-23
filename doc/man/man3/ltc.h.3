@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Thu Aug 16 2012" "Version 0.5.0" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Thu Aug 23 2012" "Version 0.5.1" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,6 +27,9 @@ libltc - en+decode linear timecode
 .in +1c
 .ti -1c
 .RI "typedef unsigned char \fBltcsnd_sample_t\fP"
+.br
+.ti -1c
+.RI "typedef long long int \fBltc_off_t\fP"
 .br
 .ti -1c
 .RI "typedef struct \fBLTCFrame\fP \fBLTCFrame\fP"
@@ -66,7 +69,7 @@ libltc - en+decode linear timecode
 .RI "int \fBltc_decoder_free\fP (\fBLTCDecoder\fP *d)"
 .br
 .ti -1c
-.RI "void \fBltc_decoder_write\fP (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_t size, long int posinfo)"
+.RI "void \fBltc_decoder_write\fP (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_t size, \fBltc_off_t\fP posinfo)"
 .br
 .ti -1c
 .RI "int \fBltc_decoder_read\fP (\fBLTCDecoder\fP *d, \fBLTCFrameExt\fP *frame)"
@@ -210,7 +213,7 @@ unsigned int \fImins_tens:3\fP SMPTE minutes BCD tens 0\&.\&.6\&.
 unsigned int \fImins_units:4\fP SMPTE minutes BCD unit 0\&.\&.9\&. 
 .br
 .PP
-unsigned int \fIreserved:1\fP 
+unsigned int \fIreserved:1\fP reserved -- don't use 
 .br
 .PP
 unsigned int \fIsecs_tens:3\fP SMPTE seconds BCD tens 0\&.\&.6\&. 
@@ -261,10 +264,10 @@ Extended SMPTE frame - includes audio-sample position offsets
 \fBLTCFrame\fP \fIltc\fP the actual LTC frame\&. see \fBLTCFrame\fP 
 .br
 .PP
-long int \fIoff_end\fP the sample in the stream corresponding to the end of the LTC frame\&. 
+\fBltc_off_t\fP \fIoff_end\fP the sample in the stream corresponding to the end of the LTC frame\&. 
 .br
 .PP
-long int \fIoff_start\fP the approximate sample in the stream corresponding to the start of the LTC frame\&. 
+\fBltc_off_t\fP \fIoff_start\fP the approximate sample in the stream corresponding to the start of the LTC frame\&. 
 .br
 .PP
 int \fIreverse\fP if non-zero, a reverse played LTC frame was detected\&. Since the frame was reversed, it started at off_end and finishes as off_start (off_end > off_start)\&. (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected)\&. 
@@ -310,6 +313,8 @@ unsigned char \fIyears\fP LTC-date uses 2-digit year 00\&.99\&.
 .PP
 .SH "Typedef Documentation"
 .PP 
+.SS "typedef long long int \fBltc_off_t\fP"
+sample-count offset - 64bit wide 
 .SS "typedef struct \fBLTCDecoder\fP \fBLTCDecoder\fP"
 opaque structure\&. see: \fBltc_decoder_create\fP, \fBltc_decoder_free\fP 
 .SS "typedef struct \fBLTCEncoder\fP \fBLTCEncoder\fP"
@@ -400,7 +405,7 @@ Decoded LTC frames are placed in a queue\&. This function retrieves a frame from
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "void ltc_decoder_write (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_tsize, long intposinfo)"
+.SS "void ltc_decoder_write (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_tsize, \fBltc_off_t\fPposinfo)"
 Feed the LTC decoder with new audio samples\&.
 .PP
 Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded it is pushed into a queue (\fBltc_decoder_read\fP)
