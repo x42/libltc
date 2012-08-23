@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.5.0</span>
+   &#160;<span id="projectnumber">0.5.1</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -85,7 +85,7 @@
 <div class="line"></div>
 <div class="line">        <span class="keywordflow">do</span> {</div>
 <div class="line">                n = fread(sound, <span class="keyword">sizeof</span>(<a class="code" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a>), BUFFER_SIZE, f);</div>
-<div class="line">                <a name="a2"></a><a class="code" href="ltc_8h.html#a17c493a07e85b5e028fbe3b257f8dde9">ltc_decoder_write</a>(decoder, sound, n, total);</div>
+<div class="line">                <a name="a2"></a><a class="code" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a>(decoder, sound, n, total);</div>
 <div class="line"></div>
 <div class="line">                <span class="keywordflow">while</span> (<a name="a3"></a><a class="code" href="ltc_8h.html#a3cb40ff1bede260caeafae14bafb9a95">ltc_decoder_read</a>(decoder, &amp;frame)) {</div>
 <div class="line">                        <a name="_a4"></a><a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> stime;</div>
@@ -99,15 +99,16 @@
 <div class="line">                                stime.<a name="a10"></a><a class="code" href="ltc_8h.html#abf056d6aa0c9046ed39c8b6f4ae568da">timezone</a></div>
 <div class="line">                                );</div>
 <div class="line"></div>
-<div class="line">                        printf(<span class="stringliteral">&quot;%02d:%02d:%02d%c%02d | %8ld %8ld%s\n&quot;</span>,</div>
-<div class="line">                                   stime.<a name="a11"></a><a class="code" href="ltc_8h.html#a46a49bf0cc03a662959d96145b543bf3" title="hour 0..23">hours</a>, stime.<a name="a12"></a><a class="code" href="ltc_8h.html#a3a61b5ec33a92b13bc7ce21cb54e55ce" title="minute 0..60">mins</a>,</div>
-<div class="line">                                   stime.<a name="a13"></a><a class="code" href="ltc_8h.html#acabc2874dae09c842660cda082cbd7d1" title="second 0..60">secs</a>,</div>
-<div class="line">                                   (frame.<a class="code" href="ltc_8h.html#a86f7f99e839dc30ac5eb1d650061d1d1" title="the actual LTC frame. see LTCFrame">ltc</a>.<a name="a14"></a><a class="code" href="ltc_8h.html#aae3b62d98a52478317057b87ba180b72" title="indicated drop-frame timecode">dfbit</a>) ? <span class="charliteral">&#39;.&#39;</span> : <span class="charliteral">&#39;:&#39;</span>,</div>
-<div class="line">                                   stime.<a name="a15"></a><a class="code" href="ltc_8h.html#a1b22b2e8db1d8d2b526919e0f8cef0ee" title="sub-second frame 0..{FPS-1}">frame</a>,</div>
-<div class="line">                                   frame.<a name="a16"></a><a class="code" href="ltc_8h.html#a55623a01fa17b0baf1921ea1ac07db08" title="the approximate sample in the stream corresponding to the start of the LTC frame.">off_start</a>,</div>
-<div class="line">                                   frame.<a name="a17"></a><a class="code" href="ltc_8h.html#a24a4f2b471e59889a9e5363bcf24931f" title="the sample in the stream corresponding to the end of the LTC frame.">off_end</a>,</div>
-<div class="line">                                         frame.<a name="a18"></a><a class="code" href="ltc_8h.html#a8695572f4b4f75bfaba7edd725b2fb4b" title="if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end &gt; off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected).">reverse</a>?<span class="stringliteral">&quot;  R&quot;</span>:<span class="stringliteral">&quot;&quot;</span></div>
-<div class="line">                                   );</div>
+<div class="line">                        printf(<span class="stringliteral">&quot;%02d:%02d:%02d%c%02d | %8lld %8lld%s\n&quot;</span>,</div>
+<div class="line">                                        stime.<a name="a11"></a><a class="code" href="ltc_8h.html#a46a49bf0cc03a662959d96145b543bf3" title="hour 0..23">hours</a>,</div>
+<div class="line">                                        stime.<a name="a12"></a><a class="code" href="ltc_8h.html#a3a61b5ec33a92b13bc7ce21cb54e55ce" title="minute 0..60">mins</a>,</div>
+<div class="line">                                        stime.<a name="a13"></a><a class="code" href="ltc_8h.html#acabc2874dae09c842660cda082cbd7d1" title="second 0..60">secs</a>,</div>
+<div class="line">                                        (frame.<a class="code" href="ltc_8h.html#a86f7f99e839dc30ac5eb1d650061d1d1" title="the actual LTC frame. see LTCFrame">ltc</a>.<a name="a14"></a><a class="code" href="ltc_8h.html#aae3b62d98a52478317057b87ba180b72" title="indicated drop-frame timecode">dfbit</a>) ? <span class="charliteral">&#39;.&#39;</span> : <span class="charliteral">&#39;:&#39;</span>,</div>
+<div class="line">                                        stime.<a name="a15"></a><a class="code" href="ltc_8h.html#a1b22b2e8db1d8d2b526919e0f8cef0ee" title="sub-second frame 0..{FPS-1}">frame</a>,</div>
+<div class="line">                                        frame.<a name="a16"></a><a class="code" href="ltc_8h.html#a64635a67a788d658c9312be212330a2c" title="the approximate sample in the stream corresponding to the start of the LTC frame.">off_start</a>,</div>
+<div class="line">                                        frame.<a name="a17"></a><a class="code" href="ltc_8h.html#a0200e7f1f9bf85a4ce78e9126946048b" title="the sample in the stream corresponding to the end of the LTC frame.">off_end</a>,</div>
+<div class="line">                                        frame.<a name="a18"></a><a class="code" href="ltc_8h.html#a8695572f4b4f75bfaba7edd725b2fb4b" title="if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end &gt; off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected).">reverse</a> ? <span class="stringliteral">&quot;  R&quot;</span> : <span class="stringliteral">&quot;&quot;</span></div>
+<div class="line">                                        );</div>
 <div class="line">                }</div>
 <div class="line"></div>
 <div class="line">                total += n;</div>
@@ -122,7 +123,7 @@
 </div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 16 2012 01:40:22 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 23 2012 19:08:08 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

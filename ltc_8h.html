@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.5.0</span>
+   &#160;<span id="projectnumber">0.5.1</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -71,6 +71,7 @@ Data Structures</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a1d702f47d78768fd74aabd04b1e47091"><td class="memItemLeft" align="right" valign="top">typedef unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a></td></tr>
+<tr class="memitem:a204469b0ba8c2e2ef72e4512ce8595d3"><td class="memItemLeft" align="right" valign="top">typedef long long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a></td></tr>
 <tr class="memitem:a3792f92af8c8c9e8506298f94779649c"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a3792f92af8c8c9e8506298f94779649c">LTCFrame</a></td></tr>
 <tr class="memitem:a9f58b85b949368de730fccf23aca08fe"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a9f58b85b949368de730fccf23aca08fe">LTCFrameExt</a></td></tr>
 <tr class="memitem:ad649b5a25b9644920dd2420ebe044a52"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad649b5a25b9644920dd2420ebe044a52">SMPTETimecode</a></td></tr>
@@ -85,7 +86,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a1cef71e2a23b9075cb7a4f7a974a8e0d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int fps, int use_date)</td></tr>
 <tr class="memitem:a0707029b20a1ea7305dd6ba85c0d03f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a> (int apv, int queue_size)</td></tr>
 <tr class="memitem:ad7d79ffa10e4ac4726676d3427ad2f15"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
-<tr class="memitem:a17c493a07e85b5e028fbe3b257f8dde9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a17c493a07e85b5e028fbe3b257f8dde9">ltc_decoder_write</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="el" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a> *buf, size_t size, long int posinfo)</td></tr>
+<tr class="memitem:aba7abd60b63023f67d17f30888fa492e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="el" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a> *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
 <tr class="memitem:a3cb40ff1bede260caeafae14bafb9a95"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a3cb40ff1bede260caeafae14bafb9a95">ltc_decoder_read</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> *frame)</td></tr>
 <tr class="memitem:abd9d3361b1a2bd65a8d55947c9a58936"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#abd9d3361b1a2bd65a8d55947c9a58936">ltc_decoder_queue_flush</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
 <tr class="memitem:af67cd942ac9ef94e06cefdea99faca8d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#af67cd942ac9ef94e06cefdea99faca8d">ltc_decoder_queue_length</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
@@ -216,7 +217,7 @@ SMPTE minutes BCD unit 0..9. </td></tr>
 <td class="fieldname">
 reserved:1</td>
 <td class="fielddoc">
-</td></tr>
+reserved &ndash; don't use </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="ac665de0697c9149b95657cf36dd94a02"></a>unsigned int</td>
 <td class="fieldname">
@@ -307,13 +308,13 @@ ltc</td>
 <td class="fielddoc">
 the actual LTC frame. see <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> </td></tr>
 <tr><td class="fieldtype">
-<a class="anchor" id="a24a4f2b471e59889a9e5363bcf24931f"></a>long int</td>
+<a class="anchor" id="a0200e7f1f9bf85a4ce78e9126946048b"></a><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a></td>
 <td class="fieldname">
 off_end</td>
 <td class="fielddoc">
 the sample in the stream corresponding to the end of the LTC frame. </td></tr>
 <tr><td class="fieldtype">
-<a class="anchor" id="a55623a01fa17b0baf1921ea1ac07db08"></a>long int</td>
+<a class="anchor" id="a64635a67a788d658c9312be212330a2c"></a><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a></td>
 <td class="fieldname">
 off_start</td>
 <td class="fielddoc">
@@ -394,6 +395,19 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div>
 </div>
 <hr/><h2>Typedef Documentation</h2>
+<a class="anchor" id="a204469b0ba8c2e2ef72e4512ce8595d3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef long long int <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>sample-count offset - 64bit wide </p>
+
+</div>
+</div>
 <a class="anchor" id="ad3763ec6befdd820c15da6111a575606"></a>
 <div class="memitem">
 <div class="memproto">
@@ -616,7 +630,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </dl>
 </div>
 </div>
-<a class="anchor" id="a17c493a07e85b5e028fbe3b257f8dde9"></a>
+<a class="anchor" id="aba7abd60b63023f67d17f30888fa492e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -641,7 +655,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">long int&#160;</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a>&#160;</td>
           <td class="paramname"><em>posinfo</em>&#160;</td>
         </tr>
         <tr>
@@ -1239,7 +1253,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 16 2012 01:40:22 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 23 2012 19:08:08 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

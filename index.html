@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.5.0</span>
+   &#160;<span id="projectnumber">0.5.1</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -69,7 +69,7 @@ Usage</h1>
 Q&amp;A</h1>
 <dl>
 <dt>How can I get help? </dt>
-<dd><p class="startdd">The preferred way is to use the issue-tracker at <a href="https://github.com/x42/libltc/issues">https://github.com/x42/libltc/issues</a> . You can also send a private-mail to the author. </p>
+<dd><p class="startdd">The preferred way is to use the issue-tracker at <a href="https://github.com/x42/libltc/issues">https://github.com/x42/libltc/issues</a> . You can also send a private-mail to the authors. </p>
 <p class="enddd"></p>
 </dd>
 <dt>How good is the LTC-decoder? Will it decode my file? </dt>
@@ -81,20 +81,21 @@ Q&amp;A</h1>
 <p class="enddd"></p>
 </dd>
 <dt>Does libltc support decoding backwards played LTC - reverse tape direction  </dt>
-<dd><p class="startdd">Yes it does. see the documentation for <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> </p>
+<dd><p class="startdd">Yes it does. See the documentation for <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> </p>
 <p class="enddd"></p>
 </dd>
 <dt>Is there free software is using libltc? </dt>
-<dd><p class="startdd">ltc-tools is in the making. It comprises two JACK applications to generate and decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from audio-files. Stay tuned (ETA Sept/2012).</p>
-<p>Currently there is self-test code, which can en&amp;decode LTC from raw audio-data (it reads 8 bit, mono .wav files, too. because they're basically just raw audio-data, but the timestamps are off by the length of the .wav header.)</p>
-<p>There are lots of tools (incl iOS applications and NLEs) using libltcsmpte. We dare say that many - if not most - of them will be updated to libLTC in time. </p>
+<dd><p class="startdd"><a href="https://github.com/x42/ltc-tools">ltc-tools</a> is in the making. It comprises two JACK applications to generate and decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from audio-files. Stay tuned (ETA Sept/2012).</p>
+<p>Currently there is self-test code, which can en&amp;decode LTC from raw audio-data.</p>
+<p>There are lots of apps (incl iOS applications and NLEs) using libltcsmpte. We dare say that many - if not most - of them will be updated to libLTC in time. </p>
 <p class="enddd"></p>
 </dd>
 <dt>What is the difference between libltcsmpte and libltc? </dt>
 <dd><p class="startdd">Functionally, there is little difference, usage and work-flow are very similar. But, the API has changed almost completely. Yet the majority of these changes are only parameter and function names.</p>
-<p>libltc introduces support for encoding vari-speed LTC and reverse played LTC. The internal code-path was optimized and the phase-tracking was slightly improved. libltc drops support for operations on SMPTE timecode such as converting video-timecode to real-time (seconds, audio-frames), etc.</p>
+<p>libltc introduces support for encoding vari-speed LTC and reverse played LTC. The internal code-path was optimized and the phase-tracking was slightly improved.</p>
+<p>libltc drops support for operations on SMPTE timecode such as converting video-timecode to real-time (seconds, audio-frames), etc. Some of this functionality may reincarnate into libsmpte or libframerate.</p>
+<p>The reasoning behind this is that libltc operates on LTC-frames. It ought to be ignorant about SMPTE semantics and should not make assumptions about the SMPTE data which is application dependent.</p>
 <p>Some related inappropriate functionality of libltcsmpte was dropped, as well. e.g. The ability to detect timecode discontinuities in decoded LTC/SMPTE.</p>
-<p>The reasoning behind this is that libltc operates on LTC-frames. It is ignorant about SMPTE semantics and should not make assumptions about the SMPTE data which is application dependent.</p>
 <p>In general: the API was simplified and cleaned up. </p>
 <p class="enddd"></p>
 </dd>
@@ -135,13 +136,13 @@ License</h1>
 <p>Copyright (C) 2003 by Maarten de Boer</p>
 <p>Copyright (C) 2006-2012 by Robin Gareus</p>
 <p>Copyright (C) 2008-2010 by Jan Weiß</p>
-<p>ltcsmpte is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.</p>
+<p>libltc is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.</p>
 <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more details.</p>
-<p>You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA </p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a> </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 16 2012 01:40:22 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 23 2012 19:08:08 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
