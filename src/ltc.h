@@ -30,6 +30,8 @@
 extern "C" {
 #endif
 
+#include <stddef.h> /* size_t */
+
 #ifndef DOXYGEN_IGNORE
 /* libltcsmpte version */
 #define LIBLTC_VERSION "0.5.0"
@@ -167,7 +169,7 @@ struct LTCFrame {
 	unsigned int user7:4;
 
 	unsigned int hours_tens:2; ///< SMPTE hours BCD tens 0..2
-	unsigned int reserved:1;
+	unsigned int reserved:1; ///< reserved -- don't use
 	unsigned int binary_group_flag_bit2:1; ///< indicate user-data char encoding, see table above
 	unsigned int user8:4;
 
