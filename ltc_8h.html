@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.5.1</span>
+   &#160;<span id="projectnumber">0.5.2</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -50,6 +50,7 @@
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -67,6 +68,10 @@ Data Structures</h2></td></tr>
 <tr class="memitem:structLTCFrame"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a></td></tr>
 <tr class="memitem:structLTCFrameExt"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a></td></tr>
 <tr class="memitem:structSMPTETimecode"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a304950a2158a30b9c6438ae8d23408ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a304950a2158a30b9c6438ae8d23408ae">LTC_FRAME_BIT_COUNT</a>&#160;&#160;&#160;80</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -302,6 +307,12 @@ user8:4</td>
 </dl></div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
+<a class="anchor" id="a937a09b55020a1020c95b237cc69d7c4"></a>float</td>
+<td class="fieldname">
+biphase_tics</td>
+<td class="fielddoc">
+detailed timing info: phase of the LTC signal; the time between each bit in the LTC-frame in audio-frames. Summing all 80 values in the array will yield audio-frames/LTC-frame = (<a class="el" href="ltc_8h.html#off_end">off_end</a> - <a class="el" href="ltc_8h.html#off_start">off_start</a> + 1). </td></tr>
+<tr><td class="fieldtype">
 <a class="anchor" id="a86f7f99e839dc30ac5eb1d650061d1d1"></a><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a></td>
 <td class="fieldname">
 ltc</td>
@@ -312,13 +323,13 @@ the actual LTC frame. see <a class="el" href="ltc_8h.html#structLTCFrame">LTCFra
 <td class="fieldname">
 off_end</td>
 <td class="fielddoc">
-the sample in the stream corresponding to the end of the LTC frame. </td></tr>
+<a class="anchor" id="off_end"></a>the sample in the stream corresponding to the end of the LTC frame. </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="a64635a67a788d658c9312be212330a2c"></a><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a></td>
 <td class="fieldname">
 off_start</td>
 <td class="fielddoc">
-the approximate sample in the stream corresponding to the start of the LTC frame. </td></tr>
+<a class="anchor" id="off_start"></a>the approximate sample in the stream corresponding to the start of the LTC frame. </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="a8695572f4b4f75bfaba7edd725b2fb4b"></a>int</td>
 <td class="fieldname">
@@ -391,6 +402,19 @@ years</td>
 <td class="fielddoc">
 LTC-date uses 2-digit year 00.99. </td></tr>
 </table>
+
+</div>
+</div>
+<hr/><h2>Macro Definition Documentation</h2>
+<a class="anchor" id="a304950a2158a30b9c6438ae8d23408ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LTC_FRAME_BIT_COUNT&#160;&#160;&#160;80</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -671,8 +695,8 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
     <tr><td class="paramname">buf</td><td>pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data </td></tr>
-    <tr><td class="paramname">size</td><td>number of samples to parse </td></tr>
-    <tr><td class="paramname">posinfo</td><td>(optional, recommended) sample-offset in the audio-stream. It is added to off_start, off_end in <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> and should be monotonic (ie incremented by size for every call to ltc_decoder_write) </td></tr>
+    <tr><td class="paramname">size</td><td><a class="anchor" id="size"></a>number of samples to parse </td></tr>
+    <tr><td class="paramname">posinfo</td><td>(optional, recommended) sample-offset in the audio-stream. It is added to <a class="el" href="ltc_8h.html#off_start">off_start</a>, <a class="el" href="ltc_8h.html#off_end">off_end</a> in <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> and should be monotonic (ie incremented by <a class="el" href="ltc_8h.html#size">size</a> for every call to ltc_decoder_write) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1253,7 +1277,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 23 2012 19:08:08 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Oct 4 2012 16:34:32 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
