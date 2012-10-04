@@ -57,6 +57,8 @@ typedef unsigned char ltcsnd_sample_t;
  */
 typedef long long int ltc_off_t;
 
+#define LTC_FRAME_BIT_COUNT	80
+
 /**
  * Raw 80 bit SMPTE frame
  *
@@ -187,9 +189,10 @@ typedef struct LTCFrame LTCFrame;
  */
 struct LTCFrameExt {
 	LTCFrame ltc; ///< the actual LTC frame. see \ref LTCFrame
-	ltc_off_t off_start; ///< the approximate sample in the stream corresponding to the start of the LTC frame.
-	ltc_off_t off_end; ///< the sample in the stream corresponding to the end of the LTC frame.
+	ltc_off_t off_start; ///< \anchor off_start the approximate sample in the stream corresponding to the start of the LTC frame.
+	ltc_off_t off_end; ///< \anchor off_end the sample in the stream corresponding to the end of the LTC frame.
 	int reverse; ///< if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end > off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected).
+	float biphase_tics[LTC_FRAME_BIT_COUNT]; ///< detailed timing info: phase of the LTC signal; the time between each bit in the LTC-frame in audio-frames. Summing all 80 values in the array will yield audio-frames/LTC-frame = (\ref off_end - \ref off_start + 1).
 };
 
 /**
@@ -290,8 +293,8 @@ int ltc_decoder_free(LTCDecoder *d);
  *
  * @param d decoder handle
  * @param buf pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data
- * @param size number of samples to parse
- * @param posinfo (optional, recommended) sample-offset in the audio-stream. It is added to off_start, off_end in \ref LTCFrameExt and should be monotonic (ie incremented by size for every call to ltc_decoder_write)
+ * @param size \anchor size number of samples to parse
+ * @param posinfo (optional, recommended) sample-offset in the audio-stream. It is added to \ref off_start, \ref off_end in \ref LTCFrameExt and should be monotonic (ie incremented by \ref size for every call to ltc_decoder_write)
  */
 void ltc_decoder_write(LTCDecoder *d,
 		ltcsnd_sample_t *buf, size_t size,

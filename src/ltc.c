@@ -49,6 +49,7 @@ LTCDecoder* ltc_decoder_create(int apv, int queue_len) {
 	d->snd_to_biphase_min = SAMPLE_CENTER;
 	d->snd_to_biphase_max = SAMPLE_CENTER;
 	d->frame_start_prev = -1;
+	d->biphase_tic = 0;
 
 	return d;
 }

@@ -162,10 +162,17 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 
 	if (d->decoder_sync_word == B16(00111111,11111101) /*LTC Sync Word 0x3ffd*/) {
 		if (d->bit_cnt == LTC_FRAME_BIT_COUNT) {
+			int bc;
 
 			memcpy( &d->queue[d->queue_write_off].ltc,
 				&d->ltc_frame,
 				sizeof(LTCFrame));
+
+			for(bc = 0; bc < LTC_FRAME_BIT_COUNT; ++bc) {
+				const int btc = (d->biphase_tic + bc ) % LTC_FRAME_BIT_COUNT;
+				d->queue[d->queue_write_off].biphase_tics[bc] = d->biphase_tics[btc];
+				checkk += d->biphase_tics[btc];
+			}
 
 			d->queue[d->queue_write_off].off_start = d->frame_start_off;
 			d->queue[d->queue_write_off].off_end = posinfo + offset - 1;
@@ -182,6 +189,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 	if (d->decoder_sync_word == B16(10111111,11111100) /* reverse sync-word*/) {
 		if (d->bit_cnt == LTC_FRAME_BIT_COUNT) {
 			/* reverse frame */
+			int bc;
 			int k = 0;
 			int byte_num_max = LTC_FRAME_BIT_COUNT >> 3;
 
@@ -212,6 +220,11 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 				&d->ltc_frame,
 				sizeof(LTCFrame));
 
+			for(bc = 0; bc < LTC_FRAME_BIT_COUNT; ++bc) {
+				const int btc = (d->biphase_tic + bc ) % LTC_FRAME_BIT_COUNT;
+				d->queue[d->queue_write_off].biphase_tics[bc] = d->biphase_tics[btc];
+			}
+
 			d->queue[d->queue_write_off].off_start = d->frame_start_off - 16 * d->snd_to_biphase_period;
 			d->queue[d->queue_write_off].off_end = posinfo + offset - 1 - 16 * d->snd_to_biphase_period;
 			d->queue[d->queue_write_off].reverse = (LTC_FRAME_BIT_COUNT >> 3) * 8 * d->snd_to_biphase_period;
@@ -226,6 +239,10 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 }
 
 static inline void biphase_decode2(LTCDecoder *d, int offset, ltc_off_t pos) {
+
+	d->biphase_tics[d->biphase_tic] = d->snd_to_biphase_period;
+	d->biphase_tic = (d->biphase_tic + 1) % LTC_FRAME_BIT_COUNT;
+
 	if (d->snd_to_biphase_state == d->biphase_prev) {
 		d->biphase_state = 1;
 		parse_ltc(d, 0, offset, pos);

@@ -20,7 +20,6 @@
 */
 
 #include "ltc.h"
-#define LTC_FRAME_BIT_COUNT	80
 #define SAMPLE_CENTER 128 // unsigned 8 bit.
 
 struct LTCDecoder {
@@ -45,6 +44,9 @@ struct LTCDecoder {
 
 	ltc_off_t frame_start_off;
 	int frame_start_prev;
+
+	float biphase_tics[LTC_FRAME_BIT_COUNT];
+	int biphase_tic;
 };
 
 
