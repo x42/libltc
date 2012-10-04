@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Thu Aug 23 2012" "Version 0.5.1" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Thu Oct 4 2012" "Version 0.5.2" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -20,6 +20,13 @@ libltc - en+decode linear timecode
 .br
 .ti -1c
 .RI "struct \fBSMPTETimecode\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLTC_FRAME_BIT_COUNT\fP   80"
 .br
 .in -1c
 .SS "Typedefs"
@@ -261,6 +268,9 @@ Extended SMPTE frame - includes audio-sample position offsets
 .PP
 \fBData Fields:\fP
 .RS 4
+float \fIbiphase_tics\fP detailed timing info: phase of the LTC signal; the time between each bit in the LTC-frame in audio-frames\&. Summing all 80 values in the array will yield audio-frames/LTC-frame = (\fBoff_end\fP - \fBoff_start\fP + 1)\&. 
+.br
+.PP
 \fBLTCFrame\fP \fIltc\fP the actual LTC frame\&. see \fBLTCFrame\fP 
 .br
 .PP
@@ -311,6 +321,10 @@ unsigned char \fIyears\fP LTC-date uses 2-digit year 00\&.99\&.
 .PP
 .RE
 .PP
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define LTC_FRAME_BIT_COUNT   80"
+
 .SH "Typedef Documentation"
 .PP 
 .SS "typedef long long int \fBltc_off_t\fP"
@@ -418,7 +432,7 @@ Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded
 .br
 \fIsize\fP number of samples to parse 
 .br
-\fIposinfo\fP (optional, recommended) sample-offset in the audio-stream\&. It is added to off_start, off_end in \fBLTCFrameExt\fP and should be monotonic (ie incremented by size for every call to ltc_decoder_write) 
+\fIposinfo\fP (optional, recommended) sample-offset in the audio-stream\&. It is added to \fBoff_start\fP, \fBoff_end\fP in \fBLTCFrameExt\fP and should be monotonic (ie incremented by \fBsize\fP for every call to ltc_decoder_write) 
 .RE
 .PP
 

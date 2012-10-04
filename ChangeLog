@@ -1,3 +1,7 @@
+2012-10-04 (v0.5.2) Robin Gareus <robin@gareus.org>
+* expose detailed timing info in extended LTC Frame
+allow to re-construct the phase of the signal
+
 2012-08-23 (v0.5.1) Robin Gareus <robin@gareus.org>
 * add ability to read reverse LTC
 * use 64bit values (long long) for position offset
