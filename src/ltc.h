@@ -257,7 +257,7 @@ void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date);
 void ltc_frame_reset(LTCFrame* frame);
 
 /**
- * increment the timecode by one SMPTE-Frame (1/framerate seconds)
+ * increment the timecode by one Frame (1/framerate seconds)
  *
  * @param frame the LTC-timecode to increment
  * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
@@ -267,6 +267,18 @@ void ltc_frame_reset(LTCFrame* frame);
  * @return 1 if timecode was wrapped around after 23:59:59:ff, 0 otherwise
  */
 int ltc_frame_increment(LTCFrame *frame, int fps, int use_date);
+
+/**
+ * decrement the timecode by one Frame (1/framerate seconds)
+ *
+ * @param frame the LTC-timecode to decrement
+ * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
+ * @param use_date - interpret user-data as date and decrement date if timecode wraps at 24h.
+ * (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored.
+ * "00" is assumed to be year 2000 which was a leap year.)
+ * @return 1 if timecode was wrapped around at 23:59:59:ff, 0 otherwise
+ */
+int ltc_frame_decrement(LTCFrame* frame, int fps, int use_date);
 
 /**
  * Create a new LTC decoder.

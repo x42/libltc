@@ -310,3 +310,106 @@ int ltc_frame_increment(LTCFrame* frame, int fps, int use_date) {
 
 	return rv;
 }
+int ltc_frame_decrement(LTCFrame* frame, int fps, int use_date) {
+	int rv = 0;
+
+	int frames = frame->frame_units + frame->frame_tens * 10;
+	if (frames > 0) {
+		frames--;
+	} else {
+		frames = fps -1;
+	}
+
+	frame->frame_units = frames % 10;
+	frame->frame_tens  = frames / 10;
+
+	if (frames == fps -1) {
+		int secs = frame->secs_units + frame->secs_tens * 10;
+		if (secs > 0) {
+			secs--;
+		} else {
+			secs = 59;
+		}
+		frame->secs_units = secs % 10;
+		frame->secs_tens  = secs / 10;
+
+		if (secs == 59) {
+			int mins = frame->mins_units + frame->mins_tens * 10;
+			if (mins > 0) {
+				mins--;
+			} else {
+				mins = 59;
+			}
+			frame->mins_units = mins % 10;
+			frame->mins_tens  = mins / 10;
+
+			if (mins == 59) {
+				int hours = frame->hours_units + frame->hours_tens * 10;
+				if (hours > 0) {
+					hours--;
+				} else {
+					hours = 23;
+				}
+				frame->hours_units = hours % 10;
+				frame->hours_tens  = hours / 10;
+
+				if (hours == 23) {
+					/* 24h wrap around */
+					rv=1;
+					if (use_date)
+					{
+						/* wrap date */
+						SMPTETimecode stime;
+						stime.years  = frame->user5 + frame->user6*10;
+						stime.months = frame->user3 + frame->user4*10;
+						stime.days   = frame->user1 + frame->user2*10;
+
+						if (stime.months > 0 && stime.months < 13)
+						{
+							unsigned char dpm[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+							/* proper leap-year calc:
+							 * ((stime.years%4)==0 && ( (stime.years%100) != 0 || (stime.years%400) == 0) )
+							 * simplified since year is 0..99
+							 */
+							if ((stime.years%4)==0 /* && stime.years!=0 */ ) /* year 2000 was a leap-year */
+								dpm[1]=29;
+							//
+							if (stime.days > 1) {
+								stime.days--;
+							} else {
+								stime.months = 1 + (stime.months + 10)%12;
+								stime.days = dpm[stime.months-1];
+								if (stime.months == 12)  {
+									stime.years=(stime.years+99)%100; // XXX
+								}
+							}
+
+							frame->user6 = stime.years/10;
+							frame->user5 = stime.years%10;
+							frame->user4 = stime.months/10;
+							frame->user3 = stime.months%10;
+							frame->user2 = stime.days/10;
+							frame->user1 = stime.days%10;
+						} else {
+							rv=-1;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if (frame->dfbit && /* prevent endless recursion */ fps > 2) {
+		if ((frame->mins_units != 0)
+			&& (frame->secs_units == 0)
+			&& (frame->secs_tens == 0)
+			&& (frame->frame_units == 1)
+			&& (frame->frame_tens == 0)
+			) {
+			ltc_frame_decrement(frame, fps, use_date);
+			ltc_frame_decrement(frame, fps, use_date);
+		}
+	}
+
+	return rv;
+}
