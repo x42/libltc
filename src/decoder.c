@@ -171,7 +171,6 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 			for(bc = 0; bc < LTC_FRAME_BIT_COUNT; ++bc) {
 				const int btc = (d->biphase_tic + bc ) % LTC_FRAME_BIT_COUNT;
 				d->queue[d->queue_write_off].biphase_tics[bc] = d->biphase_tics[btc];
-				checkk += d->biphase_tics[btc];
 			}
 
 			d->queue[d->queue_write_off].off_start = d->frame_start_off;
