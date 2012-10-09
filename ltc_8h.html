@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.5.2</span>
+   &#160;<span id="projectnumber">0.5.3</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -89,6 +89,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a33f3b8571efe6f88544a05e40acec976"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a33f3b8571efe6f88544a05e40acec976">ltc_time_to_frame</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *stime, int set_date)</td></tr>
 <tr class="memitem:abe4a7d0fb406b90f08d5c5d59749bfcb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#abe4a7d0fb406b90f08d5c5d59749bfcb">ltc_frame_reset</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame)</td></tr>
 <tr class="memitem:a1cef71e2a23b9075cb7a4f7a974a8e0d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int fps, int use_date)</td></tr>
+<tr class="memitem:ab62275a9737480adebb3e67207e8e8cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int fps, int use_date)</td></tr>
 <tr class="memitem:a0707029b20a1ea7305dd6ba85c0d03f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a> (int apv, int queue_size)</td></tr>
 <tr class="memitem:ad7d79ffa10e4ac4726676d3427ad2f15"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
 <tr class="memitem:aba7abd60b63023f67d17f30888fa492e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="el" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a> *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
@@ -1126,6 +1127,48 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </dl>
 </div>
 </div>
+<a class="anchor" id="ab62275a9737480adebb3e67207e8e8cc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ltc_frame_decrement </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *&#160;</td>
+          <td class="paramname"><em>frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fps</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>use_date</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>decrement the timecode by one Frame (1/framerate seconds)</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>the LTC-timecode to decrement </td></tr>
+    <tr><td class="paramname">fps</td><td>integer framerate (for drop-frame-timecode set frame-&gt;dfbit and round-up the fps). </td></tr>
+    <tr><td class="paramname">use_date</td><td>- interpret user-data as date and decrement date if timecode wraps at 24h. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored. "00" is assumed to be year 2000 which was a leap year.) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns:</dt><dd>1 if timecode was wrapped around at 23:59:59:ff, 0 otherwise </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a1cef71e2a23b9075cb7a4f7a974a8e0d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1155,7 +1198,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>increment the timecode by one SMPTE-Frame (1/framerate seconds)</p>
+<p>increment the timecode by one Frame (1/framerate seconds)</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the LTC-timecode to increment </td></tr>
@@ -1277,7 +1320,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 4 2012 16:34:32 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Oct 9 2012 18:42:26 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
