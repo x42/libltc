@@ -1,3 +1,6 @@
+2012-10-09 (v0.5.3) Robin Gareus <robin@gareus.org>
+* add interface to decrement timecode
+
 2012-10-04 (v0.5.2) Robin Gareus <robin@gareus.org>
 * expose detailed timing info in extended LTC Frame
 allow to re-construct the phase of the signal

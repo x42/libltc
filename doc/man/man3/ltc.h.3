@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Thu Oct 4 2012" "Version 0.5.2" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Tue Oct 9 2012" "Version 0.5.3" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -68,6 +68,9 @@ libltc - en+decode linear timecode
 .br
 .ti -1c
 .RI "int \fBltc_frame_increment\fP (\fBLTCFrame\fP *frame, int fps, int use_date)"
+.br
+.ti -1c
+.RI "int \fBltc_frame_decrement\fP (\fBLTCFrame\fP *frame, int fps, int use_date)"
 .br
 .ti -1c
 .RI "\fBLTCDecoder\fP * \fBltc_decoder_create\fP (int apv, int queue_size)"
@@ -642,8 +645,26 @@ Internally this call uses \fBltc_time_to_frame\fP because the LTCEncoder operate
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
+.SS "int ltc_frame_decrement (\fBLTCFrame\fP *frame, intfps, intuse_date)"
+decrement the timecode by one Frame (1/framerate seconds)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIframe\fP the LTC-timecode to decrement 
+.br
+\fIfps\fP integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps)\&. 
+.br
+\fIuse_date\fP - interpret user-data as date and decrement date if timecode wraps at 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+1 if timecode was wrapped around at 23:59:59:ff, 0 otherwise 
+.RE
+.PP
+
 .SS "int ltc_frame_increment (\fBLTCFrame\fP *frame, intfps, intuse_date)"
-increment the timecode by one SMPTE-Frame (1/framerate seconds)
+increment the timecode by one Frame (1/framerate seconds)
 .PP
 \fBParameters:\fP
 .RS 4

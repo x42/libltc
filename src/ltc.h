@@ -33,18 +33,18 @@ extern "C" {
 #include <stddef.h> /* size_t */
 
 #ifndef DOXYGEN_IGNORE
-/* libltcsmpte version */
-#define LIBLTC_VERSION "0.5.2"
+/* libltc version */
+#define LIBLTC_VERSION "0.5.3"
 #define LIBLTC_VERSION_MAJOR  0
 #define LIBLTC_VERSION_MINOR  5
-#define LIBLTC_VERSION_MICRO  2
+#define LIBLTC_VERSION_MICRO  3
 
 /* interface revision number
  * http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
  */
-#define LIBLTC_CUR  3
+#define LIBLTC_CUR  4
 #define LIBLTC_REV  0
-#define LIBLTC_AGE  1
+#define LIBLTC_AGE  2
 #endif
 
 /**
