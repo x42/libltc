@@ -192,3 +192,15 @@ int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf) {
 	e->offset = 0;
 	return(len);
 }
+
+void ltc_frame_set_parity(LTCFrame *frame) {
+	int i;
+	unsigned char p = 0;
+	frame->biphase_mark_phase_correction = 0;
+	for (i=0; i < LTC_FRAME_BIT_COUNT / 8; ++i){
+		p = p ^ (((unsigned char*)frame)[i]);
+	}
+#define PRY(BIT) ((p>>BIT)&1)
+	frame->biphase_mark_phase_correction =
+		PRY(0)^PRY(1)^PRY(2)^PRY(3)^PRY(4)^PRY(5)^PRY(6)^PRY(7);
+}

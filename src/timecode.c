@@ -203,6 +203,8 @@ void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date) {
 	if (frame->dfbit) {
 		skip_drop_frames(frame);
 	}
+
+	ltc_frame_set_parity(frame);
 }
 
 void ltc_frame_reset(LTCFrame* frame) {
@@ -307,6 +309,8 @@ int ltc_frame_increment(LTCFrame* frame, int fps, int use_date) {
 	if (frame->dfbit) {
 		skip_drop_frames(frame);
 	}
+
+	ltc_frame_set_parity(frame);
 
 	return rv;
 }

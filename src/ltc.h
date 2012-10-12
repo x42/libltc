@@ -157,7 +157,7 @@ struct LTCFrame {
 	unsigned int user3:4;
 
 	unsigned int secs_tens:3; ///< SMPTE seconds BCD tens 0..6
-	unsigned int biphase_mark_phase_correction:1; ///< unused - see note  on Bit 27 in description.
+	unsigned int biphase_mark_phase_correction:1; ///< unused - see note on Bit 27 in description and \ref ltc_frame_set_parity .
 	unsigned int user4:4;
 
 	unsigned int mins_units:4; ///< SMPTE minutes BCD unit 0..9
@@ -471,6 +471,20 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
  * @param e encoder handle
  */
 void ltc_encoder_encode_frame(LTCEncoder *e);
+
+/**
+ * Set the parity of the LTC frame.
+ *
+ * Bi-Phase Mark Phase Correction bit (bit 27) may be set or cleared so that
+ * that every 80-bit word contains an even number of zeroes.
+ * This means that the phase in every Sync Word will be the same.
+ *
+ * This is mereley cosmetic; the motivation to keep the polarity of the waveform
+ * constant is to make finding the Sync Word visibly (on a scope) easier.
+ *
+ * @param frame the LTC to analyze and set or clear the biphase_mark_phase_correction bit.
+ */
+void ltc_frame_set_parity(LTCFrame *frame);
 
 #ifdef __cplusplus
 }
