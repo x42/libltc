@@ -1,3 +1,6 @@
+2012-10-13 (v0.6.0) Robin Gareus <robin@gareus.org>
+* set parity bit on encoding - keep polarity of the waveform constant
+
 2012-10-09 (v0.5.3) Robin Gareus <robin@gareus.org>
 * add interface to decrement timecode
 

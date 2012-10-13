@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Tue Oct 9 2012" "Version 0.5.3" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Sat Oct 13 2012" "Version 0.6.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -129,6 +129,9 @@ libltc - en+decode linear timecode
 .ti -1c
 .RI "void \fBltc_encoder_encode_frame\fP (\fBLTCEncoder\fP *e)"
 .br
+.ti -1c
+.RI "void \fBltc_frame_set_parity\fP (\fBLTCFrame\fP *frame)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -196,7 +199,7 @@ unsigned int \fIbinary_group_flag_bit1:1\fP indicate user-data char encoding, se
 unsigned int \fIbinary_group_flag_bit2:1\fP indicate user-data char encoding, see table above 
 .br
 .PP
-unsigned int \fIbiphase_mark_phase_correction:1\fP unused - see note on Bit 27 in description\&. 
+unsigned int \fIbiphase_mark_phase_correction:1\fP unused - see note on Bit 27 in description and \fBltc_frame_set_parity\fP \&. 
 .br
 .PP
 unsigned int \fIcol_frame:1\fP colour-frame: timecode intentionally synchronized to a colour TV field sequence 
@@ -687,6 +690,19 @@ reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at th
 \fBParameters:\fP
 .RS 4
 \fIframe\fP the \fBLTCFrame\fP to reset 
+.RE
+.PP
+
+.SS "void ltc_frame_set_parity (\fBLTCFrame\fP *frame)"
+Set the parity of the LTC frame\&.
+.PP
+Bi-Phase Mark Phase Correction bit (bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase in every Sync Word will be the same\&.
+.PP
+This is mereley cosmetic; the motivation to keep the polarity of the waveform constant is to make finding the Sync Word visibly (on a scope) easier\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIframe\fP the LTC to analyze and set or clear the biphase_mark_phase_correction bit\&. 
 .RE
 .PP
 
