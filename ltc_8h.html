@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.5.3</span>
+   &#160;<span id="projectnumber">0.6.0</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -109,6 +109,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a07af03e143b3f2aa76fda8884724dca0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a07af03e143b3f2aa76fda8884724dca0">ltc_encoder_get_buffersize</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
 <tr class="memitem:a274bf28daef0c440205478c26e21b5cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, int byte, double speed)</td></tr>
 <tr class="memitem:ad38539cbe0d906fd7abeefda17824702"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
+<tr class="memitem:a405e7c6638565c93e5c3d9cf919553ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>libltc - en+decode linear timecode </p>
@@ -169,7 +170,7 @@ indicate user-data char encoding, see table above </td></tr>
 <td class="fieldname">
 biphase_mark_phase_correction:1</td>
 <td class="fielddoc">
-unused - see note on Bit 27 in description. </td></tr>
+unused - see note on Bit 27 in description and <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a> . </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="a71311d8f860051ac0720f92ce0657f67"></a>unsigned int</td>
 <td class="fieldname">
@@ -1234,6 +1235,31 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a405e7c6638565c93e5c3d9cf919553ba"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ltc_frame_set_parity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *&#160;</td>
+          <td class="paramname"><em>frame</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the parity of the LTC frame.</p>
+<p>Bi-Phase Mark Phase Correction bit (bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes. This means that the phase in every Sync Word will be the same.</p>
+<p>This is mereley cosmetic; the motivation to keep the polarity of the waveform constant is to make finding the Sync Word visibly (on a scope) easier.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>the LTC to analyze and set or clear the biphase_mark_phase_correction bit. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a3481e79dc12bbf52c78b47bde9d69848"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1320,7 +1346,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Oct 9 2012 18:42:26 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 13 2012 02:03:19 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
