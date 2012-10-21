@@ -155,7 +155,8 @@
   Due to the 8bit limitation, libltc requires a minimum amplitude of -36db.
   This is usually a non-issue in real-world applications, but yes, if you want
   to analyze very low signals, possibly with DC-offset, you must implement your
-  own amp and low-pass filter.
+  own amp and high-pass filter. In any case the generic signal tracker in libltc
+  will likely perform worse than your application specific one.
  </dd>
 </dl>
 
