@@ -243,6 +243,8 @@ void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_date);
 
 /**
  * convert SMPTETimecode struct into its binary LTC representation.
+ * and set the Frame's parity bit accordingly (see \ref ltc_frame_set_parity)
+ *
  * @param frame output - the frame to be set
  * @param stime input - timecode input
  * @param set_date if non-zero, the user-fields in LTCFrame will be set from the date in SMPTETimecode
@@ -252,12 +254,14 @@ void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date);
 /**
  * reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end.
  * The sync word is set according to architecture (big/little endian).
+ * also set the Frame's parity bit accordingly (see \ref ltc_frame_set_parity)
  * @param frame the LTCFrame to reset
  */
 void ltc_frame_reset(LTCFrame* frame);
 
 /**
  * increment the timecode by one Frame (1/framerate seconds)
+ * and set the Frame's parity bit accordingly (see \ref ltc_frame_set_parity)
  *
  * @param frame the LTC-timecode to increment
  * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
@@ -270,6 +274,7 @@ int ltc_frame_increment(LTCFrame *frame, int fps, int use_date);
 
 /**
  * decrement the timecode by one Frame (1/framerate seconds)
+ * and set the Frame's parity bit accordingly (see \ref ltc_frame_set_parity)
  *
  * @param frame the LTC-timecode to decrement
  * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
@@ -452,6 +457,7 @@ size_t ltc_encoder_get_buffersize(LTCEncoder *e);
  * prepare an internal buffer large enough to accommodate all
  * sample_rate, fps combinations that you would like to re-init to.
  *
+ * @param e encoder handle
  * @param sample_rate audio sample rate (eg. 48000)
  * @param fps video-frames per second (e.g. 25.0)
  * @param use_date use LTC-user-data for date
@@ -469,6 +475,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
  * resizing the internal buffer will flush all existing data
  * in it - alike \ref ltc_encoder_buffer_flush.
  *
+ * @param e encoder handle
  * @param sample_rate audio sample rate (eg. 48000)
  * @param fps video-frames per second (e.g. 25.0)
  * @return 0 on success, -1 if allocation fails (which makes the
@@ -512,7 +519,7 @@ void ltc_encoder_encode_frame(LTCEncoder *e);
  * that every 80-bit word contains an even number of zeroes.
  * This means that the phase in every Sync Word will be the same.
  *
- * This is mereley cosmetic; the motivation to keep the polarity of the waveform
+ * This is merely cosmetic; the motivation to keep the polarity of the waveform
  * constant is to make finding the Sync Word visibly (on a scope) easier.
  *
  * @param frame the LTC to analyze and set or clear the biphase_mark_phase_correction bit.
