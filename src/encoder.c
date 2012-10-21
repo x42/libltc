@@ -84,13 +84,13 @@ static int addvalues(LTCEncoder *e, int n) {
 
 int encode_byte(LTCEncoder *e, int byte, double speed) {
 	if (byte < 0 || byte > 9) return -1;
-	if (speed <=0) return -1;
+	if (speed ==0) return -1;
 
 	int err = 0;
 	const unsigned char c = ((unsigned char*)&e->f)[byte];
-	unsigned char b = 1; // bit
-	const double spc = e->samples_per_clock * speed;
-	const double sph = e->samples_per_clock_2 * speed;
+	unsigned char b = (speed < 0)?128:1; // bit
+	const double spc = e->samples_per_clock * fabs(speed);
+	const double sph = e->samples_per_clock_2 * fabs(speed);
 
 	do
 	{
@@ -111,7 +111,13 @@ int encode_byte(LTCEncoder *e, int byte, double speed) {
 			e->state = !e->state;
 			err |= addvalues(e, n);
 		}
-		b <<= 1;
+		/* this is based on the assumtion that with every compiler
+		 * ((unsigned char) 128)<<1 == ((unsigned char 1)>>1) == 0
+		 */
+		if (speed < 0)
+			b >>= 1;
+		else
+			b <<= 1;
 	} while (b);
 
 	return err;

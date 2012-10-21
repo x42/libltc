@@ -493,9 +493,12 @@ int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
  * use SMPTESetTime(..) to set the current frame before Encoding.
  * see tests/encoder.c for an example.
  *
+ * if speed is <0 bits are encoded in reverse.
+ * slowdown > 10.0 requires custom buffer sizes; see \ref ltc_encoder_set_bufsize
+ *
  * @param e encoder handle
  * @param byte byte of the LTC-frame to encode 0..9
- * @param speed vari-speed, <1.0 faster,  >1.0 slower ; must be > 0
+ * @param speed vari-speed, <1.0 faster,  >1.0 slower ; must be != 0
  *
  * @return 0 on success, -1 if byte is invalud or buffer overflow (speed > 10.0)
  */
