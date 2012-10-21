@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.6.0</span>
+   &#160;<span id="projectnumber">0.6.1</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -114,7 +114,7 @@ Q&amp;A</h1>
 <p>8bit samples are more than sufficient to carry LTC information.</p>
 <p>Changing the audio-sample type from one encoding to another is [mostly] trivial. There is no way that libLTC could include an interface for every possible way to represent audio-data. This is application specific.</p>
 <p>The internal decoder has been re-factored since libltcsmpte, so that it performs really well, even when feeding one sample at a time. Audio- samples can be converted and fed into it on the fly. - Future versions of libltc may actually include wrappers that do the conversion for common formats.</p>
-<p class="enddd">Note: Yes, libltcsmpte is/was superior in the sense that it can detect, track and filter very low signals-levels. Due to the 8bit limitation, libltc requires a minimum amplitude of -36db. This is usually a non-issue in real-world applications, but yes, if you want to analyze very low signals, possibly with DC-offset, you must implement your own amp and low-pass filter.  </p>
+<p class="enddd">Note: Yes, libltcsmpte is/was superior in the sense that it can detect, track and filter very low signals-levels. Due to the 8bit limitation, libltc requires a minimum amplitude of -36db. This is usually a non-issue in real-world applications, but yes, if you want to analyze very low signals, possibly with DC-offset, you must implement your own amp and high-pass filter. In any case the generic signal tracker in libltc will likely perform worse than your application specific one.  </p>
 </dd>
 </dl>
 <h1><a class="anchor" id="references"></a>
@@ -142,7 +142,7 @@ License</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 13 2012 02:03:19 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Oct 21 2012 07:13:27 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
