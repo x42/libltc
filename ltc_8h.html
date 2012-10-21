@@ -1098,6 +1098,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 <p>This call will fail if the internal buffer is too small to hold one full LTC frame. Use <a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a> to prepare an internal buffer large enough to accommodate all sample_rate, fps combinations that you would like to re-init to.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
+    <tr><td class="paramname">e</td><td>encoder handle </td></tr>
     <tr><td class="paramname">sample_rate</td><td>audio sample rate (eg. 48000) </td></tr>
     <tr><td class="paramname">fps</td><td>video-frames per second (e.g. 25.0) </td></tr>
     <tr><td class="paramname">use_date</td><td>use LTC-user-data for date </td></tr>
@@ -1141,6 +1142,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 <p>The buffer-size is (1 + sample_rate / fps) bytes. resizing the internal buffer will flush all existing data in it - alike <a class="el" href="ltc_8h.html#a397b2509c73c55d3042b6cc574fc86ab">ltc_encoder_buffer_flush</a>.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
+    <tr><td class="paramname">e</td><td>encoder handle </td></tr>
     <tr><td class="paramname">sample_rate</td><td>audio sample rate (eg. 48000) </td></tr>
     <tr><td class="paramname">fps</td><td>video-frames per second (e.g. 25.0) </td></tr>
   </table>
@@ -1439,7 +1441,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Oct 21 2012 07:13:27 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Oct 21 2012 07:19:09 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
