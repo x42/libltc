@@ -415,5 +415,7 @@ int ltc_frame_decrement(LTCFrame* frame, int fps, int use_date) {
 		}
 	}
 
+	ltc_frame_set_parity(frame);
+
 	return rv;
 }
