@@ -34,7 +34,7 @@ static int addvalues(LTCEncoder *e, int n) {
 
 	if (e->offset + n >= e->bufsize) {
 		fprintf(stderr, "libltc: buffer overflow: %i/%lu\n", e->offset, (unsigned long) e->bufsize);
-		return -1;
+		return 1;
 	}
 
 	ltcsnd_sample_t * const wave = &(e->buf[e->offset]);
@@ -79,7 +79,7 @@ static int addvalues(LTCEncoder *e, int n) {
 #endif
 
 	e->offset += n;
-	return n;
+	return 0;
 }
 
 int encode_byte(LTCEncoder *e, int byte, double speed) {
