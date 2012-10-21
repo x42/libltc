@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Sun Oct 21 2012" "Version 0.6.1" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Sun Oct 21 2012" "Version 0.6.2" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -641,6 +641,10 @@ This call will fail if the internal buffer is too small to hold one full LTC fra
 .RE
 .PP
 
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
 .SS "int ltc_encoder_set_bufsize (\fBLTCEncoder\fP *e, doublesample_rate, doublefps)"
 set a custom size for the internal buffer\&.
 .PP
@@ -663,6 +667,10 @@ The buffer-size is (1 + sample_rate / fps) bytes\&. resizing the internal buffer
 .RE
 .PP
 
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
 .SS "void ltc_encoder_set_frame (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
 low-level access to the internal \fBLTCFrame\fP data\&.
 .PP

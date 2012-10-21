@@ -1,3 +1,6 @@
+2012-10-21 (v0.6.2) Robin Gareus <robin@gareus.org>
+* fix ltc_encoder_encode_byte() return value
+
 2012-10-21 (v0.6.1) Robin Gareus <robin@gareus.org>
 * add realtime safe interface to change fps
 * fix: set parity also when decrementing frame numbers
