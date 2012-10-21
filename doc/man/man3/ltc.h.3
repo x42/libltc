@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Sun Oct 21 2012" "Version 0.6.2" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Sun Oct 21 2012" "Version 0.7.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -103,7 +103,10 @@ libltc - en+decode linear timecode
 .RI "void \fBltc_encoder_get_timecode\fP (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
 .br
 .ti -1c
-.RI "int \fBltc_encoder_bump_timecode\fP (\fBLTCEncoder\fP *e)"
+.RI "int \fBltc_encoder_inc_timecode\fP (\fBLTCEncoder\fP *e)"
+.br
+.ti -1c
+.RI "int \fBltc_encoder_dec_timecode\fP (\fBLTCEncoder\fP *e)"
 .br
 .ti -1c
 .RI "void \fBltc_encoder_set_frame\fP (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
@@ -461,12 +464,6 @@ reset the write-pointer of the encoder-buffer
 .RE
 .PP
 
-.SS "int ltc_encoder_bump_timecode (\fBLTCEncoder\fP *e)"
-moves the SMPTE to the next timecode frame\&. uses \fBltc_frame_increment()\fP internally\&. 
-.PP
-\fBExamples: \fP
-.in +1c
-\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "\fBLTCEncoder\fP* ltc_encoder_create (doublesample_rate, doublefps, intuse_date)"
 Allocate and initialize LTC audio encoder\&.
 .PP
@@ -486,6 +483,8 @@ Note: if fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbi
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
+.SS "int ltc_encoder_dec_timecode (\fBLTCEncoder\fP *e)"
+move the encoder to the previous timecode frame\&. uses \fBltc_frame_decrement()\fP internally\&. 
 .SS "int ltc_encoder_encode_byte (\fBLTCEncoder\fP *e, intbyte, doublespeed)"
 Generate LTC audio for given byte of the LTC-frame and place it into the internal buffer\&.
 .PP
@@ -493,13 +492,15 @@ see \fBltc_encoder_get_buffer\fP and \fBltc_encoder_get_bufptr\fP
 .PP
 LTC has 10 bytes per frame: 0 <= bytecnt < 10 use SMPTESetTime(\&.\&.) to set the current frame before Encoding\&. see tests/encoder\&.c for an example\&.
 .PP
+if speed is <0 bits are encoded in reverse\&. slowdown > 10\&.0 requires custom buffer sizes; see \fBltc_encoder_set_bufsize\fP
+.PP
 \fBParameters:\fP
 .RS 4
 \fIe\fP encoder handle 
 .br
 \fIbyte\fP byte of the LTC-frame to encode 0\&.\&.9 
 .br
-\fIspeed\fP vari-speed, <1\&.0 faster, >1\&.0 slower ; must be > 0
+\fIspeed\fP vari-speed, <1\&.0 faster, >1\&.0 slower ; must be != 0
 .RE
 .PP
 \fBReturns:\fP
@@ -624,6 +625,12 @@ Note: the decoder store its internal state in an LTC-frame, this function conver
 .RE
 .PP
 
+.SS "int ltc_encoder_inc_timecode (\fBLTCEncoder\fP *e)"
+move the encoder to the next timecode frame\&. uses \fBltc_frame_increment()\fP internally\&. 
+.PP
+\fBExamples: \fP
+.in +1c
+\fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
 .SS "int ltc_encoder_reinit (\fBLTCEncoder\fP *e, doublesample_rate, doublefps, intuse_date)"
 change the encoder settings without re-allocating any library internal data structure (realtime safe)\&.
 .PP

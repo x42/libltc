@@ -1,3 +1,8 @@
+2012-10-21 (v0.7.0) Robin Gareus <robin@gareus.org>
+* add support for reverse encoding
+* add interface to decrement encoder timecode
+* rename interface to increment encoder timecode
+
 2012-10-21 (v0.6.2) Robin Gareus <robin@gareus.org>
 * fix ltc_encoder_encode_byte() return value
 
