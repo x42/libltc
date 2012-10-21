@@ -152,7 +152,7 @@ int main(int argc, char **argv) {
 		}
 #endif
 
-		ltc_encoder_bump_timecode(encoder);
+		ltc_encoder_inc_timecode(encoder);
 	}
 	fclose(file);
 	ltc_encoder_free(encoder);

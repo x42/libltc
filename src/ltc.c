@@ -199,8 +199,12 @@ void ltc_encoder_set_frame(LTCEncoder *e, LTCFrame *f) {
 	memcpy(&e->f, f, sizeof(LTCFrame));
 }
 
-int ltc_encoder_bump_timecode(LTCEncoder *e) {
+int ltc_encoder_inc_timecode(LTCEncoder *e) {
 	return ltc_frame_increment (&e->f, rint(e->fps), e->use_date);
+}
+
+int ltc_encoder_dec_timecode(LTCEncoder *e) {
+	return ltc_frame_decrement (&e->f, rint(e->fps), e->use_date);
 }
 
 size_t ltc_encoder_get_buffersize(LTCEncoder *e) {

@@ -385,10 +385,16 @@ void ltc_encoder_set_timecode(LTCEncoder *e, SMPTETimecode *t);
 void ltc_encoder_get_timecode(LTCEncoder *e, SMPTETimecode *t);
 
 /**
- * moves the SMPTE to the next timecode frame.
+ * move the encoder to the next timecode frame.
  * uses \ref ltc_frame_increment() internally.
  */
-int ltc_encoder_bump_timecode(LTCEncoder *e);
+int ltc_encoder_inc_timecode(LTCEncoder *e);
+
+/**
+ * move the encoder to the previous timecode frame.
+ * uses \ref ltc_frame_decrement() internally.
+ */
+int ltc_encoder_dec_timecode(LTCEncoder *e);
 
 /**
  * low-level access to the internal LTCFrame data.
