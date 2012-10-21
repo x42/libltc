@@ -141,6 +141,37 @@ void ltc_encoder_free(LTCEncoder *e) {
 	free(e);
 }
 
+int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_date) {
+
+	size_t bufsize = 1 + sample_rate / fps;
+	if (bufsize > e->bufsize) {
+		return -1;
+	}
+
+	e->sample_rate = sample_rate;
+	e->fps = fps;
+	e->use_date = use_date;
+	e->samples_per_clock = sample_rate / (fps * 80.0);
+	e->samples_per_clock_2 = e->samples_per_clock / 2.0;
+	e->sample_remainder = 0.5;
+	ltc_frame_reset(&e->f);
+
+	if (fps==29.97 || fps == 30000.0/1001.0)
+		e->f.dfbit = 1;
+	return 0;
+}
+
+int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps) {
+	free (e->buf);
+	e->offset = 0;
+	e->bufsize = 1 + sample_rate / fps;
+	e->buf = (ltcsnd_sample_t*) calloc(e->bufsize, sizeof(ltcsnd_sample_t));
+	if (!e->buf) {
+		return -1;
+	}
+	return 0;
+}
+
 int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed) {
 	return encode_byte(e, byte, speed);
 }

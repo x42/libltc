@@ -444,6 +444,39 @@ void ltc_encoder_buffer_flush(LTCEncoder *e);
 size_t ltc_encoder_get_buffersize(LTCEncoder *e);
 
 /**
+ * change the encoder settings without re-allocating any
+ * library internal data structure (realtime safe).
+ *
+ * This call will fail if the internal buffer is too small
+ * to hold one full LTC frame. Use \ref ltc_encoder_set_bufsize to
+ * prepare an internal buffer large enough to accommodate all
+ * sample_rate, fps combinations that you would like to re-init to.
+ *
+ * @param sample_rate audio sample rate (eg. 48000)
+ * @param fps video-frames per second (e.g. 25.0)
+ * @param use_date use LTC-user-data for date
+ */
+int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_date);
+
+/**
+ * set a custom size for the internal buffer.
+ *
+ * This is needed if you are planning to call \ref ltc_encoder_reinit()
+ * or if you want to keep more than one LTC frame's worth of data in
+ * the library's internal buffer.
+ *
+ * The buffer-size is (1 + sample_rate / fps) bytes.
+ * resizing the internal buffer will flush all existing data
+ * in it - alike \ref ltc_encoder_buffer_flush.
+ *
+ * @param sample_rate audio sample rate (eg. 48000)
+ * @param fps video-frames per second (e.g. 25.0)
+ * @return 0 on success, -1 if allocation fails (which makes the
+ *   encoder unusable, call \ref ltc_encoder_free or realloc the buffer)
+ */
+int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
+
+/**
  * Generate LTC audio for given byte of the LTC-frame and
  * place it into the internal buffer.
  *
