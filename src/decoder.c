@@ -277,6 +277,7 @@ void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, size_t size, ltc_off_t po
 			   (  d->snd_to_biphase_state && (sound[i] > max_threshold) )
 			|| ( !d->snd_to_biphase_state && (sound[i] < min_threshold) )
 		   ) {
+
 			/* If the sample count has risen above the biphase length limit */
 			if (d->snd_to_biphase_cnt > d->snd_to_biphase_lmt) {
 				/* single state change within a biphase priod. decode to a 0 */
@@ -302,13 +303,13 @@ void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, size_t size, ltc_off_t po
 				 * As this is only executed at a state change,
 				 * d->snd_to_biphase_cnt is an accurate representation of the current period length.
 				 */
-				d->snd_to_biphase_period = (d->snd_to_biphase_period*3 + d->snd_to_biphase_cnt) / 4.0;
+				d->snd_to_biphase_period = (d->snd_to_biphase_period*3.0 + d->snd_to_biphase_cnt) / 4.0;
 
 				/* This limit specifies when a state-change is
 				 * considered biphase-clock or 2*biphase-clock.
 				 * The relation with period has been determined
-				 * through trial-and-error */
-				d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 13) / 16;
+				 * empirically through trial-and-error */
+				d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 12) / 16;
 			}
 
 			d->snd_to_biphase_cnt = 0;
