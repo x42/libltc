@@ -43,11 +43,11 @@ struct LTCDecoder {
 	int bit_cnt;
 
 	ltc_off_t frame_start_off;
-	int frame_start_prev;
+	ltc_off_t frame_start_prev;
 
 	float biphase_tics[LTC_FRAME_BIT_COUNT];
 	int biphase_tic;
 };
 
 
-void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, ltc_off_t posinfo);
+void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, size_t size, ltc_off_t posinfo);

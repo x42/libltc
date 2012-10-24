@@ -174,7 +174,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 			}
 
 			d->queue[d->queue_write_off].off_start = d->frame_start_off;
-			d->queue[d->queue_write_off].off_end = posinfo + offset - 1;
+			d->queue[d->queue_write_off].off_end = posinfo + (ltc_off_t) offset - 1LL;
 			d->queue[d->queue_write_off].reverse = 0;
 
 			d->queue_write_off++;
@@ -225,7 +225,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 			}
 
 			d->queue[d->queue_write_off].off_start = d->frame_start_off - 16 * d->snd_to_biphase_period;
-			d->queue[d->queue_write_off].off_end = posinfo + offset - 1 - 16 * d->snd_to_biphase_period;
+			d->queue[d->queue_write_off].off_end = posinfo + (ltc_off_t) offset - 1LL - 16 * d->snd_to_biphase_period;
 			d->queue[d->queue_write_off].reverse = (LTC_FRAME_BIT_COUNT >> 3) * 8 * d->snd_to_biphase_period;
 
 			d->queue_write_off++;
@@ -254,7 +254,7 @@ static inline void biphase_decode2(LTCDecoder *d, int offset, ltc_off_t pos) {
 	d->biphase_prev = d->snd_to_biphase_state;
 }
 
-void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, int size, ltc_off_t posinfo) {
+void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, size_t size, ltc_off_t posinfo) {
 	int i;
 
 	for (i = 0 ; i < size ; i++) {

@@ -66,7 +66,7 @@ void ltc_decoder_write_float(LTCDecoder *d, float *buf, size_t size, ltc_off_t p
 	int i;
 	for (i=0; i<size; i++) {
 		ltcsnd_sample_t s = 128 + (buf[i] * 127.0);
-		decode_ltc(d, &s, 1, posinfo+i);
+		decode_ltc(d, &s, 1, posinfo + (ltc_off_t)i);
 	}
 }
 
@@ -74,7 +74,7 @@ void ltc_decoder_write_s16(LTCDecoder *d, short *buf, size_t size, ltc_off_t pos
 	int i;
 	for (i=0; i<size; i++) {
 		ltcsnd_sample_t s = 128 + (buf[i] >> 8);
-		decode_ltc(d, &s, 1, posinfo+i);
+		decode_ltc(d, &s, 1, posinfo + (ltc_off_t)i);
 	}
 }
 
