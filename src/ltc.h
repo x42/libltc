@@ -490,6 +490,21 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
 
 /**
+ * set the volume of the generated LTC signal
+ *
+ * typically LTC is sent at 0dBu ; in EBU callibrated systems that
+ * corresponds to -18dBFS. - by default libltc creates -3dBFS
+ *
+ * since libltc generated 8bit audio-data, the minium dBFS
+ * is about -42dB which corresponds to 1 bit.
+ *
+ * @param e encoder handle
+ * @param dBFS the volume in dB full-scale (<= 0.0)
+ * @return 0 on success, -1 if the value was out of range
+ */
+int ltc_encoder_set_volume(LTCEncoder *e, double dBFS);
+
+/**
  * Generate LTC audio for given byte of the LTC-frame and
  * place it into the internal buffer.
  *
@@ -498,6 +513,9 @@ int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
  * LTC has 10 bytes per frame: 0 <= bytecnt < 10
  * use SMPTESetTime(..) to set the current frame before Encoding.
  * see tests/encoder.c for an example.
+ *
+ * The default output signal is @ -3dBFS (38..218 at 8 bit unsigned).
+ * see also \ref ltc_encoder_set_volume
  *
  * if speed is <0 bits are encoded in reverse.
  * slowdown > 10.0 requires custom buffer sizes; see \ref ltc_encoder_set_bufsize
@@ -516,6 +534,7 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
  * bytes 0..9 with speed 1.0.
  *
  * Note: The buffer must be empty before calling this function. This is usually the case
+ * if it is read with \ref ltc_encoder_get_buffer after calling this function.
  *
  * @param e encoder handle
  */

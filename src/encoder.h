@@ -20,11 +20,16 @@
 */
 
 #include "ltc.h"
+#ifndef SAMPLE_CENTER // also defined in decoder.h
+#define SAMPLE_CENTER 128 // unsigned 8 bit.
+#endif
 
 struct LTCEncoder {
 	double fps;
 	double sample_rate;
+	double filter_const;
 	int use_date;
+	ltcsnd_sample_t enc_lo, enc_hi;
 
 	size_t offset;
 	size_t bufsize;

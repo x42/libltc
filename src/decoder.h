@@ -20,7 +20,9 @@
 */
 
 #include "ltc.h"
+#ifndef SAMPLE_CENTER // also defined in encoder.h
 #define SAMPLE_CENTER 128 // unsigned 8 bit.
+#endif
 
 struct LTCDecoder {
 	LTCFrameExt* queue;

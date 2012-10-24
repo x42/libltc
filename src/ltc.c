@@ -111,9 +111,16 @@ int ltc_decoder_queue_length(LTCDecoder* d) {
  */
 
 LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
+	if (sample_rate < 1)
+		return NULL;
+
 	LTCEncoder* e = (LTCEncoder*) calloc(1, sizeof(LTCEncoder));
 	if (!e)
 		return NULL;
+
+	// -3 dBFS
+	e->enc_lo = 38;
+	e->enc_hi = 218;
 
 	e->bufsize = 1 + sample_rate / fps;
 	e->buf = (ltcsnd_sample_t*) calloc(e->bufsize, sizeof(ltcsnd_sample_t));
@@ -123,6 +130,7 @@ LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
 	}
 
 	e->sample_rate = sample_rate;
+	e->filter_const =  1-exp( -1.0 / (sample_rate * .0000125 / exp(1)) ); // see addvalues()
 	e->fps = fps;
 	e->use_date = use_date;
 	e->samples_per_clock = sample_rate / (fps * 80.0);
@@ -142,6 +150,8 @@ void ltc_encoder_free(LTCEncoder *e) {
 }
 
 int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_date) {
+	if (sample_rate < 1)
+		return -1;
 
 	size_t bufsize = 1 + sample_rate / fps;
 	if (bufsize > e->bufsize) {
@@ -149,6 +159,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 	}
 
 	e->sample_rate = sample_rate;
+	e->filter_const =  1-exp( -1.0 / (sample_rate * .0000125 / exp(1)) ); // see addvalues()
 	e->fps = fps;
 	e->use_date = use_date;
 	e->samples_per_clock = sample_rate / (fps * 80.0);
@@ -158,6 +169,18 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 
 	if (fps==29.97 || fps == 30000.0/1001.0)
 		e->f.dfbit = 1;
+	return 0;
+}
+
+int ltc_encoder_set_volume(LTCEncoder *e, double dBFS) {
+	if (dBFS > 0)
+		return -1;
+	double pp = rint(127.0 * pow(10, dBFS/20.0));
+	if (pp < 1 || pp > 127)
+		return -1;
+	ltcsnd_sample_t diff = ((ltcsnd_sample_t) pp)&0x7f;
+	e->enc_lo = SAMPLE_CENTER - diff;
+	e->enc_hi = SAMPLE_CENTER + diff;
 	return 0;
 }
 
