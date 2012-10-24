@@ -1,3 +1,9 @@
+2012-10-21 (v0.8.0) Robin Gareus <robin@gareus.org>
+* add input signal level to data-structure
+* add interfaces to set encoder volume and filter
+* adjust decoder biphase tracking (allow rounding down to 1 sample)
+* use ltc_off_t for all (long long int)
+
 2012-10-21 (v0.7.0) Robin Gareus <robin@gareus.org>
 * add support for reverse encoding
 * add interface to decrement encoder timecode

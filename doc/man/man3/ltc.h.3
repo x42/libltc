@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Sun Oct 21 2012" "Version 0.7.0" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Thu Oct 25 2012" "Version 0.8.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -133,6 +133,12 @@ libltc - en+decode linear timecode
 .RI "int \fBltc_encoder_set_bufsize\fP (\fBLTCEncoder\fP *e, double sample_rate, double fps)"
 .br
 .ti -1c
+.RI "int \fBltc_encoder_set_volume\fP (\fBLTCEncoder\fP *e, double dBFS)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_set_filter\fP (\fBLTCEncoder\fP *e, double rise_time)"
+.br
+.ti -1c
 .RI "int \fBltc_encoder_encode_byte\fP (\fBLTCEncoder\fP *e, int byte, double speed)"
 .br
 .ti -1c
@@ -153,7 +159,7 @@ Robin Gareus robin@gareus.org
 .PP
 Copyright (C) 2006-2012 Robin Gareus robin@gareus.org Copyright (C) 2008-2009 Jan Weiß jan@geheimwerk.de
 .PP
-inspired by SMPTE Decoder - Maarten de Boer mdeboer@iua.upf.es
+Inspired by SMPTE Decoder - Maarten de Boer mdeboer@iua.upf.es
 .PP
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser Public License as published by the Free Software Foundation; either version 3, or (at your option) any later version\&.
 .PP
@@ -164,7 +170,7 @@ You should have received a copy of the GNU Lesser General Public License along w
 .PP 
 .SH "struct LTCFrame"
 .PP 
-Raw 80 bit SMPTE frame
+Raw 80 bit LTC frame
 .PP
 The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods\&.
 .PP
@@ -275,7 +281,7 @@ unsigned int \fIuser8:4\fP
 .PP
 .SH "struct LTCFrameExt"
 .PP 
-Extended SMPTE frame - includes audio-sample position offsets 
+Extended LTC frame - includes audio-sample position offsets, volume, etc 
 .PP
 \fBExamples: \fP
 .in +1c
@@ -296,6 +302,15 @@ float \fIbiphase_tics\fP detailed timing info: phase of the LTC signal; the time
 .br
 .PP
 int \fIreverse\fP if non-zero, a reverse played LTC frame was detected\&. Since the frame was reversed, it started at off_end and finishes as off_start (off_end > off_start)\&. (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected)\&. 
+.br
+.PP
+\fBltcsnd_sample_t\fP \fIsample_max\fP the maximum input sample signal for this frame (0\&.\&.255) 
+.br
+.PP
+\fBltcsnd_sample_t\fP \fIsample_min\fP the minimum input sample signal for this frame (0\&.\&.255) 
+.br
+.PP
+double \fIvolume\fP the volume of the input signal in dbFS 
 .br
 .PP
 .RE
@@ -492,6 +507,8 @@ see \fBltc_encoder_get_buffer\fP and \fBltc_encoder_get_bufptr\fP
 .PP
 LTC has 10 bytes per frame: 0 <= bytecnt < 10 use SMPTESetTime(\&.\&.) to set the current frame before Encoding\&. see tests/encoder\&.c for an example\&.
 .PP
+The default output signal is @ -3dBFS (38\&.\&.218 at 8 bit unsigned)\&. see also \fBltc_encoder_set_volume\fP
+.PP
 if speed is <0 bits are encoded in reverse\&. slowdown > 10\&.0 requires custom buffer sizes; see \fBltc_encoder_set_bufsize\fP
 .PP
 \fBParameters:\fP
@@ -516,7 +533,7 @@ if speed is <0 bits are encoded in reverse\&. slowdown > 10\&.0 requires custom 
 .SS "void ltc_encoder_encode_frame (\fBLTCEncoder\fP *e)"
 encode a full LTC frame at fixed speed\&. This is equivalent to calling \fBltc_encoder_encode_byte\fP 10 times for bytes 0\&.\&.9 with speed 1\&.0\&.
 .PP
-Note: The buffer must be empty before calling this function\&. This is usually the case
+Note: The buffer must be empty before calling this function\&. This is usually the case if it is read with \fBltc_encoder_get_buffer\fP after calling this function\&.
 .PP
 \fBParameters:\fP
 .RS 4
@@ -678,6 +695,27 @@ The buffer-size is (1 + sample_rate / fps) bytes\&. resizing the internal buffer
 \fBExamples: \fP
 .in +1c
 \fBltcencode\&.c\fP\&.
+.SS "void ltc_encoder_set_filter (\fBLTCEncoder\fP *e, doublerise_time)"
+set encoder signal rise-time / signal filtering
+.PP
+LTC signal should have a rise time of 25 us +/- 5 us\&. by default the encoder honors this and low-pass filters the output depending on the sample-rate\&.
+.PP
+If you want a perfect square wave, set 'rise_time' to 0\&.
+.PP
+Note \fBltc_encoder_reinit\fP resets the filter-time-constant to use the default 25us for the given sample-rate, overriding any value previously set with \fBltc_encoder_set_filter\fP
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIrise_time\fP the signal rise-time in us (10^-6 sec), set to 0 for perfect square wave, default 25\&.0 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
 .SS "void ltc_encoder_set_frame (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
 low-level access to the internal \fBLTCFrame\fP data\&.
 .PP
@@ -708,6 +746,32 @@ Internally this call uses \fBltc_time_to_frame\fP because the LTCEncoder operate
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
+.SS "int ltc_encoder_set_volume (\fBLTCEncoder\fP *e, doubledBFS)"
+set the volume of the generated LTC signal
+.PP
+typically LTC is sent at 0dBu ; in EBU callibrated systems that corresponds to -18dBFS\&. - by default libltc creates -3dBFS
+.PP
+since libltc generated 8bit audio-data, the minium dBFS is about -42dB which corresponds to 1 bit\&.
+.PP
+0dB corresponds to a signal range of 127 1\&.\&.255 with 128 at the center\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIdBFS\fP the volume in dB full-scale (<= 0\&.0) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 on success, -1 if the value was out of range 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBltcencode\&.c\fP\&.
 .SS "int ltc_frame_decrement (\fBLTCFrame\fP *frame, intfps, intuse_date)"
 decrement the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
