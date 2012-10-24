@@ -102,6 +102,12 @@
 	printf("\n"); \
 }
 
+static double calc_volume_db(LTCDecoder *d) {
+	if (d->snd_to_biphase_max - d->snd_to_biphase_min)
+		return -INFINITY;
+	return (20.0 * log((d->snd_to_biphase_max - d->snd_to_biphase_min) / 255.0));
+}
+
 static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t posinfo) {
 	int bit_num, bit_set, byte_num;
 
@@ -176,6 +182,9 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 			d->queue[d->queue_write_off].off_start = d->frame_start_off;
 			d->queue[d->queue_write_off].off_end = posinfo + (ltc_off_t) offset - 1LL;
 			d->queue[d->queue_write_off].reverse = 0;
+			d->queue[d->queue_write_off].volume = calc_volume_db(d);
+			d->queue[d->queue_write_off].sample_min = d->snd_to_biphase_min;
+			d->queue[d->queue_write_off].sample_max = d->snd_to_biphase_max;
 
 			d->queue_write_off++;
 
@@ -227,6 +236,9 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 			d->queue[d->queue_write_off].off_start = d->frame_start_off - 16 * d->snd_to_biphase_period;
 			d->queue[d->queue_write_off].off_end = posinfo + (ltc_off_t) offset - 1LL - 16 * d->snd_to_biphase_period;
 			d->queue[d->queue_write_off].reverse = (LTC_FRAME_BIT_COUNT >> 3) * 8 * d->snd_to_biphase_period;
+			d->queue[d->queue_write_off].volume = calc_volume_db(d);
+			d->queue[d->queue_write_off].sample_min = d->snd_to_biphase_min;
+			d->queue[d->queue_write_off].sample_max = d->snd_to_biphase_max;
 
 			d->queue_write_off++;
 

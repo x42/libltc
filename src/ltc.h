@@ -193,6 +193,9 @@ struct LTCFrameExt {
 	ltc_off_t off_end; ///< \anchor off_end the sample in the stream corresponding to the end of the LTC frame.
 	int reverse; ///< if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end > off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected).
 	float biphase_tics[LTC_FRAME_BIT_COUNT]; ///< detailed timing info: phase of the LTC signal; the time between each bit in the LTC-frame in audio-frames. Summing all 80 values in the array will yield audio-frames/LTC-frame = (\ref off_end - \ref off_start + 1).
+	ltcsnd_sample_t sample_min; ///< the minimum input sample signal for this frame (0..255)
+	ltcsnd_sample_t sample_max; ///< the maximum input sample signal for this frame (0..255)
+	double volume; ///< the volume of the input signal in dbFS
 };
 
 /**
