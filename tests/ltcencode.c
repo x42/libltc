@@ -81,7 +81,13 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	encoder = ltc_encoder_create(sampleRate, fps, 1);
+	encoder = ltc_encoder_create(1, 1, 1);
+	ltc_encoder_set_bufsize(encoder, sampleRate, fps);
+	ltc_encoder_reinit(encoder, sampleRate, fps, 1);
+
+	ltc_encoder_set_filter(encoder, 0);
+	ltc_encoder_set_filter(encoder, 25.0);
+	ltc_encoder_set_volume(encoder, -18.0);
 
 	ltc_encoder_set_timecode(encoder, &st);
 
