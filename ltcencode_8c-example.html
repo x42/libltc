@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.7.0</span>
+   &#160;<span id="projectnumber">0.8.0</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -106,7 +106,11 @@
 <div class="line">        <a name="a10"></a><a class="code" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a>(encoder, sampleRate, fps);</div>
 <div class="line">        <a name="a11"></a><a class="code" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a>(encoder, sampleRate, fps, 1);</div>
 <div class="line"></div>
-<div class="line">        <a name="a12"></a><a class="code" href="ltc_8h.html#a3046829f29d125287ec4a5d3316a53f0">ltc_encoder_set_timecode</a>(encoder, &amp;st);</div>
+<div class="line">        <a name="a12"></a><a class="code" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a>(encoder, 0);</div>
+<div class="line">        <a class="code" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a>(encoder, 25.0);</div>
+<div class="line">        <a name="a13"></a><a class="code" href="ltc_8h.html#af53da428c8791004eeb05f199647412c">ltc_encoder_set_volume</a>(encoder, -18.0);</div>
+<div class="line"></div>
+<div class="line">        <a name="a14"></a><a class="code" href="ltc_8h.html#a3046829f29d125287ec4a5d3316a53f0">ltc_encoder_set_timecode</a>(encoder, &amp;st);</div>
 <div class="line"></div>
 <div class="line">        printf(<span class="stringliteral">&quot;sample rate: %.2f\n&quot;</span>, sampleRate);</div>
 <div class="line">        printf(<span class="stringliteral">&quot;frames/sec: %.2f\n&quot;</span>, fps);</div>
@@ -120,19 +124,19 @@
 <div class="line">                <span class="keywordtype">int</span> len;</div>
 <div class="line">                <a class="code" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a> *buf;</div>
 <div class="line"></div>
-<div class="line">                <a name="a13"></a><a class="code" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a>(encoder);</div>
+<div class="line">                <a name="a15"></a><a class="code" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a>(encoder);</div>
 <div class="line"></div>
-<div class="line">                buf = <a name="a14"></a><a class="code" href="ltc_8h.html#af9883d72bf2007f45e14aa3e1b61ba1b">ltc_encoder_get_bufptr</a>(encoder, &amp;len, 1);</div>
+<div class="line">                buf = <a name="a16"></a><a class="code" href="ltc_8h.html#af9883d72bf2007f45e14aa3e1b61ba1b">ltc_encoder_get_bufptr</a>(encoder, &amp;len, 1);</div>
 <div class="line"></div>
 <div class="line">                <span class="keywordflow">if</span> (len &gt; 0) {</div>
 <div class="line">                        fwrite(buf, <span class="keyword">sizeof</span>(<a class="code" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a>), len, file);</div>
 <div class="line">                        total+=len;</div>
 <div class="line">                }</div>
 <div class="line"></div>
-<div class="line">                <a name="a15"></a><a class="code" href="ltc_8h.html#a22161fd7d90b513c5ecbbc3ab96cb541">ltc_encoder_inc_timecode</a>(encoder);</div>
+<div class="line">                <a name="a17"></a><a class="code" href="ltc_8h.html#a22161fd7d90b513c5ecbbc3ab96cb541">ltc_encoder_inc_timecode</a>(encoder);</div>
 <div class="line">        }</div>
 <div class="line">        fclose(file);</div>
-<div class="line">        <a name="a16"></a><a class="code" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a>(encoder);</div>
+<div class="line">        <a name="a18"></a><a class="code" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a>(encoder);</div>
 <div class="line"></div>
 <div class="line">        printf(<span class="stringliteral">&quot;Done: wrote %d samples to &#39;%s&#39;\n&quot;</span>, total, filename);</div>
 <div class="line"></div>
@@ -141,7 +145,7 @@
 </div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Oct 21 2012 10:48:12 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Oct 25 2012 01:57:03 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.7.0</span>
+   &#160;<span id="projectnumber">0.8.0</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -110,6 +110,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a07af03e143b3f2aa76fda8884724dca0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a07af03e143b3f2aa76fda8884724dca0">ltc_encoder_get_buffersize</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
 <tr class="memitem:aad67a6ed1d67a2cf3ae2bbfdcaafd1c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double sample_rate, double fps, int use_date)</td></tr>
 <tr class="memitem:a0428876b560aab7c545b46f8472eef7c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double sample_rate, double fps)</td></tr>
+<tr class="memitem:af53da428c8791004eeb05f199647412c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#af53da428c8791004eeb05f199647412c">ltc_encoder_set_volume</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double dBFS)</td></tr>
+<tr class="memitem:a54af196359fa0fa49467967770c2491d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double rise_time)</td></tr>
 <tr class="memitem:a274bf28daef0c440205478c26e21b5cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, int byte, double speed)</td></tr>
 <tr class="memitem:ad38539cbe0d906fd7abeefda17824702"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
 <tr class="memitem:a405e7c6638565c93e5c3d9cf919553ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame)</td></tr>
@@ -118,7 +120,7 @@ Functions</h2></td></tr>
 <div class="textblock"><p>libltc - en+decode linear timecode </p>
 <dl class="section author"><dt>Author:</dt><dd>Robin Gareus <a href="#" onclick="location.href='mai'+'lto:'+'rob'+'in'+'@ga'+'re'+'us.'+'or'+'g'; return false;">robin<span style="display: none;">.nosp@m.</span>@gar<span style="display: none;">.nosp@m.</span>eus.o<span style="display: none;">.nosp@m.</span>rg</a></dd></dl>
 <p>Copyright (C) 2006-2012 Robin Gareus <a href="#" onclick="location.href='mai'+'lto:'+'rob'+'in'+'@ga'+'re'+'us.'+'or'+'g'; return false;">robin<span style="display: none;">.nosp@m.</span>@gar<span style="display: none;">.nosp@m.</span>eus.o<span style="display: none;">.nosp@m.</span>rg</a> Copyright (C) 2008-2009 Jan Weiß <a href="#" onclick="location.href='mai'+'lto:'+'jan'+'@g'+'ehe'+'im'+'wer'+'k.'+'de'; return false;">jan@g<span style="display: none;">.nosp@m.</span>ehei<span style="display: none;">.nosp@m.</span>mwerk<span style="display: none;">.nosp@m.</span>.de</a></p>
-<p>inspired by SMPTE Decoder - Maarten de Boer <a href="#" onclick="location.href='mai'+'lto:'+'mde'+'bo'+'er@'+'iu'+'a.u'+'pf'+'.es'; return false;">mdebo<span style="display: none;">.nosp@m.</span>er@i<span style="display: none;">.nosp@m.</span>ua.up<span style="display: none;">.nosp@m.</span>f.es</a></p>
+<p>Inspired by SMPTE Decoder - Maarten de Boer <a href="#" onclick="location.href='mai'+'lto:'+'mde'+'bo'+'er@'+'iu'+'a.u'+'pf'+'.es'; return false;">mdebo<span style="display: none;">.nosp@m.</span>er@i<span style="display: none;">.nosp@m.</span>ua.up<span style="display: none;">.nosp@m.</span>f.es</a></p>
 <p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser Public License as published by the Free Software Foundation; either version 3, or (at your option) any later version.</p>
 <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more details.</p>
 <p>You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA </p>
@@ -132,7 +134,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><p>Raw 80 bit SMPTE frame</p>
+<div class="textblock"><p>Raw 80 bit LTC frame</p>
 <p>The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods.</p>
 <p>At a frame-rate of 30 fps, the bit-rate corresponds to 30 [fps] * 80 [bits/f] = 2400 bits per second. The frequency for a stream of zeros would be 1.2 kHz and for a stream of ones it would be 2.4 kHz. </p>
 <div class="image">
@@ -307,7 +309,7 @@ user8:4</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><p>Extended SMPTE frame - includes audio-sample position offsets </p>
+<div class="textblock"><p>Extended LTC frame - includes audio-sample position offsets, volume, etc </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcdecode_8c-example.html#_a0">ltcdecode.c</a>.</dd>
 </dl></div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
@@ -341,6 +343,24 @@ off_start</td>
 reverse</td>
 <td class="fielddoc">
 if non-zero, a reverse played LTC frame was detected. Since the frame was reversed, it started at off_end and finishes as off_start (off_end &gt; off_start). (Note: in reverse playback the (reversed) sync-word of the next/previous frame is detected, this offset is corrected). </td></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="a55f1cdc4012ddd1b346be34110bca891"></a><a class="el" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a></td>
+<td class="fieldname">
+sample_max</td>
+<td class="fielddoc">
+the maximum input sample signal for this frame (0..255) </td></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="aa3bbfad009c7293a58d50e627e73de6a"></a><a class="el" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a></td>
+<td class="fieldname">
+sample_min</td>
+<td class="fielddoc">
+the minimum input sample signal for this frame (0..255) </td></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="ae00cee6971b3c6a9b7856fe326902a61"></a>double</td>
+<td class="fieldname">
+volume</td>
+<td class="fielddoc">
+the volume of the input signal in dbFS </td></tr>
 </table>
 
 </div>
@@ -824,6 +844,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 <p>Generate LTC audio for given byte of the LTC-frame and place it into the internal buffer.</p>
 <p>see <a class="el" href="ltc_8h.html#a1195b10642ea3178d4b4dcfe1e286120">ltc_encoder_get_buffer</a> and <a class="el" href="ltc_8h.html#af9883d72bf2007f45e14aa3e1b61ba1b">ltc_encoder_get_bufptr</a></p>
 <p>LTC has 10 bytes per frame: 0 &lt;= bytecnt &lt; 10 use SMPTESetTime(..) to set the current frame before Encoding. see tests/encoder.c for an example.</p>
+<p>The default output signal is @ -3dBFS (38..218 at 8 bit unsigned). see also <a class="el" href="ltc_8h.html#af53da428c8791004eeb05f199647412c">ltc_encoder_set_volume</a></p>
 <p>if speed is &lt;0 bits are encoded in reverse. slowdown &gt; 10.0 requires custom buffer sizes; see <a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a></p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -852,14 +873,14 @@ LTC-date uses 2-digit year 00.99. </td></tr>
       </table>
 </div><div class="memdoc">
 <p>encode a full LTC frame at fixed speed. This is equivalent to calling <a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> 10 times for bytes 0..9 with speed 1.0.</p>
-<p>Note: The buffer must be empty before calling this function. This is usually the case</p>
+<p>Note: The buffer must be empty before calling this function. This is usually the case if it is read with <a class="el" href="ltc_8h.html#a1195b10642ea3178d4b4dcfe1e286120">ltc_encoder_get_buffer</a> after calling this function.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a15">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a13">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a15">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a15">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -883,7 +904,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a17">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a16">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a17">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a18">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -987,7 +1008,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>pointer to encoder-buffer </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a14">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a14">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a14">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a16">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1074,7 +1095,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
       </table>
 </div><div class="memdoc">
 <p>move the encoder to the next timecode frame. uses <a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment()</a> internally. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a16">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a15">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a16">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a17">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1173,6 +1194,44 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </dl>
 </div>
 </div>
+<a class="anchor" id="a54af196359fa0fa49467967770c2491d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ltc_encoder_set_filter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *&#160;</td>
+          <td class="paramname"><em>e</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>rise_time</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>set encoder signal rise-time / signal filtering</p>
+<p>LTC signal should have a rise time of 25 us +/- 5 us. by default the encoder honors this and low-pass filters the output depending on the sample-rate.</p>
+<p>If you want a perfect square wave, set 'rise_time' to 0.</p>
+<p>Note <a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a> resets the filter-time-constant to use the default 25us for the given sample-rate, overriding any value previously set with <a class="el" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a></p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>encoder handle </td></tr>
+    <tr><td class="paramname">rise_time</td><td>the signal rise-time in us (10^-6 sec), set to 0 for perfect square wave, default 25.0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a12">ltcencode.c</a>.</dd>
+</dl>
+</div>
+</div>
 <a class="anchor" id="ac217926ac997495868c1bff43269991f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1240,7 +1299,46 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a10">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a12">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a10">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a14">ltcencode.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a class="anchor" id="af53da428c8791004eeb05f199647412c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ltc_encoder_set_volume </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *&#160;</td>
+          <td class="paramname"><em>e</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dBFS</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>set the volume of the generated LTC signal</p>
+<p>typically LTC is sent at 0dBu ; in EBU callibrated systems that corresponds to -18dBFS. - by default libltc creates -3dBFS</p>
+<p>since libltc generated 8bit audio-data, the minium dBFS is about -42dB which corresponds to 1 bit.</p>
+<p>0dB corresponds to a signal range of 127 1..255 with 128 at the center.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>encoder handle </td></tr>
+    <tr><td class="paramname">dBFS</td><td>the volume in dB full-scale (&lt;= 0.0) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns:</dt><dd>0 on success, -1 if the value was out of range </dd></dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a13">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1462,7 +1560,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Oct 21 2012 10:48:13 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Oct 25 2012 01:57:04 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
