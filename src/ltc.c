@@ -130,7 +130,7 @@ LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
 	}
 
 	e->sample_rate = sample_rate;
-	e->filter_const =  1-exp( -1.0 / (sample_rate * .0000125 / exp(1)) ); // see addvalues()
+	ltc_encoder_set_filter(e, 25.0);
 	e->fps = fps;
 	e->use_date = use_date;
 	e->samples_per_clock = sample_rate / (fps * 80.0);
@@ -159,7 +159,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 	}
 
 	e->sample_rate = sample_rate;
-	e->filter_const =  1-exp( -1.0 / (sample_rate * .0000125 / exp(1)) ); // see addvalues()
+	ltc_encoder_set_filter(e, 25.0);
 	e->fps = fps;
 	e->use_date = use_date;
 	e->samples_per_clock = sample_rate / (fps * 80.0);
@@ -182,6 +182,23 @@ int ltc_encoder_set_volume(LTCEncoder *e, double dBFS) {
 	e->enc_lo = SAMPLE_CENTER - diff;
 	e->enc_hi = SAMPLE_CENTER + diff;
 	return 0;
+}
+
+void ltc_encoder_set_filter(LTCEncoder *e, double rise_time) {
+	/* low-pass-filter
+	 * LTC signal should have a rise time of 25 us +/- 5 us.
+	 *
+	 * rise-time means from <10% to >90% of the signal.
+	 * in each call to addvalues() we start at 50% (SAMPLE_CENTER), so
+	 * here we need half-of it. (25us / 2.0 =  0.0000125 sec)
+	 *
+	 * e->cutoff = 1.0 -exp( -1.0 / (sample_rate * .0000125 / exp(1.0)) );
+	 */
+
+	if (rise_time <= 0)
+		e->filter_const = 0;
+	else
+		e->filter_const = 1.0 - exp( -1.0 / (e->sample_rate * rise_time / 2000000.0 / exp(1.0)) );
 }
 
 int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps) {

@@ -47,9 +47,8 @@ static int addvalues(LTCEncoder *e, int n) {
 		 * in each call to addvalues() we start at 50%, so
 		 * here we need half-of it. (0.0000125 sec)
 		 *
-		 * e->cutoff =  1-exp( -1.0 / (sample_rate * .0000125 / exp(1)) );
+		 * e->cutoff = 1.0 -exp( -1.0 / (sample_rate * .0000125 / exp(1.0)) );
 		 */
-
 		int i;
 		ltcsnd_sample_t val = SAMPLE_CENTER;
 		int m = (n+1)>>1;

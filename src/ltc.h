@@ -498,11 +498,32 @@ int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
  * since libltc generated 8bit audio-data, the minium dBFS
  * is about -42dB which corresponds to 1 bit.
  *
+ * 0dB corresponds to a signal range of 127
+ * 1..255 with 128 at the center.
+ *
  * @param e encoder handle
  * @param dBFS the volume in dB full-scale (<= 0.0)
  * @return 0 on success, -1 if the value was out of range
  */
 int ltc_encoder_set_volume(LTCEncoder *e, double dBFS);
+
+/**
+ * set encoder signal rise-time / signal filtering
+ *
+ * LTC signal should have a rise time of 25 us +/- 5 us.
+ * by default the encoder honors this and low-pass filters
+ * the output depending on the sample-rate.
+ *
+ * If you want a perfect square wave, set 'rise_time' to 0.
+ *
+ * Note \ref ltc_encoder_reinit resets the filter-time-constant to use
+ * the default 25us for the given sample-rate, overriding any value
+ * previously set with \ref ltc_encoder_set_filter
+ *
+ * @param e encoder handle
+ * @param rise_time the signal rise-time in us (10^-6 sec), set to 0 for perfect square wave, default 25.0
+ */
+void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
 
 /**
  * Generate LTC audio for given byte of the LTC-frame and
