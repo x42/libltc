@@ -6,7 +6,7 @@
    Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
    Copyright (C) 2008-2009 Jan Weiß <jan@geheimwerk.de>
 
-   inspired by SMPTE Decoder - Maarten de Boer <mdeboer@iua.upf.es>
+   Inspired by SMPTE Decoder - Maarten de Boer <mdeboer@iua.upf.es>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU Lesser Public License as published by
@@ -60,7 +60,7 @@ typedef long long int ltc_off_t;
 #define LTC_FRAME_BIT_COUNT	80
 
 /**
- * Raw 80 bit SMPTE frame
+ * Raw 80 bit LTC frame
  *
  * The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods.
  *
@@ -185,7 +185,7 @@ struct LTCFrame {
 typedef struct LTCFrame LTCFrame;
 
 /**
- * Extended SMPTE frame - includes audio-sample position offsets
+ * Extended LTC frame - includes audio-sample position offsets, volume, etc
  */
 struct LTCFrameExt {
 	LTCFrame ltc; ///< the actual LTC frame. see \ref LTCFrame

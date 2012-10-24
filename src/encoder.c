@@ -94,7 +94,7 @@ int encode_byte(LTCEncoder *e, int byte, double speed) {
 			e->state = !e->state;
 			err |= addvalues(e, n);
 		}
-		/* this is based on the assumtion that with every compiler
+		/* this is based on the assumption that with every compiler
 		 * ((unsigned char) 128)<<1 == ((unsigned char 1)>>1) == 0
 		 */
 		if (speed < 0)

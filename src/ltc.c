@@ -118,7 +118,7 @@ LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
 	if (!e)
 		return NULL;
 
-	// -3 dBFS
+	/*-3.0 dBFS default */
 	e->enc_lo = 38;
 	e->enc_hi = 218;
 
