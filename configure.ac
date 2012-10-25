@@ -1,5 +1,5 @@
 AC_PREREQ(2.57)
-AC_INIT([libltc], [-], [robin@gareus.org], [], [http://ltcsmpte.sourceforge.net/])
+AC_INIT([libltc], [-], [robin@gareus.org], [], [http://x42.github.com/libltc/])
 
 AC_PATH_PROG(SED, sed, "", $PATH:/bin:/usr/bin:/usr/local/bin)
 if test -z "$SED"; then
