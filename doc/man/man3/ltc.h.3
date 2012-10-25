@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Thu Oct 25 2012" "Version 0.8.0" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Thu Oct 25 2012" "Version 0.8.1" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -80,6 +80,15 @@ libltc - en+decode linear timecode
 .br
 .ti -1c
 .RI "void \fBltc_decoder_write\fP (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_t size, \fBltc_off_t\fP posinfo)"
+.br
+.ti -1c
+.RI "void \fBltc_decoder_write_float\fP (\fBLTCDecoder\fP *d, float *buf, size_t size, \fBltc_off_t\fP posinfo)"
+.br
+.ti -1c
+.RI "void \fBltc_decoder_write_s16\fP (\fBLTCDecoder\fP *d, short *buf, size_t size, \fBltc_off_t\fP posinfo)"
+.br
+.ti -1c
+.RI "void \fBltc_decoder_write_u16\fP (\fBLTCDecoder\fP *d, short *buf, size_t size, \fBltc_off_t\fP posinfo)"
 .br
 .ti -1c
 .RI "int \fBltc_decoder_read\fP (\fBLTCDecoder\fP *d, \fBLTCFrameExt\fP *frame)"
@@ -470,6 +479,51 @@ Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
+.SS "void ltc_decoder_write_float (\fBLTCDecoder\fP *d, float *buf, size_tsize, \fBltc_off_t\fPposinfo)"
+wrapper to \fBltc_decoder_write\fP that accepts floating point audio samples\&. Note: internally libltc uses 8 bit only\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.br
+\fIbuf\fP pointer to audio sample data 
+.br
+\fIsize\fP number of samples to parse 
+.br
+\fIposinfo\fP (optional, recommended) sample-offset in the audio-stream\&. 
+.RE
+.PP
+
+.SS "void ltc_decoder_write_s16 (\fBLTCDecoder\fP *d, short *buf, size_tsize, \fBltc_off_t\fPposinfo)"
+wrapper to \fBltc_decoder_write\fP that accepts signed 16 bit audio samples\&. Note: internally libltc uses 8 bit only\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.br
+\fIbuf\fP pointer to audio sample data 
+.br
+\fIsize\fP number of samples to parse 
+.br
+\fIposinfo\fP (optional, recommended) sample-offset in the audio-stream\&. 
+.RE
+.PP
+
+.SS "void ltc_decoder_write_u16 (\fBLTCDecoder\fP *d, short *buf, size_tsize, \fBltc_off_t\fPposinfo)"
+wrapper to \fBltc_decoder_write\fP that accepts unsigned 16 bit audio samples\&. Note: internally libltc uses 8 bit only\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP decoder handle 
+.br
+\fIbuf\fP pointer to audio sample data 
+.br
+\fIsize\fP number of samples to parse 
+.br
+\fIposinfo\fP (optional, recommended) sample-offset in the audio-stream\&. 
+.RE
+.PP
+
 .SS "void ltc_encoder_buffer_flush (\fBLTCEncoder\fP *e)"
 reset the write-pointer of the encoder-buffer 
 .PP

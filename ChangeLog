@@ -1,4 +1,8 @@
-2012-10-21 (v0.8.0) Robin Gareus <robin@gareus.org>
+2012-10-25 (v0.8.1) Robin Gareus <robin@gareus.org>
+* add interface to decode 16bit and 32bit float data
+(wrappers around ltc_decoder_write() - internally 8 bit)
+
+2012-10-24 (v0.8.0) Robin Gareus <robin@gareus.org>
 * add input signal level to data-structure
 * add interfaces to set encoder volume and filter
 * adjust decoder biphase tracking (allow rounding down to 1 sample)
