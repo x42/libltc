@@ -53,7 +53,7 @@ AC_TRY_LINK([], [],
 LDFLAGS=$LDFLAGS_save
 
 dnl *** check for dependencies ***
-AC_CHECK_HEADERS(stdio.h stdlib.h string.h unistd.h sys/types.h stdint.h)
+AC_CHECK_HEADERS(stdio.h stdlib.h string.h unistd.h math.h stdint.h)
 
 dnl *** check for doxygen ***
 AC_ARG_VAR(DOXYGEN, Doxygen)
