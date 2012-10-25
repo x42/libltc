@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">0.8.0</span>
+   &#160;<span id="projectnumber">0.8.1</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -93,6 +93,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a0707029b20a1ea7305dd6ba85c0d03f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a> (int apv, int queue_size)</td></tr>
 <tr class="memitem:ad7d79ffa10e4ac4726676d3427ad2f15"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
 <tr class="memitem:aba7abd60b63023f67d17f30888fa492e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="el" href="ltc_8h.html#a1d702f47d78768fd74aabd04b1e47091">ltcsnd_sample_t</a> *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
+<tr class="memitem:a4ae7fa4f57f8c99eb819f1b52d5a2532"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a4ae7fa4f57f8c99eb819f1b52d5a2532">ltc_decoder_write_float</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, float *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
+<tr class="memitem:a178e0280a0a17748d2606a93df48a78a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a178e0280a0a17748d2606a93df48a78a">ltc_decoder_write_s16</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, short *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
+<tr class="memitem:ad9c8468c9b135c10f48f6c303e52e2a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad9c8468c9b135c10f48f6c303e52e2a6">ltc_decoder_write_u16</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, short *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
 <tr class="memitem:a3cb40ff1bede260caeafae14bafb9a95"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a3cb40ff1bede260caeafae14bafb9a95">ltc_decoder_read</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> *frame)</td></tr>
 <tr class="memitem:abd9d3361b1a2bd65a8d55947c9a58936"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#abd9d3361b1a2bd65a8d55947c9a58936">ltc_decoder_queue_flush</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
 <tr class="memitem:af67cd942ac9ef94e06cefdea99faca8d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#af67cd942ac9ef94e06cefdea99faca8d">ltc_decoder_queue_length</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
@@ -727,6 +730,150 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcdecode_8c-example.html#a2">ltcdecode.c</a>.</dd>
 </dl>
+</div>
+</div>
+<a class="anchor" id="a4ae7fa4f57f8c99eb819f1b52d5a2532"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ltc_decoder_write_float </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a>&#160;</td>
+          <td class="paramname"><em>posinfo</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>wrapper to <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts floating point audio samples. Note: internally libltc uses 8 bit only.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>decoder handle </td></tr>
+    <tr><td class="paramname">buf</td><td>pointer to audio sample data </td></tr>
+    <tr><td class="paramname">size</td><td>number of samples to parse </td></tr>
+    <tr><td class="paramname">posinfo</td><td>(optional, recommended) sample-offset in the audio-stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a178e0280a0a17748d2606a93df48a78a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ltc_decoder_write_s16 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a>&#160;</td>
+          <td class="paramname"><em>posinfo</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>wrapper to <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts signed 16 bit audio samples. Note: internally libltc uses 8 bit only.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>decoder handle </td></tr>
+    <tr><td class="paramname">buf</td><td>pointer to audio sample data </td></tr>
+    <tr><td class="paramname">size</td><td>number of samples to parse </td></tr>
+    <tr><td class="paramname">posinfo</td><td>(optional, recommended) sample-offset in the audio-stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad9c8468c9b135c10f48f6c303e52e2a6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ltc_decoder_write_u16 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a>&#160;</td>
+          <td class="paramname"><em>posinfo</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>wrapper to <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts unsigned 16 bit audio samples. Note: internally libltc uses 8 bit only.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>decoder handle </td></tr>
+    <tr><td class="paramname">buf</td><td>pointer to audio sample data </td></tr>
+    <tr><td class="paramname">size</td><td>number of samples to parse </td></tr>
+    <tr><td class="paramname">posinfo</td><td>(optional, recommended) sample-offset in the audio-stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a397b2509c73c55d3042b6cc574fc86ab"></a>
@@ -1560,7 +1707,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 25 2012 01:57:04 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Oct 25 2012 19:39:43 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
