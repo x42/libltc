@@ -321,6 +321,39 @@ void ltc_decoder_write(LTCDecoder *d,
 		ltc_off_t posinfo);
 
 /**
+ * wrapper to \ref ltc_decoder_write that accepts floating point
+ * audio samples. Note: internally libltc uses 8 bit only.
+ *
+ * @param d decoder handle
+ * @param buf pointer to audio sample data
+ * @param size number of samples to parse
+ * @param posinfo (optional, recommended) sample-offset in the audio-stream.
+ */
+void ltc_decoder_write_float(LTCDecoder *d, float *buf, size_t size, ltc_off_t posinfo);
+
+/**
+ * wrapper to \ref ltc_decoder_write that accepts signed 16 bit
+ * audio samples. Note: internally libltc uses 8 bit only.
+ *
+ * @param d decoder handle
+ * @param buf pointer to audio sample data
+ * @param size number of samples to parse
+ * @param posinfo (optional, recommended) sample-offset in the audio-stream.
+ */
+void ltc_decoder_write_s16(LTCDecoder *d, short *buf, size_t size, ltc_off_t posinfo);
+
+/**
+ * wrapper to \ref ltc_decoder_write that accepts unsigned 16 bit
+ * audio samples. Note: internally libltc uses 8 bit only.
+ *
+ * @param d decoder handle
+ * @param buf pointer to audio sample data
+ * @param size number of samples to parse
+ * @param posinfo (optional, recommended) sample-offset in the audio-stream.
+ */
+void ltc_decoder_write_u16(LTCDecoder *d, short *buf, size_t size, ltc_off_t posinfo);
+
+/**
  * Decoded LTC frames are placed in a queue. This function retrieves
  * a frame from the queue, and stores it at LTCFrameExt*
  *

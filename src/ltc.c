@@ -62,25 +62,28 @@ int ltc_decoder_free(LTCDecoder *d) {
 	return 0;
 }
 
-void ltc_decoder_write_float(LTCDecoder *d, float *buf, size_t size, ltc_off_t posinfo) {
-	int i;
-	for (i=0; i<size; i++) {
-		ltcsnd_sample_t s = 128 + (buf[i] * 127.0);
-		decode_ltc(d, &s, 1, posinfo + (ltc_off_t)i);
-	}
-}
-
-void ltc_decoder_write_s16(LTCDecoder *d, short *buf, size_t size, ltc_off_t posinfo) {
-	int i;
-	for (i=0; i<size; i++) {
-		ltcsnd_sample_t s = 128 + (buf[i] >> 8);
-		decode_ltc(d, &s, 1, posinfo + (ltc_off_t)i);
-	}
-}
-
 void ltc_decoder_write(LTCDecoder *d, ltcsnd_sample_t *buf, size_t size, ltc_off_t posinfo) {
 	decode_ltc(d, buf, size, posinfo);
 }
+
+#define LTCWRITE_TEMPLATE(FN, FORMAT, CONV) \
+void ltc_decoder_write_ ## FN (LTCDecoder *d, FORMAT *buf, size_t size, ltc_off_t posinfo) { \
+	ltcsnd_sample_t tmp[1024]; \
+	size_t remain = size; \
+	while (remain > 0) { \
+		int c = (remain > 1024) ? 1024 : remain; \
+		int i; \
+		for (i=0; i<c; i++) { \
+			tmp[i] = CONV; \
+		} \
+		decode_ltc(d, tmp, c, posinfo + (ltc_off_t)c); \
+		remain -= c; \
+	} \
+}
+
+LTCWRITE_TEMPLATE(float, float, 128 + (buf[i] * 127.0))
+LTCWRITE_TEMPLATE(s16, short, 128 + (buf[i] >> 8))
+LTCWRITE_TEMPLATE(u16, short, (buf[i] >> 8))
 
 int ltc_decoder_read(LTCDecoder* d, LTCFrameExt* frame) {
 	if (!frame) return -1;
