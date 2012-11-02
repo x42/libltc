@@ -1,9 +1,20 @@
 /**
-   @brief libltc - en+decode linear timecode
    @file ltc.h
+   @brief libltc - en+decode linear timecode
+
+   Linear (or Longitudinal) Timecode (LTC) is an encoding of
+   timecode data as a Manchester-Biphase encoded audio signal.
+   The audio signal is commonly recorded on a VTR track or other
+   storage media.
+
+   libltc facilitates decoding and encoding of LTC from/to
+   timecode, including SMPTE date support.
+
    @author Robin Gareus <robin@gareus.org>
+   @copyright
 
    Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
+
    Copyright (C) 2008-2009 Jan Weiß <jan@geheimwerk.de>
 
    Inspired by SMPTE Decoder - Maarten de Boer <mdeboer@iua.upf.es>
@@ -44,7 +55,7 @@ extern "C" {
 #define LIBLTC_CUR  9
 #define LIBLTC_REV  0
 #define LIBLTC_AGE  1
-#endif
+#endif /* end DOXYGEN_IGNORE */
 
 /**
  * default audio sample type: 8bit unsigned (mono)
