@@ -25,7 +25,7 @@ Description: Development files for libltc
  Linear (or Longitudinal) Timecode (LTC) is an encoding of SMPTE timecode data
  as a Manchester-Biphase encoded audio signal. The audio signal is commonly
  recorded on a VTR track or other storage media.
- libltc provides functionality to both encode and decode LTC from/to SMPTE.
+ libltc provides functionality to both encode and decode LTC from/to timecode.
  .
  This package contains files needed for application development.
 
@@ -38,7 +38,7 @@ Description: Documentation for libltc
  Linear (or Longitudinal) Timecode (LTC) is an encoding of SMPTE timecode data
  as a Manchester-Biphase encoded audio signal. The audio signal is commonly
  recorded on a VTR track or other storage media.
- libltc provides functionality to both encode and decode LTC from/to SMPTE.
+ libltc provides functionality to both encode and decode LTC from/to timecode.
  .
  This package contains the API reference (as manpages) for the development of
  applications.
@@ -50,8 +50,8 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends}
 Multi-Arch: same
-Description: linear timecode and framerate conversion library
+Description: linear timecode library
  Linear (or Longitudinal) Timecode (LTC) is an encoding of SMPTE timecode data
  as a Manchester-Biphase encoded audio signal. The audio signal is commonly
  recorded on a VTR track or other storage media.
- libltc provides functionality to both encode and decode LTC from/to SMPTE.
+ libltc provides functionality to both encode and decode LTC from/to timecode.
