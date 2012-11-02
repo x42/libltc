@@ -1,3 +1,9 @@
+2012-10-25 (v1.0.0) Robin Gareus <robin@gareus.org>
+* freeze interface defition - 1.0.0
+* update doc
+* minor tweaks and typos (OSX build,
+printf size_t warning, LPGL boilerplate)
+
 2012-10-25 (v0.8.1) Robin Gareus <robin@gareus.org>
 * add interface to decode 16bit and 32bit float data
 (wrappers around ltc_decoder_write() - internally 8 bit)

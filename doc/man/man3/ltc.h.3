@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Thu Oct 25 2012" "Version 0.8.1" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Fri Nov 2 2012" "Version 1.0.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -161,20 +161,30 @@ libltc - en+decode linear timecode
 .PP 
 libltc - en+decode linear timecode 
 
+Linear (or Longitudinal) Timecode (LTC) is an encoding of timecode data as a Manchester-Biphase encoded audio signal\&. The audio signal is commonly recorded on a VTR track or other storage media\&.
+.PP
+libltc facilitates decoding and encoding of LTC from/to timecode, including SMPTE date support\&.
+.PP
 \fBAuthor:\fP
 .RS 4
-Robin Gareus robin@gareus.org
+Robin Gareus robin@gareus.org 
 .RE
 .PP
-Copyright (C) 2006-2012 Robin Gareus robin@gareus.org Copyright (C) 2008-2009 Jan Weiß jan@geheimwerk.de
+\fBCopyright:\fP
+.RS 4
+.RE
+.PP
+Copyright (C) 2006-2012 Robin Gareus robin@gareus.org
+.PP
+Copyright (C) 2008-2009 Jan Weiß jan@geheimwerk.de
 .PP
 Inspired by SMPTE Decoder - Maarten de Boer mdeboer@iua.upf.es
 .PP
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser Public License as published by the Free Software Foundation; either version 3, or (at your option) any later version\&.
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version\&.
 .PP
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\&. See the GNU Lesser Public License for more details\&.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\&. See the GNU Lesser General Public License for more details\&.
 .PP
-You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc\&., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA 
+You should have received a copy of the GNU Lesser General Public License along with this library\&. If not, see http://www.gnu.org/licenses/\&. 
 .SH "Data Structure Documentation"
 .PP 
 .SH "struct LTCFrame"
@@ -204,12 +214,11 @@ Bits 43 and 59 are assigned as the Binary Group Flag Bits\&. These Bits are used
 .PP
 .nf
 
-                                  Bit 43  Bit 59
-  No User Bits format specified     0       0
-  Eight-bit character set           1       0
-  Unassigned (Reserved)             0       1
-  Unassigned (Reserved)             1       1
- 
+                                 Bit 43  Bit 59
+ No User Bits format specified     0       0
+ Eight-bit character set           1       0
+ Unassigned (Reserved)             0       1
+ Unassigned (Reserved)             1       1
 .fi
 .PP
 .PP
@@ -382,7 +391,7 @@ default audio sample type: 8bit unsigned (mono)
 see \fBSMPTETimecode\fP 
 .SH "Function Documentation"
 .PP 
-.SS "\fBLTCDecoder\fP* ltc_decoder_create (intapv, intqueue_size)"
+.SS "\fBLTCDecoder\fP* ltc_decoder_create (int apv, int queue_size)"
 Create a new LTC decoder\&.
 .PP
 \fBParameters:\fP
@@ -402,7 +411,7 @@ decoder handle or NULL if out-of-memory
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "int ltc_decoder_free (\fBLTCDecoder\fP *d)"
+.SS "int ltc_decoder_free (\fBLTCDecoder\fP * d)"
 release memory of decoder-structure\&. 
 .PP
 \fBParameters:\fP
@@ -415,7 +424,7 @@ release memory of decoder-structure\&.
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "void ltc_decoder_queue_flush (\fBLTCDecoder\fP *d)"
+.SS "void ltc_decoder_queue_flush (\fBLTCDecoder\fP * d)"
 removed all frames from queue\&. 
 .PP
 \fBParameters:\fP
@@ -424,7 +433,7 @@ removed all frames from queue\&.
 .RE
 .PP
 
-.SS "int ltc_decoder_queue_length (\fBLTCDecoder\fP *d)"
+.SS "int ltc_decoder_queue_length (\fBLTCDecoder\fP * d)"
 count number of LTC frames currently in the queue 
 .PP
 \fBParameters:\fP
@@ -438,7 +447,7 @@ number of queued frames
 .RE
 .PP
 
-.SS "int ltc_decoder_read (\fBLTCDecoder\fP *d, \fBLTCFrameExt\fP *frame)"
+.SS "int ltc_decoder_read (\fBLTCDecoder\fP * d, \fBLTCFrameExt\fP * frame)"
 Decoded LTC frames are placed in a queue\&. This function retrieves a frame from the queue, and stores it at LTCFrameExt*
 .PP
 \fBParameters:\fP
@@ -458,7 +467,7 @@ Decoded LTC frames are placed in a queue\&. This function retrieves a frame from
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "void ltc_decoder_write (\fBLTCDecoder\fP *d, \fBltcsnd_sample_t\fP *buf, size_tsize, \fBltc_off_t\fPposinfo)"
+.SS "void ltc_decoder_write (\fBLTCDecoder\fP * d, \fBltcsnd_sample_t\fP * buf, size_t size, \fBltc_off_t\fP posinfo)"
 Feed the LTC decoder with new audio samples\&.
 .PP
 Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded it is pushed into a queue (\fBltc_decoder_read\fP)
@@ -479,7 +488,7 @@ Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "void ltc_decoder_write_float (\fBLTCDecoder\fP *d, float *buf, size_tsize, \fBltc_off_t\fPposinfo)"
+.SS "void ltc_decoder_write_float (\fBLTCDecoder\fP * d, float * buf, size_t size, \fBltc_off_t\fP posinfo)"
 wrapper to \fBltc_decoder_write\fP that accepts floating point audio samples\&. Note: internally libltc uses 8 bit only\&.
 .PP
 \fBParameters:\fP
@@ -494,7 +503,7 @@ wrapper to \fBltc_decoder_write\fP that accepts floating point audio samples\&. 
 .RE
 .PP
 
-.SS "void ltc_decoder_write_s16 (\fBLTCDecoder\fP *d, short *buf, size_tsize, \fBltc_off_t\fPposinfo)"
+.SS "void ltc_decoder_write_s16 (\fBLTCDecoder\fP * d, short * buf, size_t size, \fBltc_off_t\fP posinfo)"
 wrapper to \fBltc_decoder_write\fP that accepts signed 16 bit audio samples\&. Note: internally libltc uses 8 bit only\&.
 .PP
 \fBParameters:\fP
@@ -509,7 +518,7 @@ wrapper to \fBltc_decoder_write\fP that accepts signed 16 bit audio samples\&. N
 .RE
 .PP
 
-.SS "void ltc_decoder_write_u16 (\fBLTCDecoder\fP *d, short *buf, size_tsize, \fBltc_off_t\fPposinfo)"
+.SS "void ltc_decoder_write_u16 (\fBLTCDecoder\fP * d, short * buf, size_t size, \fBltc_off_t\fP posinfo)"
 wrapper to \fBltc_decoder_write\fP that accepts unsigned 16 bit audio samples\&. Note: internally libltc uses 8 bit only\&.
 .PP
 \fBParameters:\fP
@@ -524,7 +533,7 @@ wrapper to \fBltc_decoder_write\fP that accepts unsigned 16 bit audio samples\&.
 .RE
 .PP
 
-.SS "void ltc_encoder_buffer_flush (\fBLTCEncoder\fP *e)"
+.SS "void ltc_encoder_buffer_flush (\fBLTCEncoder\fP * e)"
 reset the write-pointer of the encoder-buffer 
 .PP
 \fBParameters:\fP
@@ -533,7 +542,7 @@ reset the write-pointer of the encoder-buffer
 .RE
 .PP
 
-.SS "\fBLTCEncoder\fP* ltc_encoder_create (doublesample_rate, doublefps, intuse_date)"
+.SS "\fBLTCEncoder\fP* ltc_encoder_create (double sample_rate, double fps, int use_date)"
 Allocate and initialize LTC audio encoder\&.
 .PP
 Note: if fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbit' bit is set to 1 to indicate drop-frame timecode\&.
@@ -552,9 +561,9 @@ Note: if fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbi
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
-.SS "int ltc_encoder_dec_timecode (\fBLTCEncoder\fP *e)"
+.SS "int ltc_encoder_dec_timecode (\fBLTCEncoder\fP * e)"
 move the encoder to the previous timecode frame\&. uses \fBltc_frame_decrement()\fP internally\&. 
-.SS "int ltc_encoder_encode_byte (\fBLTCEncoder\fP *e, intbyte, doublespeed)"
+.SS "int ltc_encoder_encode_byte (\fBLTCEncoder\fP * e, int byte, double speed)"
 Generate LTC audio for given byte of the LTC-frame and place it into the internal buffer\&.
 .PP
 see \fBltc_encoder_get_buffer\fP and \fBltc_encoder_get_bufptr\fP
@@ -584,7 +593,7 @@ if speed is <0 bits are encoded in reverse\&. slowdown > 10\&.0 requires custom 
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP\&.
-.SS "void ltc_encoder_encode_frame (\fBLTCEncoder\fP *e)"
+.SS "void ltc_encoder_encode_frame (\fBLTCEncoder\fP * e)"
 encode a full LTC frame at fixed speed\&. This is equivalent to calling \fBltc_encoder_encode_byte\fP 10 times for bytes 0\&.\&.9 with speed 1\&.0\&.
 .PP
 Note: The buffer must be empty before calling this function\&. This is usually the case if it is read with \fBltc_encoder_get_buffer\fP after calling this function\&.
@@ -599,7 +608,7 @@ Note: The buffer must be empty before calling this function\&. This is usually t
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
-.SS "void ltc_encoder_free (\fBLTCEncoder\fP *e)"
+.SS "void ltc_encoder_free (\fBLTCEncoder\fP * e)"
 release encoder data structure 
 .PP
 \fBParameters:\fP
@@ -612,7 +621,7 @@ release encoder data structure
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
-.SS "int ltc_encoder_get_buffer (\fBLTCEncoder\fP *e, \fBltcsnd_sample_t\fP *buf)"
+.SS "int ltc_encoder_get_buffer (\fBLTCEncoder\fP * e, \fBltcsnd_sample_t\fP * buf)"
 copy the accumulated encoded audio to the given sample-buffer and flush the buffer\&.
 .PP
 \fBParameters:\fP
@@ -632,7 +641,7 @@ the number of bytes written to the memory area pointed to by buf\&.
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP\&.
-.SS "size_t ltc_encoder_get_buffersize (\fBLTCEncoder\fP *e)"
+.SS "size_t ltc_encoder_get_buffersize (\fBLTCEncoder\fP * e)"
 query the length of the internal buffer\&. It is allocated to hold audio-frames for exactly one LTC frame for the given sample-rate and frame-rate\&. ie\&. (1 + sample-rate / fps) bytes
 .PP
 \fBParameters:\fP
@@ -650,7 +659,7 @@ size of the allocated internal buffer\&.
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP\&.
-.SS "\fBltcsnd_sample_t\fP* ltc_encoder_get_bufptr (\fBLTCEncoder\fP *e, int *size, intflush)"
+.SS "\fBltcsnd_sample_t\fP* ltc_encoder_get_bufptr (\fBLTCEncoder\fP * e, int * size, int flush)"
 get a pointer to the accumulated encoded audio-data\&.
 .PP
 \fBParameters:\fP
@@ -672,7 +681,7 @@ pointer to encoder-buffer
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
-.SS "void ltc_encoder_get_frame (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
+.SS "void ltc_encoder_get_frame (\fBLTCEncoder\fP * e, \fBLTCFrame\fP * f)"
 low-level access to the internal \fBLTCFrame\fP data
 .PP
 \fBParameters:\fP
@@ -683,7 +692,7 @@ low-level access to the internal \fBLTCFrame\fP data
 .RE
 .PP
 
-.SS "void ltc_encoder_get_timecode (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
+.SS "void ltc_encoder_get_timecode (\fBLTCEncoder\fP * e, \fBSMPTETimecode\fP * t)"
 query current encoder timecode\&.
 .PP
 Note: the decoder store its internal state in an LTC-frame, this function converts that LTC-Frame into \fBSMPTETimecode\fP on demand
@@ -696,13 +705,13 @@ Note: the decoder store its internal state in an LTC-frame, this function conver
 .RE
 .PP
 
-.SS "int ltc_encoder_inc_timecode (\fBLTCEncoder\fP *e)"
+.SS "int ltc_encoder_inc_timecode (\fBLTCEncoder\fP * e)"
 move the encoder to the next timecode frame\&. uses \fBltc_frame_increment()\fP internally\&. 
 .PP
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
-.SS "int ltc_encoder_reinit (\fBLTCEncoder\fP *e, doublesample_rate, doublefps, intuse_date)"
+.SS "int ltc_encoder_reinit (\fBLTCEncoder\fP * e, double sample_rate, double fps, int use_date)"
 change the encoder settings without re-allocating any library internal data structure (realtime safe)\&.
 .PP
 This call will fail if the internal buffer is too small to hold one full LTC frame\&. Use \fBltc_encoder_set_bufsize\fP to prepare an internal buffer large enough to accommodate all sample_rate, fps combinations that you would like to re-init to\&.
@@ -723,7 +732,7 @@ This call will fail if the internal buffer is too small to hold one full LTC fra
 \fBExamples: \fP
 .in +1c
 \fBltcencode\&.c\fP\&.
-.SS "int ltc_encoder_set_bufsize (\fBLTCEncoder\fP *e, doublesample_rate, doublefps)"
+.SS "int ltc_encoder_set_bufsize (\fBLTCEncoder\fP * e, double sample_rate, double fps)"
 set a custom size for the internal buffer\&.
 .PP
 This is needed if you are planning to call \fBltc_encoder_reinit()\fP or if you want to keep more than one LTC frame's worth of data in the library's internal buffer\&.
@@ -749,7 +758,7 @@ The buffer-size is (1 + sample_rate / fps) bytes\&. resizing the internal buffer
 \fBExamples: \fP
 .in +1c
 \fBltcencode\&.c\fP\&.
-.SS "void ltc_encoder_set_filter (\fBLTCEncoder\fP *e, doublerise_time)"
+.SS "void ltc_encoder_set_filter (\fBLTCEncoder\fP * e, double rise_time)"
 set encoder signal rise-time / signal filtering
 .PP
 LTC signal should have a rise time of 25 us +/- 5 us\&. by default the encoder honors this and low-pass filters the output depending on the sample-rate\&.
@@ -770,7 +779,7 @@ Note \fBltc_encoder_reinit\fP resets the filter-time-constant to use the default
 \fBExamples: \fP
 .in +1c
 \fBltcencode\&.c\fP\&.
-.SS "void ltc_encoder_set_frame (\fBLTCEncoder\fP *e, \fBLTCFrame\fP *f)"
+.SS "void ltc_encoder_set_frame (\fBLTCEncoder\fP * e, \fBLTCFrame\fP * f)"
 low-level access to the internal \fBLTCFrame\fP data\&.
 .PP
 Note: be careful to about f->dfbit, the encoder sets this [only] upon initialization\&.
@@ -783,7 +792,7 @@ Note: be careful to about f->dfbit, the encoder sets this [only] upon initializa
 .RE
 .PP
 
-.SS "void ltc_encoder_set_timecode (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
+.SS "void ltc_encoder_set_timecode (\fBLTCEncoder\fP * e, \fBSMPTETimecode\fP * t)"
 set the encoder LTC-frame from given \fBSMPTETimecode\fP\&. The next call to \fBltc_encoder_encode_byte\fP or \fBltc_encoder_encode_frame\fP will encode this time to LTC audio-samples\&.
 .PP
 Internally this call uses \fBltc_time_to_frame\fP because the LTCEncoder operates on LTCframes only\&.
@@ -800,7 +809,7 @@ Internally this call uses \fBltc_time_to_frame\fP because the LTCEncoder operate
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
-.SS "int ltc_encoder_set_volume (\fBLTCEncoder\fP *e, doubledBFS)"
+.SS "int ltc_encoder_set_volume (\fBLTCEncoder\fP * e, double dBFS)"
 set the volume of the generated LTC signal
 .PP
 typically LTC is sent at 0dBu ; in EBU callibrated systems that corresponds to -18dBFS\&. - by default libltc creates -3dBFS
@@ -826,7 +835,7 @@ since libltc generated 8bit audio-data, the minium dBFS is about -42dB which cor
 \fBExamples: \fP
 .in +1c
 \fBltcencode\&.c\fP\&.
-.SS "int ltc_frame_decrement (\fBLTCFrame\fP *frame, intfps, intuse_date)"
+.SS "int ltc_frame_decrement (\fBLTCFrame\fP * frame, int fps, int use_date)"
 decrement the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
 \fBParameters:\fP
@@ -844,7 +853,7 @@ decrement the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 .RE
 .PP
 
-.SS "int ltc_frame_increment (\fBLTCFrame\fP *frame, intfps, intuse_date)"
+.SS "int ltc_frame_increment (\fBLTCFrame\fP * frame, int fps, int use_date)"
 increment the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
 \fBParameters:\fP
@@ -862,7 +871,7 @@ increment the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 .RE
 .PP
 
-.SS "void ltc_frame_reset (\fBLTCFrame\fP *frame)"
+.SS "void ltc_frame_reset (\fBLTCFrame\fP * frame)"
 reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end\&. The sync word is set according to architecture (big/little endian)\&. also set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP) 
 .PP
 \fBParameters:\fP
@@ -871,12 +880,14 @@ reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at th
 .RE
 .PP
 
-.SS "void ltc_frame_set_parity (\fBLTCFrame\fP *frame)"
+.SS "void ltc_frame_set_parity (\fBLTCFrame\fP * frame)"
 Set the parity of the LTC frame\&.
 .PP
 Bi-Phase Mark Phase Correction bit (bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase in every Sync Word will be the same\&.
 .PP
 This is merely cosmetic; the motivation to keep the polarity of the waveform constant is to make finding the Sync Word visibly (on a scope) easier\&.
+.PP
+There is usually no need to call this function directly\&. The encoder utility functions \fBltc_time_to_frame\fP, \fBltc_frame_increment\fP and \fBltc_frame_decrement\fP include a call to it\&.
 .PP
 \fBParameters:\fP
 .RS 4
@@ -884,7 +895,7 @@ This is merely cosmetic; the motivation to keep the polarity of the waveform con
 .RE
 .PP
 
-.SS "void ltc_frame_to_time (\fBSMPTETimecode\fP *stime, \fBLTCFrame\fP *frame, intset_date)"
+.SS "void ltc_frame_to_time (\fBSMPTETimecode\fP * stime, \fBLTCFrame\fP * frame, int set_date)"
 convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct 
 .PP
 \fBParameters:\fP
@@ -901,7 +912,7 @@ convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "void ltc_time_to_frame (\fBLTCFrame\fP *frame, \fBSMPTETimecode\fP *stime, intset_date)"
+.SS "void ltc_time_to_frame (\fBLTCFrame\fP * frame, \fBSMPTETimecode\fP * stime, int set_date)"
 convert \fBSMPTETimecode\fP struct into its binary LTC representation\&. and set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
 \fBParameters:\fP

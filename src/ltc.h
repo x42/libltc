@@ -44,16 +44,16 @@ extern "C" {
 
 #ifndef DOXYGEN_IGNORE
 /* libltc version */
-#define LIBLTC_VERSION "0.8.1"
-#define LIBLTC_VERSION_MAJOR  0
-#define LIBLTC_VERSION_MINOR  8
-#define LIBLTC_VERSION_MICRO  1
+#define LIBLTC_VERSION "1.0.0"
+#define LIBLTC_VERSION_MAJOR  1
+#define LIBLTC_VERSION_MINOR  0
+#define LIBLTC_VERSION_MICRO  0
 
 /* interface revision number
  * http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
  */
 #define LIBLTC_CUR  9
-#define LIBLTC_REV  0
+#define LIBLTC_REV  1
 #define LIBLTC_AGE  1
 #endif /* end DOXYGEN_IGNORE */
 
