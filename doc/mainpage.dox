@@ -3,26 +3,27 @@
  */
 
 /**
-@mainpage LTC Library
+@mainpage POSIX-C Library for handling Linear/Logitudinal Time Code (LTC)
 
 @section intro Introduction
 
  Linear (or Longitudinal) Timecode (LTC) is an encoding of
- <a href="http://en.wikipedia.org/wiki/SMPTE_timecode">SMPTE timecode</a> data
+ <a href="http://en.wikipedia.org/wiki/SMPTE_timecode">timecode</a> data
  as a
  <a href="http://en.wikipedia.org/wiki/Manchester_Code">Manchester-Biphase</a>
  encoded audio signal.
  The audio signal is commonly recorded on a VTR track or other storage media.
 
  libltc provides functionality to encode and decode LTC from/to
- SMPTE timecode, including SMPTE date support.
+ timecode, including SMPTE date support.
 
- libltc is the successor of libltcsmpte.
+ libltc is the successor of <a href="https://sourceforge.net/projects/ltcsmpte/">libltcsmpte</a>.
 
 @section download Download
 <ul>
  <li><a href="http://github.com/x42/libltc/downloads">GitHub Downloads</a></li>
  <li><a href="http://github.com/x42/libltc/">GitHub Project Page</a></li>
+ <li>git://github.com/x42/libltc.git</li>
 </ul>
 
 @section installation Installation
@@ -40,7 +41,8 @@
  The documentation is also available as Unix manual pages.
 
  The self-test code lends itself as good examples on how to get started.
- See <tt>tests/decoder.c</tt> and <tt>tests/encoder.c</tt> .
+ See \ref ltcdecode.c, \ref ltcencode.c and \ref example_encode.c.
+ Another good starting point is <a href="https://github.com/x42/ltc-tools">ltc-tools</a>.
 
 @section about Q&A
 
@@ -76,13 +78,17 @@
 
  <dt>Is there free software is using libltc?</dt>
  <dd>
-  <a href="https://github.com/x42/ltc-tools">ltc-tools</a> is in the making. It comprises two JACK applications to generate and
-  decode LTC from live audio-sources and includes 'ltcdump' which reads LTC from
-  audio-files. Stay tuned (ETA Sept/2012).
+  yes, <a href="https://github.com/x42/ltc-tools">ltc-tools</a>.
+  It comprises <a href="http://jackaudio.org">JACK</a> applications to generate
+  and decode LTC from live sources and includes tools to read or write
+  LTC from/to audio-files.
+  <a href="http://xjadeo.sf.net">xjadeo</a> video-monitor has been updated
+  to use libltc, too.
 
-  Currently there is self-test code, which can en&decode LTC from raw audio-data.
+  The library comes self-test code, which can en&decode LTC from raw audio-data.
 
-  There are lots of apps (incl iOS applications and NLEs) using libltcsmpte.
+  There are lots of apps (incl iOS applications, NLEs and hardware/firmware
+  solutions) using libltcsmpte.
   We dare say that many - if not most - of them will be updated to libLTC in time.
  </dd>
 
@@ -95,16 +101,21 @@
   libltc introduces support for encoding vari-speed LTC and reverse played LTC.
   The internal code-path was optimized and the phase-tracking was slightly improved.
 
-  libltc drops support for operations on SMPTE timecode such as converting
-  video-timecode to real-time (seconds, audio-frames), etc. Some of this functionality
-  may reincarnate into libsmpte or libframerate.
+  libltc drops support for operations on timecode such as converting
+  video-timecode to real-time (seconds, audio-frames), etc. This functionality
+  is now part of <a href="https://github.com/x42/libtimecode/">libtimcode</a>.
 
   The reasoning behind this is that libltc operates on LTC-frames.
-  It ought to be ignorant about SMPTE semantics and should not make assumptions
-  about the SMPTE data which is application dependent.
+  It ought to be ignorant about timecode or framerate semantics and should not
+  make assumptions about the data, which is application dependent.
 
   Some related inappropriate functionality of libltcsmpte was dropped, as well.
-  e.g. The ability to detect timecode discontinuities in decoded LTC/SMPTE.
+  e.g. The ability to detect timecode discontinuities. This is an application
+  specific issue and not LTC related.
+
+  libltc still includes some timecode operations directly related to LTC, i.e.
+  incrementing/decrementing timecode for use in the encoder and functions to
+  map the 80 LTC bits to HH:MM:SS:FF timecode.
 
   In general: the API was simplified and cleaned up.
  </dd>
@@ -129,6 +140,10 @@
  <dt>But you could still have called it libltcsmpte-2.0.0..</dt>
  <dd>
   Yes, we could have done that.
+
+  The SMPTE part in the name was not appropriate. libltc handles EBU timecode just as well
+  as SMPTE timecode. As mentioned above libltc is not concerned with timecode or framerates
+  semantics per se, only the encoding/decoding of it.
  </dd>
 
  <dt>libltcsmpte supports a variety of audio-sample formats/encodings (float, 16bit,..).
@@ -145,18 +160,16 @@
   There is no way that libLTC could include an interface for every possible way
   to represent audio-data. This is application specific.
 
-  The internal decoder has been re-factored since libltcsmpte, so that it performs
-  really well, even when feeding one sample at a time. Audio- samples can be
-  converted and fed into it on the fly. - Future versions of
-  libltc may actually include wrappers that do the conversion for common formats.
+  There are however wrappers to convert common formats (16bit signed/unsigned and
+  32bit float) on the fly to 8 bit unsigned samples.
 
-  Note: Yes, libltcsmpte is/was superior in the sense that it can detect, track and
+  Yes, libltcsmpte is/was superior in the sense that it can detect, track and
   filter very low signals-levels.
   Due to the 8bit limitation, libltc requires a minimum amplitude of -36db.
   This is usually a non-issue in real-world applications, but yes, if you want
   to analyze very low signals, possibly with DC-offset, you must implement your
-  own amp and high-pass filter. In any case the generic signal tracker in libltc
-  will likely perform worse than your application specific one.
+  own amp and high-pass filter. In any case the generic signal tracker in libltc (or
+  libltcsmpte) will likely perform worse than your application specific one.
  </dd>
 </dl>
 
@@ -164,6 +177,7 @@
 @section references References
 <ul>
  <li><a href="https://github.com/x42/libltc/">libLTC GitHub Project Page</a></li>
+ <li><a href="https://github.com/x42/libtimecode/">libTimecode GitHub Project Page</a></li>
  <li><a href="https://sourceforge.net/projects/ltcsmpte/">libLTCSMPTE Sourceforge Project Page</a></li>
  <li><a href="http://www.philrees.co.uk/articles/timecode.htm">Phil Rees' Article "Synchronisation and SMPTE timecode"</a></li>
  <li><a href="http://en.wikipedia.org/wiki/Linear_timecode">Wikipedia Info on Linear Timecode</a></li>
