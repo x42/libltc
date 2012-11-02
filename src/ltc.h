@@ -617,6 +617,10 @@ void ltc_encoder_encode_frame(LTCEncoder *e);
  * This is merely cosmetic; the motivation to keep the polarity of the waveform
  * constant is to make finding the Sync Word visibly (on a scope) easier.
  *
+ * There is usually no need to call this function directly. The encoder utility
+ * functions \ref ltc_time_to_frame, \ref ltc_frame_increment and
+ * \ref ltc_frame_decrement include a call to it.
+ *
  * @param frame the LTC to analyze and set or clear the biphase_mark_phase_correction bit.
  */
 void ltc_frame_set_parity(LTCFrame *frame);
