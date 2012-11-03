@@ -1,4 +1,9 @@
-2012-10-25 (v1.0.0) Robin Gareus <robin@gareus.org>
+2012-11-03 (v1.0.1) Robin Gareus <robin@gareus.org>
+* fixe release tar-ball: remove cruft from test/
+* fix typo in README and update description
+* no code changes.
+
+2012-11-02 (v1.0.0) Robin Gareus <robin@gareus.org>
 * freeze interface defition - 1.0.0
 * update doc
 * minor tweaks and typos (OSX build,
