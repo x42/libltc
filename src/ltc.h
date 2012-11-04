@@ -250,9 +250,11 @@ typedef struct LTCEncoder LTCEncoder;
  * convert binary LTCFrame into SMPTETimecode struct
  * @param stime output
  * @param frame input
- * @param set_date if non-zero, the user-fields in LTCFrame will be parsed into the date variable of SMPTETimecode
+ * @param set_flags if > 0 the user-fields in LTCFrame will be parsed into the date variable of SMPTETimecode.
+ * If < 0 all date fields are reset to zero.
+ * if set_flags is zero, all the date and timezone is not touched.
  */
-void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_date);
+void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_flags);
 
 /**
  * convert SMPTETimecode struct into its binary LTC representation.
@@ -260,9 +262,11 @@ void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_date);
  *
  * @param frame output - the frame to be set
  * @param stime input - timecode input
- * @param set_date if non-zero, the user-fields in LTCFrame will be set from the date in SMPTETimecode
+ * @param set_flags if > 0 the user-fields in LTCFrame will be set from the date in SMPTETimecode,
+ * if < 0 the user-fields will be set to zero. If > 1 or < -1 the binary_group_flag and color-frame flag are reset to zero.
+ * if set_flags is zero, all non-timecode fields remain untouched.
  */
-void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date);
+void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_flags);
 
 /**
  * reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end.
@@ -584,12 +588,12 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
  * The default output signal is @ -3dBFS (38..218 at 8 bit unsigned).
  * see also \ref ltc_encoder_set_volume
  *
- * if speed is <0 bits are encoded in reverse.
+ * if speed is < 0 bits are encoded in reverse.
  * slowdown > 10.0 requires custom buffer sizes; see \ref ltc_encoder_set_bufsize
  *
  * @param e encoder handle
  * @param byte byte of the LTC-frame to encode 0..9
- * @param speed vari-speed, <1.0 faster,  >1.0 slower ; must be != 0
+ * @param speed vari-speed, < 1.0 faster,  > 1.0 slower ; must be != 0
  *
  * @return 0 on success, -1 if byte is invalud or buffer overflow (speed > 10.0)
  */

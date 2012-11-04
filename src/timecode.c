@@ -161,15 +161,20 @@ static void skip_drop_frames(LTCFrame* frame) {
 	}
 }
 
-void ltc_frame_to_time(SMPTETimecode *stime, LTCFrame *frame, int set_date) {
+void ltc_frame_to_time(SMPTETimecode *stime, LTCFrame *frame, int set_flags) {
 	if (!stime) return;
 
-	if (set_date) {
+	if (set_flags > 0) {
 		smpte_set_timezone_string(frame, stime);
 
 		stime->years  = frame->user5 + frame->user6*10;
 		stime->months = frame->user3 + frame->user4*10;
 		stime->days   = frame->user1 + frame->user2*10;
+	} else if (set_flags < 0) {
+		stime->years  = 0;
+		stime->months = 0;
+		stime->days   = 0;
+		sprintf(stime->timezone,"+0000");
 	}
 
 	stime->hours = frame->hours_units + frame->hours_tens*10;
@@ -178,8 +183,8 @@ void ltc_frame_to_time(SMPTETimecode *stime, LTCFrame *frame, int set_date) {
 	stime->frame = frame->frame_units + frame->frame_tens*10;
 }
 
-void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date) {
-	if (set_date) {
+void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_flags) {
+	if (set_flags > 0) {
 		smpte_set_timezone_code(stime, frame);
 		frame->user6 = stime->years/10;
 		frame->user5 = stime->years - frame->user6*10;
@@ -187,6 +192,20 @@ void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_date) {
 		frame->user3 = stime->months - frame->user4*10;
 		frame->user2 = stime->days/10;
 		frame->user1 = stime->days - frame->user2*10;
+	} else if (set_flags < 0) {
+		frame->user8 = 0;
+		frame->user7 = 0;
+		frame->user6 = 0;
+		frame->user5 = 0;
+		frame->user4 = 0;
+		frame->user3 = 0;
+		frame->user2 = 0;
+		frame->user1 = 0;
+	}
+	if (abs(set_flags) > 1) {
+		frame->binary_group_flag_bit1 = 0;
+		frame->binary_group_flag_bit2 = 0;
+		frame->col_frame = 0; // colour
 	}
 
 	frame->hours_tens  = stime->hours/10;
