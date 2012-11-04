@@ -16,4 +16,6 @@ dox: stamp-doxygen
 
 stamp-doxygen: src/ltc.h doc/mainpage.dox Doxyfile
 	$(DOXYGEN) Doxyfile
+# fix doxygen man-page
+	sed -i 's/\([( ]\)-\([0-9][0-9d) ]\)/\1\\-\2/g' doc/man/man3/ltc.h.3
 	touch stamp-doxygen
