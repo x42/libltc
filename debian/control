@@ -58,3 +58,5 @@ Description: linear timecode library
  recorded on a VTR track or other storage media.
  libltc provides functionality to encode and decode LTC from/to SMPTE or EBU
  timecode, including SMPTE date support.
+ .
+ This package provides the shared library.
