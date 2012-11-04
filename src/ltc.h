@@ -181,7 +181,7 @@ struct LTCFrame {
 	unsigned int user7:4;
 
 	unsigned int hours_tens:2; ///< SMPTE hours BCD tens 0..2
-	unsigned int reserved:1; ///< reserved -- don't use
+	unsigned int reserved:1; ///< reserved - do not use
 	unsigned int binary_group_flag_bit2:1; ///< indicate user-data char encoding, see table above
 	unsigned int user8:4;
 
@@ -225,7 +225,7 @@ struct SMPTETimecode {
 	unsigned char hours; ///< hour 0..23
 	unsigned char mins; ///< minute 0..60
 	unsigned char secs; ///< second 0..60
-	unsigned char frame; ///< sub-second frame 0..{FPS-1}
+	unsigned char frame; ///< sub-second frame 0..(FPS - 1)
 };
 
 /**
@@ -278,7 +278,7 @@ void ltc_frame_reset(LTCFrame* frame);
  *
  * @param frame the LTC-timecode to increment
  * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
- * @param use_date - interpret user-data as date and increment date if timecode wraps after 24h.
+ * @param use_date interpret user-data as date and increment date if timecode wraps after 24h.
  * (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored.
  * "00" is assumed to be year 2000 which was a leap year.)
  * @return 1 if timecode was wrapped around after 23:59:59:ff, 0 otherwise
@@ -291,7 +291,7 @@ int ltc_frame_increment(LTCFrame *frame, int fps, int use_date);
  *
  * @param frame the LTC-timecode to decrement
  * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
- * @param use_date - interpret user-data as date and decrement date if timecode wraps at 24h.
+ * @param use_date interpret user-data as date and decrement date if timecode wraps at 24h.
  * (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored.
  * "00" is assumed to be year 2000 which was a leap year.)
  * @return 1 if timecode was wrapped around at 23:59:59:ff, 0 otherwise
@@ -567,7 +567,7 @@ int ltc_encoder_set_volume(LTCEncoder *e, double dBFS);
  * previously set with \ref ltc_encoder_set_filter
  *
  * @param e encoder handle
- * @param rise_time the signal rise-time in us (10^-6 sec), set to 0 for perfect square wave, default 25.0
+ * @param rise_time the signal rise-time in us (10^(-6) sec), set to 0 for perfect square wave, default 25.0
  */
 void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
 
