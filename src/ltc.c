@@ -43,7 +43,7 @@ LTCDecoder* ltc_decoder_create(int apv, int queue_len) {
 	}
 	d->biphase_state = 1;
 	d->snd_to_biphase_period = apv / 80;
-	d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 14) / 4;
+	d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 3) / 4;
 
 	d->snd_to_biphase_min = SAMPLE_CENTER;
 	d->snd_to_biphase_max = SAMPLE_CENTER;

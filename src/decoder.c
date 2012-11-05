@@ -114,7 +114,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 		memset(&d->ltc_frame, 0, sizeof(LTCFrame));
 
 		if (d->frame_start_prev < 0) {
-			d->frame_start_off = posinfo - d->snd_to_biphase_period; // or d->snd_to_biphase_lmt
+			d->frame_start_off = posinfo; // - d->snd_to_biphase_period;
 		} else {
 			d->frame_start_off = d->frame_start_prev;
 		}
@@ -252,6 +252,9 @@ static inline void biphase_decode2(LTCDecoder *d, int offset, ltc_off_t pos) {
 
 	d->biphase_tics[d->biphase_tic] = d->snd_to_biphase_period;
 	d->biphase_tic = (d->biphase_tic + 1) % LTC_FRAME_BIT_COUNT;
+	if (d->snd_to_biphase_cnt <= 2 * d->snd_to_biphase_period) {
+		pos -= (d->snd_to_biphase_period - d->snd_to_biphase_cnt);
+	}
 
 	if (d->snd_to_biphase_state == d->biphase_prev) {
 		d->biphase_state = 1;
