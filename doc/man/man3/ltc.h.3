@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Sat Nov 3 2012" "Version 1.0.1" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Tue Nov 6 2012" "Version 1.0.2" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -58,10 +58,10 @@ libltc - en+decode linear timecode
 
 .in +1c
 .ti -1c
-.RI "void \fBltc_frame_to_time\fP (\fBSMPTETimecode\fP *stime, \fBLTCFrame\fP *frame, int set_date)"
+.RI "void \fBltc_frame_to_time\fP (\fBSMPTETimecode\fP *stime, \fBLTCFrame\fP *frame, int set_flags)"
 .br
 .ti -1c
-.RI "void \fBltc_time_to_frame\fP (\fBLTCFrame\fP *frame, \fBSMPTETimecode\fP *stime, int set_date)"
+.RI "void \fBltc_time_to_frame\fP (\fBLTCFrame\fP *frame, \fBSMPTETimecode\fP *stime, int set_flags)"
 .br
 .ti -1c
 .RI "void \fBltc_frame_reset\fP (\fBLTCFrame\fP *frame)"
@@ -259,7 +259,7 @@ unsigned int \fImins_tens:3\fP SMPTE minutes BCD tens 0\&.\&.6\&.
 unsigned int \fImins_units:4\fP SMPTE minutes BCD unit 0\&.\&.9\&. 
 .br
 .PP
-unsigned int \fIreserved:1\fP reserved -- don't use 
+unsigned int \fIreserved:1\fP reserved - do not use 
 .br
 .PP
 unsigned int \fIsecs_tens:3\fP SMPTE seconds BCD tens 0\&.\&.6\&. 
@@ -346,7 +346,7 @@ Human readable time representation, decimal values\&.
 unsigned char \fIdays\fP day of month 1\&.\&.31 
 .br
 .PP
-unsigned char \fIframe\fP sub-second frame 0\&.\&.{FPS-1} 
+unsigned char \fIframe\fP sub-second frame 0\&.\&.(FPS - 1) 
 .br
 .PP
 unsigned char \fIhours\fP hour 0\&.\&.23 
@@ -570,9 +570,9 @@ see \fBltc_encoder_get_buffer\fP and \fBltc_encoder_get_bufptr\fP
 .PP
 LTC has 10 bytes per frame: 0 <= bytecnt < 10 use SMPTESetTime(\&.\&.) to set the current frame before Encoding\&. see tests/encoder\&.c for an example\&.
 .PP
-The default output signal is @ -3dBFS (38\&.\&.218 at 8 bit unsigned)\&. see also \fBltc_encoder_set_volume\fP
+The default output signal is @ \-3dBFS (38\&.\&.218 at 8 bit unsigned)\&. see also \fBltc_encoder_set_volume\fP
 .PP
-if speed is <0 bits are encoded in reverse\&. slowdown > 10\&.0 requires custom buffer sizes; see \fBltc_encoder_set_bufsize\fP
+if speed is < 0 bits are encoded in reverse\&. slowdown > 10\&.0 requires custom buffer sizes; see \fBltc_encoder_set_bufsize\fP
 .PP
 \fBParameters:\fP
 .RS 4
@@ -580,12 +580,12 @@ if speed is <0 bits are encoded in reverse\&. slowdown > 10\&.0 requires custom 
 .br
 \fIbyte\fP byte of the LTC-frame to encode 0\&.\&.9 
 .br
-\fIspeed\fP vari-speed, <1\&.0 faster, >1\&.0 slower ; must be != 0
+\fIspeed\fP vari-speed, < 1\&.0 faster, > 1\&.0 slower ; must be != 0
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-0 on success, -1 if byte is invalud or buffer overflow (speed > 10\&.0) 
+0 on success, \-1 if byte is invalud or buffer overflow (speed > 10\&.0) 
 .RE
 .PP
 
@@ -750,7 +750,7 @@ The buffer-size is (1 + sample_rate / fps) bytes\&. resizing the internal buffer
 .PP
 \fBReturns:\fP
 .RS 4
-0 on success, -1 if allocation fails (which makes the encoder unusable, call \fBltc_encoder_free\fP or realloc the buffer) 
+0 on success, \-1 if allocation fails (which makes the encoder unusable, call \fBltc_encoder_free\fP or realloc the buffer) 
 .RE
 .PP
 
@@ -771,7 +771,7 @@ Note \fBltc_encoder_reinit\fP resets the filter-time-constant to use the default
 .RS 4
 \fIe\fP encoder handle 
 .br
-\fIrise_time\fP the signal rise-time in us (10^-6 sec), set to 0 for perfect square wave, default 25\&.0 
+\fIrise_time\fP the signal rise-time in us (10^(\-6) sec), set to 0 for perfect square wave, default 25\&.0 
 .RE
 .PP
 
@@ -812,9 +812,9 @@ Internally this call uses \fBltc_time_to_frame\fP because the LTCEncoder operate
 .SS "int ltc_encoder_set_volume (\fBLTCEncoder\fP * e, double dBFS)"
 set the volume of the generated LTC signal
 .PP
-typically LTC is sent at 0dBu ; in EBU callibrated systems that corresponds to -18dBFS\&. - by default libltc creates -3dBFS
+typically LTC is sent at 0dBu ; in EBU callibrated systems that corresponds to \-18dBFS\&. - by default libltc creates \-3dBFS
 .PP
-since libltc generated 8bit audio-data, the minium dBFS is about -42dB which corresponds to 1 bit\&.
+since libltc generated 8bit audio-data, the minium dBFS is about \-42dB which corresponds to 1 bit\&.
 .PP
 0dB corresponds to a signal range of 127 1\&.\&.255 with 128 at the center\&.
 .PP
@@ -827,7 +827,7 @@ since libltc generated 8bit audio-data, the minium dBFS is about -42dB which cor
 .PP
 \fBReturns:\fP
 .RS 4
-0 on success, -1 if the value was out of range 
+0 on success, \-1 if the value was out of range 
 .RE
 .PP
 
@@ -844,7 +844,7 @@ decrement the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 .br
 \fIfps\fP integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps)\&. 
 .br
-\fIuse_date\fP - interpret user-data as date and decrement date if timecode wraps at 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
+\fIuse_date\fP interpret user-data as date and decrement date if timecode wraps at 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
 .RE
 .PP
 \fBReturns:\fP
@@ -862,7 +862,7 @@ increment the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 .br
 \fIfps\fP integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps)\&. 
 .br
-\fIuse_date\fP - interpret user-data as date and increment date if timecode wraps after 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
+\fIuse_date\fP interpret user-data as date and increment date if timecode wraps after 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
 .RE
 .PP
 \fBReturns:\fP
@@ -895,7 +895,7 @@ There is usually no need to call this function directly\&. The encoder utility f
 .RE
 .PP
 
-.SS "void ltc_frame_to_time (\fBSMPTETimecode\fP * stime, \fBLTCFrame\fP * frame, int set_date)"
+.SS "void ltc_frame_to_time (\fBSMPTETimecode\fP * stime, \fBLTCFrame\fP * frame, int set_flags)"
 convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct 
 .PP
 \fBParameters:\fP
@@ -904,7 +904,7 @@ convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct
 .br
 \fIframe\fP input 
 .br
-\fIset_date\fP if non-zero, the user-fields in \fBLTCFrame\fP will be parsed into the date variable of \fBSMPTETimecode\fP 
+\fIset_flags\fP if > 0 the user-fields in \fBLTCFrame\fP will be parsed into the date variable of \fBSMPTETimecode\fP\&. If < 0 all date fields are reset to zero\&. if set_flags is zero, all the date and timezone is not touched\&. 
 .RE
 .PP
 
@@ -912,7 +912,7 @@ convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "void ltc_time_to_frame (\fBLTCFrame\fP * frame, \fBSMPTETimecode\fP * stime, int set_date)"
+.SS "void ltc_time_to_frame (\fBLTCFrame\fP * frame, \fBSMPTETimecode\fP * stime, int set_flags)"
 convert \fBSMPTETimecode\fP struct into its binary LTC representation\&. and set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
 \fBParameters:\fP
@@ -921,7 +921,7 @@ convert \fBSMPTETimecode\fP struct into its binary LTC representation\&. and set
 .br
 \fIstime\fP input - timecode input 
 .br
-\fIset_date\fP if non-zero, the user-fields in \fBLTCFrame\fP will be set from the date in \fBSMPTETimecode\fP 
+\fIset_flags\fP if > 0 the user-fields in \fBLTCFrame\fP will be set from the date in \fBSMPTETimecode\fP, if < 0 the user-fields will be set to zero\&. If > 1 or < \-1 the binary_group_flag and color-frame flag are reset to zero\&. if set_flags is zero, all non-timecode fields remain untouched\&. 
 .RE
 .PP
 
