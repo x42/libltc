@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">1.0.1</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -64,7 +64,7 @@
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifndef DOXYGEN_IGNORE</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="comment">/* libltc version */</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define LIBLTC_VERSION &quot;1.0.1&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define LIBLTC_VERSION &quot;1.0.2&quot;</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_VERSION_MAJOR  1</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_VERSION_MINOR  0</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_VERSION_MICRO  1</span></div>
@@ -73,7 +73,7 @@
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define LIBLTC_CUR  9</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_REV  1</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_REV  2</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_AGE  1</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* end DOXYGEN_IGNORE */</span><span class="preprocessor"></span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span></div>
@@ -113,7 +113,7 @@
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a5bf42653935c89b25f3b99281a377756">user8</a>:4;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a9da8bdceccbc4c8c7d60d005d72380f6" title="indicate user-data char encoding, see table above">binary_group_flag_bit2</a>:1;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ae747ba45b1a6f6b551147abc6d1505d2" title="reserved – don&#39;t use">reserved</a>:1;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ae747ba45b1a6f6b551147abc6d1505d2" title="reserved - do not use">reserved</a>:1;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a61509094f22a88907793ec4c2f97fe93" title="SMPTE hours BCD tens 0..2.">hours_tens</a>:2;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a7b7a3d153997c77313a2731e332bc1ad">sync_word</a>:16;</div>
@@ -147,7 +147,7 @@
 <div class="line"><a name="l00181"></a><span class="lineno"><a class="code" href="ltc_8h.html#a2691b47442ce7cea176c5ca3289e485a">  181</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a2691b47442ce7cea176c5ca3289e485a">user7</a>:4;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
 <div class="line"><a name="l00183"></a><span class="lineno"><a class="code" href="ltc_8h.html#a61509094f22a88907793ec4c2f97fe93">  183</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a61509094f22a88907793ec4c2f97fe93" title="SMPTE hours BCD tens 0..2.">hours_tens</a>:2; </div>
-<div class="line"><a name="l00184"></a><span class="lineno"><a class="code" href="ltc_8h.html#ae747ba45b1a6f6b551147abc6d1505d2">  184</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ae747ba45b1a6f6b551147abc6d1505d2" title="reserved – don&#39;t use">reserved</a>:1; </div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="code" href="ltc_8h.html#ae747ba45b1a6f6b551147abc6d1505d2">  184</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ae747ba45b1a6f6b551147abc6d1505d2" title="reserved - do not use">reserved</a>:1; </div>
 <div class="line"><a name="l00185"></a><span class="lineno"><a class="code" href="ltc_8h.html#a9da8bdceccbc4c8c7d60d005d72380f6">  185</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a9da8bdceccbc4c8c7d60d005d72380f6" title="indicate user-data char encoding, see table above">binary_group_flag_bit2</a>:1; </div>
 <div class="line"><a name="l00186"></a><span class="lineno"><a class="code" href="ltc_8h.html#a5bf42653935c89b25f3b99281a377756">  186</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a5bf42653935c89b25f3b99281a377756">user8</a>:4;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
@@ -179,7 +179,7 @@
 <div class="line"><a name="l00225"></a><span class="lineno"><a class="code" href="ltc_8h.html#a46a49bf0cc03a662959d96145b543bf3">  225</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="ltc_8h.html#a46a49bf0cc03a662959d96145b543bf3" title="hour 0..23">hours</a>; </div>
 <div class="line"><a name="l00226"></a><span class="lineno"><a class="code" href="ltc_8h.html#a3a61b5ec33a92b13bc7ce21cb54e55ce">  226</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="ltc_8h.html#a3a61b5ec33a92b13bc7ce21cb54e55ce" title="minute 0..60">mins</a>; </div>
 <div class="line"><a name="l00227"></a><span class="lineno"><a class="code" href="ltc_8h.html#acabc2874dae09c842660cda082cbd7d1">  227</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="ltc_8h.html#acabc2874dae09c842660cda082cbd7d1" title="second 0..60">secs</a>; </div>
-<div class="line"><a name="l00228"></a><span class="lineno"><a class="code" href="ltc_8h.html#a1b22b2e8db1d8d2b526919e0f8cef0ee">  228</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="ltc_8h.html#a1b22b2e8db1d8d2b526919e0f8cef0ee" title="sub-second frame 0..{FPS-1}">frame</a>; </div>
+<div class="line"><a name="l00228"></a><span class="lineno"><a class="code" href="ltc_8h.html#a1b22b2e8db1d8d2b526919e0f8cef0ee">  228</a></span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="ltc_8h.html#a1b22b2e8db1d8d2b526919e0f8cef0ee" title="sub-second frame 0..(FPS - 1)">frame</a>; </div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;};</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
 <div class="line"><a name="l00234"></a><span class="lineno"><a class="code" href="ltc_8h.html#ad649b5a25b9644920dd2420ebe044a52">  234</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> <a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>;</div>
@@ -189,87 +189,87 @@
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
 <div class="line"><a name="l00247"></a><span class="lineno"><a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">  247</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> <a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a>;</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a3481e79dc12bbf52c78b47bde9d69848">ltc_frame_to_time</a>(<a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>* stime, <a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame, <span class="keywordtype">int</span> set_date);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a33f3b8571efe6f88544a05e40acec976">ltc_time_to_frame</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame, <a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>* stime, <span class="keywordtype">int</span> set_date);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#abe4a7d0fb406b90f08d5c5d59749bfcb">ltc_frame_reset</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame);</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, <span class="keywordtype">int</span> fps, <span class="keywordtype">int</span> use_date);</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame, <span class="keywordtype">int</span> fps, <span class="keywordtype">int</span> use_date);</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> * <a class="code" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a>(<span class="keywordtype">int</span> apv, <span class="keywordtype">int</span> queue_size);</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d);</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d,</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                ltcsnd_sample_t *buf, <span class="keywordtype">size_t</span> size,</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                ltc_off_t posinfo);</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a4ae7fa4f57f8c99eb819f1b52d5a2532">ltc_decoder_write_float</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <span class="keywordtype">float</span> *buf, <span class="keywordtype">size_t</span> size, ltc_off_t posinfo);</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a178e0280a0a17748d2606a93df48a78a">ltc_decoder_write_s16</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <span class="keywordtype">short</span> *buf, <span class="keywordtype">size_t</span> size, ltc_off_t posinfo);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#ad9c8468c9b135c10f48f6c303e52e2a6">ltc_decoder_write_u16</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <span class="keywordtype">short</span> *buf, <span class="keywordtype">size_t</span> size, ltc_off_t posinfo);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a3cb40ff1bede260caeafae14bafb9a95">ltc_decoder_read</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="code" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> *frame);</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#abd9d3361b1a2bd65a8d55947c9a58936">ltc_decoder_queue_flush</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a>* d);</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#af67cd942ac9ef94e06cefdea99faca8d">ltc_decoder_queue_length</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a>* d);</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> * <a class="code" href="ltc_8h.html#afe31d23e55d4af47a2d1e6bc5c1bbff9">ltc_encoder_create</a>(<span class="keywordtype">double</span> sample_rate, <span class="keywordtype">double</span> fps, <span class="keywordtype">int</span> use_date);</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a3046829f29d125287ec4a5d3316a53f0">ltc_encoder_set_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *t);</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a1891fccbf9efe3611c3ca10e1f5892a6">ltc_encoder_get_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *t);</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a22161fd7d90b513c5ecbbc3ab96cb541">ltc_encoder_inc_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a338ae6222eae95b49351ab2adb4facad">ltc_encoder_dec_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#ac217926ac997495868c1bff43269991f">ltc_encoder_set_frame</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *f);</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a4016a803d2aee7e8ff1035d53f582579">ltc_encoder_get_frame</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *f);</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a1195b10642ea3178d4b4dcfe1e286120">ltc_encoder_get_buffer</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, ltcsnd_sample_t *buf);</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;ltcsnd_sample_t *<a class="code" href="ltc_8h.html#af9883d72bf2007f45e14aa3e1b61ba1b">ltc_encoder_get_bufptr</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">int</span> *size, <span class="keywordtype">int</span> flush);</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a397b2509c73c55d3042b6cc574fc86ab">ltc_encoder_buffer_flush</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="ltc_8h.html#a07af03e143b3f2aa76fda8884724dca0">ltc_encoder_get_buffersize</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> sample_rate, <span class="keywordtype">double</span> fps, <span class="keywordtype">int</span> use_date);</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;</div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> sample_rate, <span class="keywordtype">double</span> fps);</div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;</div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#af53da428c8791004eeb05f199647412c">ltc_encoder_set_volume</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> dBFS);</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> rise_time);</div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">int</span> byte, <span class="keywordtype">double</span> speed);</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;</div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame);</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a319746c44fb02682a26872ce2929baca">ltc_frame_to_time</a>(<a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>* stime, <a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame, <span class="keywordtype">int</span> set_flags);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame, <a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>* stime, <span class="keywordtype">int</span> set_flags);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#abe4a7d0fb406b90f08d5c5d59749bfcb">ltc_frame_reset</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, <span class="keywordtype">int</span> fps, <span class="keywordtype">int</span> use_date);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a>* frame, <span class="keywordtype">int</span> fps, <span class="keywordtype">int</span> use_date);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> * <a class="code" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a>(<span class="keywordtype">int</span> apv, <span class="keywordtype">int</span> queue_size);</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d,</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                ltcsnd_sample_t *buf, <span class="keywordtype">size_t</span> size,</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                ltc_off_t posinfo);</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a4ae7fa4f57f8c99eb819f1b52d5a2532">ltc_decoder_write_float</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <span class="keywordtype">float</span> *buf, <span class="keywordtype">size_t</span> size, ltc_off_t posinfo);</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a178e0280a0a17748d2606a93df48a78a">ltc_decoder_write_s16</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <span class="keywordtype">short</span> *buf, <span class="keywordtype">size_t</span> size, ltc_off_t posinfo);</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#ad9c8468c9b135c10f48f6c303e52e2a6">ltc_decoder_write_u16</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <span class="keywordtype">short</span> *buf, <span class="keywordtype">size_t</span> size, ltc_off_t posinfo);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a3cb40ff1bede260caeafae14bafb9a95">ltc_decoder_read</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="code" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> *frame);</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#abd9d3361b1a2bd65a8d55947c9a58936">ltc_decoder_queue_flush</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a>* d);</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#af67cd942ac9ef94e06cefdea99faca8d">ltc_decoder_queue_length</a>(<a class="code" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a>* d);</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> * <a class="code" href="ltc_8h.html#afe31d23e55d4af47a2d1e6bc5c1bbff9">ltc_encoder_create</a>(<span class="keywordtype">double</span> sample_rate, <span class="keywordtype">double</span> fps, <span class="keywordtype">int</span> use_date);</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a3046829f29d125287ec4a5d3316a53f0">ltc_encoder_set_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *t);</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a1891fccbf9efe3611c3ca10e1f5892a6">ltc_encoder_get_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *t);</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a22161fd7d90b513c5ecbbc3ab96cb541">ltc_encoder_inc_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a338ae6222eae95b49351ab2adb4facad">ltc_encoder_dec_timecode</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#ac217926ac997495868c1bff43269991f">ltc_encoder_set_frame</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *f);</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a4016a803d2aee7e8ff1035d53f582579">ltc_encoder_get_frame</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *f);</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a1195b10642ea3178d4b4dcfe1e286120">ltc_encoder_get_buffer</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, ltcsnd_sample_t *buf);</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;ltcsnd_sample_t *<a class="code" href="ltc_8h.html#af9883d72bf2007f45e14aa3e1b61ba1b">ltc_encoder_get_bufptr</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">int</span> *size, <span class="keywordtype">int</span> flush);</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a397b2509c73c55d3042b6cc574fc86ab">ltc_encoder_buffer_flush</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="ltc_8h.html#a07af03e143b3f2aa76fda8884724dca0">ltc_encoder_get_buffersize</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> sample_rate, <span class="keywordtype">double</span> fps, <span class="keywordtype">int</span> use_date);</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> sample_rate, <span class="keywordtype">double</span> fps);</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#af53da428c8791004eeb05f199647412c">ltc_encoder_set_volume</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> dBFS);</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;</div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">double</span> rise_time);</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;</div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <span class="keywordtype">int</span> byte, <span class="keywordtype">double</span> speed);</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a>(<a class="code" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e);</div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame);</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 3 2012 18:21:33 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 6 2012 03:05:30 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
