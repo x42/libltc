@@ -186,7 +186,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock"><p>Raw 80 bit LTC frame</p>
-<p>The datastream for each video frame of Longitudinal TimeCode consists of eighty bit-periods.</p>
+<p>The datastream for each video frame of Longitudinal Timecode consists of eighty bit-periods.</p>
 <p>At a frame-rate of 30 fps, the bit-rate corresponds to 30 [fps] * 80 [bits/f] = 2400 bits per second. The frequency for a stream of zeros would be 1.2 kHz and for a stream of ones it would be 2.4 kHz. </p>
 <div class="image">
 <img src="smptefmt.png" alt="smptefmt.png"/>
@@ -195,6 +195,7 @@ Functions</h2></td></tr>
 <p>In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal (BCD).</p>
 <p>These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS. The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment).</p>
 <p>32 bits are assigned as eight groups of four USER-BITS (also sometimes called the "Binary Groups"). This capacity is generally used to carry extra info such as reel number and/or date. The User Bits may be allocated howsoever one wishes as long as both Binary Group Flag Bits are cleared.</p>
+<p>The function <a class="el" href="ltc_8h.html#a319746c44fb02682a26872ce2929baca">ltc_frame_to_time</a> can interpret the user-bits as SMPTE Date+Timezone according to SMPTE 309M-1999. similarly <a class="el" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a> will do the reverse.</p>
 <p>The last 16 Bits make up the SYNC WORD. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone. The values of these Bits are fixed as 0011 1111 1111 1101</p>
 <p>The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes. This means that the phase of the pulse train in every Sync Word will be the same.</p>
 <p>Bit 10 indicates drop-frame timecode. The Colour Frame Flag col.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set.</p>
@@ -470,7 +471,7 @@ second 0..60 </td></tr>
 <td class="fieldname">
 timezone</td>
 <td class="fielddoc">
-</td></tr>
+the timezone 6bytes: "+HHMM" textual representation </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="af4fc85d71e69e87bcfc269c6e4dfcf25"></a>unsigned char</td>
 <td class="fieldname">
@@ -517,7 +518,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>opaque structure. see: <a class="el" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a>, <a class="el" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a> </p>
+<p>Opaque structure see: <a class="el" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a>, <a class="el" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a> </p>
 
 </div>
 </div>
@@ -530,7 +531,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>opaque structure see: <a class="el" href="ltc_8h.html#afe31d23e55d4af47a2d1e6bc5c1bbff9">ltc_encoder_create</a>, <a class="el" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a> </p>
+<p>Opaque structure see: <a class="el" href="ltc_8h.html#afe31d23e55d4af47a2d1e6bc5c1bbff9">ltc_encoder_create</a>, <a class="el" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a> </p>
 
 </div>
 </div>
@@ -636,7 +637,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>release memory of decoder-structure. </p>
+<p>Release memory of decoder. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
@@ -660,7 +661,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>removed all frames from queue. </p>
+<p>Remove all LTC frames from the internal queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
@@ -683,7 +684,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>count number of LTC frames currently in the queue </p>
+<p>Count number of LTC frames currently in the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
@@ -815,7 +816,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>wrapper to <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts floating point audio samples. Note: internally libltc uses 8 bit only.</p>
+<p>Wrapper around <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts floating point audio samples. Note: internally libltc uses 8 bit only.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
@@ -863,7 +864,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>wrapper to <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts signed 16 bit audio samples. Note: internally libltc uses 8 bit only.</p>
+<p>Wrapper around <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts signed 16 bit audio samples. Note: internally libltc uses 8 bit only.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
@@ -911,7 +912,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>wrapper to <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts unsigned 16 bit audio samples. Note: internally libltc uses 8 bit only.</p>
+<p>Wrapper around <a class="el" href="ltc_8h.html#aba7abd60b63023f67d17f30888fa492e">ltc_decoder_write</a> that accepts unsigned 16 bit audio samples. Note: internally libltc uses 8 bit only.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
@@ -1003,7 +1004,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>move the encoder to the previous timecode frame. uses <a class="el" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement()</a> internally. </p>
+<p>Move the encoder to the previous timecode frame. This is useful for encoding reverse LTC. uses <a class="el" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement()</a> internally. </p>
 
 </div>
 </div>
@@ -1040,7 +1041,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 <p>see <a class="el" href="ltc_8h.html#a1195b10642ea3178d4b4dcfe1e286120">ltc_encoder_get_buffer</a> and <a class="el" href="ltc_8h.html#af9883d72bf2007f45e14aa3e1b61ba1b">ltc_encoder_get_bufptr</a></p>
 <p>LTC has 10 bytes per frame: 0 &lt;= bytecnt &lt; 10 use SMPTESetTime(..) to set the current frame before Encoding. see tests/encoder.c for an example.</p>
 <p>The default output signal is @ -3dBFS (38..218 at 8 bit unsigned). see also <a class="el" href="ltc_8h.html#af53da428c8791004eeb05f199647412c">ltc_encoder_set_volume</a></p>
-<p>if speed is &lt; 0 bits are encoded in reverse. slowdown &gt; 10.0 requires custom buffer sizes; see <a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a></p>
+<p>if speed is &lt; 0, the bits are encoded in reverse. slowdown &gt; 10.0 requires custom buffer sizes; see <a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1049,7 +1050,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if byte is invalud or buffer overflow (speed &gt; 10.0) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if byte is invalid or buffer overflow (speed &gt; 10.0) </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a12">example_encode.c</a>.</dd>
 </dl>
 </div>
@@ -1067,8 +1068,9 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>encode a full LTC frame at fixed speed. This is equivalent to calling <a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> 10 times for bytes 0..9 with speed 1.0.</p>
-<p>Note: The buffer must be empty before calling this function. This is usually the case if it is read with <a class="el" href="ltc_8h.html#a1195b10642ea3178d4b4dcfe1e286120">ltc_encoder_get_buffer</a> after calling this function.</p>
+<p>Encode a full LTC frame at fixed speed. This is equivalent to calling <a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> 10 times for bytes 0..9 with speed 1.0.</p>
+<p>Note: The internal buffer must be empty before calling this function. Otherwise it may overflow. This is usually the case if it is read with <a class="el" href="ltc_8h.html#a1195b10642ea3178d4b4dcfe1e286120">ltc_encoder_get_buffer</a> after calling this function.</p>
+<p>The default internal buffersize is exactly one full LTC frame at speed 1.0.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1092,7 +1094,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>release encoder data structure </p>
+<p>Release memory of the encoder. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1126,7 +1128,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>copy the accumulated encoded audio to the given sample-buffer and flush the buffer.</p>
+<p>Copy the accumulated encoded audio to the given sample-buffer and flush the internal buffer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1152,7 +1154,8 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>query the length of the internal buffer. It is allocated to hold audio-frames for exactly one LTC frame for the given sample-rate and frame-rate. ie. (1 + sample-rate / fps) bytes</p>
+<p>Query the length of the internal buffer. It is allocated to hold audio-frames for exactly one LTC frame for the given sample-rate and frame-rate. ie. (1 + sample-rate / fps) bytes</p>
+<p>Note this returns the total size of the buffer, not the used/free part. See also <a class="el" href="ltc_8h.html#af9883d72bf2007f45e14aa3e1b61ba1b">ltc_encoder_get_bufptr</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1193,7 +1196,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>get a pointer to the accumulated encoded audio-data.</p>
+<p>Retrieve a pointer to the accumulated encoded audio-data.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1230,7 +1233,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>low-level access to the internal <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> data</p>
+<p>Low-level access to the encoder internal <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> data</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1264,8 +1267,8 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>query current encoder timecode.</p>
-<p>Note: the decoder store its internal state in an LTC-frame, this function converts that LTC-Frame into <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> on demand</p>
+<p>Query the current encoder timecode.</p>
+<p>Note: the decoder stores its internal state in an LTC-frame, this function converts that LTC-Frame into <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> on demand. see also <a class="el" href="ltc_8h.html#a4016a803d2aee7e8ff1035d53f582579">ltc_encoder_get_frame</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1289,7 +1292,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>move the encoder to the next timecode frame. uses <a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment()</a> internally. </p>
+<p>Move the encoder to the next timecode frame. uses <a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment()</a> internally. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a16">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a17">ltcencode.c</a>.</dd>
 </dl>
 </div>
@@ -1329,7 +1332,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>change the encoder settings without re-allocating any library internal data structure (realtime safe).</p>
+<p>Change the encoder settings without re-allocating any library internal data structure (realtime safe).</p>
 <p>This call will fail if the internal buffer is too small to hold one full LTC frame. Use <a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a> to prepare an internal buffer large enough to accommodate all sample_rate, fps combinations that you would like to re-init to.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1373,7 +1376,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>set a custom size for the internal buffer.</p>
+<p>Configure a custom size for the internal buffer.</p>
 <p>This is needed if you are planning to call <a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit()</a> or if you want to keep more than one LTC frame's worth of data in the library's internal buffer.</p>
 <p>The buffer-size is (1 + sample_rate / fps) bytes. resizing the internal buffer will flush all existing data in it - alike <a class="el" href="ltc_8h.html#a397b2509c73c55d3042b6cc574fc86ab">ltc_encoder_buffer_flush</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1412,7 +1415,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>set encoder signal rise-time / signal filtering</p>
+<p>Set encoder signal rise-time / signal filtering</p>
 <p>LTC signal should have a rise time of 25 us +/- 5 us. by default the encoder honors this and low-pass filters the output depending on the sample-rate.</p>
 <p>If you want a perfect square wave, set 'rise_time' to 0.</p>
 <p>Note <a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a> resets the filter-time-constant to use the default 25us for the given sample-rate, overriding any value previously set with <a class="el" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a></p>
@@ -1450,7 +1453,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>low-level access to the internal <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> data.</p>
+<p>Low-level access to the internal <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> data.</p>
 <p>Note: be careful to about f-&gt;dfbit, the encoder sets this [only] upon initialization.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1485,8 +1488,8 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>set the encoder LTC-frame from given <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>. The next call to <a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> or <a class="el" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a> will encode this time to LTC audio-samples.</p>
-<p>Internally this call uses <a class="el" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a> because the LTCEncoder operates on LTCframes only.</p>
+<p>Set the encoder LTC-frame to the given <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>. The next call to <a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> or <a class="el" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a> will encode this time to LTC audio-samples.</p>
+<p>Internally this call uses <a class="el" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a> because the LTCEncoder operates on LTCframes only. see als <a class="el" href="ltc_8h.html#ac217926ac997495868c1bff43269991f">ltc_encoder_set_frame</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1521,7 +1524,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>set the volume of the generated LTC signal</p>
+<p>Set the volume of the generated LTC signal</p>
 <p>typically LTC is sent at 0dBu ; in EBU callibrated systems that corresponds to -18dBFS. - by default libltc creates -3dBFS</p>
 <p>since libltc generated 8bit audio-data, the minium dBFS is about -42dB which corresponds to 1 bit.</p>
 <p>0dB corresponds to a signal range of 127 1..255 with 128 at the center.</p>
@@ -1566,7 +1569,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>decrement the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
+<p>Decrement the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the LTC-timecode to decrement </td></tr>
@@ -1608,7 +1611,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>increment the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
+<p>Increment the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the LTC-timecode to increment </td></tr>
@@ -1634,7 +1637,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end. The sync word is set according to architecture (big/little endian). also set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>) </p>
+<p>Reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end. The sync word is set according to architecture (big/little endian). Also set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> to reset </td></tr>
@@ -1699,7 +1702,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>convert binary <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> into <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> struct </p>
+<p>Convert binary <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> into <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> struct</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">stime</td><td>output </td></tr>
@@ -1741,7 +1744,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>convert <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> struct into its binary LTC representation. and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
+<p>Translate <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> struct into its binary LTC representation and set the LTC frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>output - the frame to be set </td></tr>
@@ -1756,7 +1759,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 6 2012 03:33:43 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 6 2012 22:28:20 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
