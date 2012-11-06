@@ -83,7 +83,8 @@
   and decode LTC from live sources and includes tools to read or write
   LTC from/to audio-files.
   <a href="http://xjadeo.sf.net">xjadeo</a> video-monitor has been updated
-  to use libltc, too.
+  to use libltc, and <a href="http://ardour.org">ardour</a>3 DAW fully supports
+  chasing and latency free [re]encoding of LTC since svn rev 13390.
 
   The library comes self-test code, which can en&decode LTC from raw audio-data.
 
