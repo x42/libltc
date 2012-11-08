@@ -160,6 +160,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 		return -1;
 	}
 
+	e->state = 0;
 	e->sample_rate = sample_rate;
 	ltc_encoder_set_filter(e, 25.0);
 	e->fps = fps;
