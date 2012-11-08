@@ -124,7 +124,7 @@ LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
 	e->enc_lo = 38;
 	e->enc_hi = 218;
 
-	e->bufsize = 1 + sample_rate / fps;
+	e->bufsize = 1 + ceil(sample_rate / fps);
 	e->buf = (ltcsnd_sample_t*) calloc(e->bufsize, sizeof(ltcsnd_sample_t));
 	if (!e->buf) {
 		free(e);
@@ -155,7 +155,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 	if (sample_rate < 1)
 		return -1;
 
-	size_t bufsize = 1 + sample_rate / fps;
+	size_t bufsize = 1 + ceil(sample_rate / fps);
 	if (bufsize > e->bufsize) {
 		return -1;
 	}
@@ -206,7 +206,7 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time) {
 int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps) {
 	free (e->buf);
 	e->offset = 0;
-	e->bufsize = 1 + sample_rate / fps;
+	e->bufsize = 1 + ceil(sample_rate / fps);
 	e->buf = (ltcsnd_sample_t*) calloc(e->bufsize, sizeof(ltcsnd_sample_t));
 	if (!e->buf) {
 		return -1;
