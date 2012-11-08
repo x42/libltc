@@ -140,7 +140,7 @@ LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
 	e->sample_remainder = 0.5;
 	ltc_frame_reset(&e->f);
 
-	if (fps==29.97 || fps == 30000.0/1001.0)
+	if (rint(fps*100) == 2997)
 		e->f.dfbit = 1;
 	return e;
 }
@@ -170,7 +170,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 	e->sample_remainder = 0.5;
 	ltc_frame_reset(&e->f);
 
-	if (fps==29.97 || fps == 30000.0/1001.0)
+	if (rint(fps*100) == 2997)
 		e->f.dfbit = 1;
 	return 0;
 }
