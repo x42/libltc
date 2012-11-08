@@ -161,6 +161,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 	}
 
 	e->state = 0;
+	e->offset = 0;
 	e->sample_rate = sample_rate;
 	ltc_encoder_set_filter(e, 25.0);
 	e->fps = fps;
@@ -168,11 +169,16 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 	e->samples_per_clock = sample_rate / (fps * 80.0);
 	e->samples_per_clock_2 = e->samples_per_clock / 2.0;
 	e->sample_remainder = 0.5;
-	ltc_frame_reset(&e->f);
 
 	if (rint(fps*100) == 2997)
 		e->f.dfbit = 1;
 	return 0;
+}
+
+void ltc_encoder_reset(LTCEncoder *e) {
+	e->state = 0;
+	e->sample_remainder = 0.5;
+	e->offset = 0;
 }
 
 int ltc_encoder_set_volume(LTCEncoder *e, double dBFS) {

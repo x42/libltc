@@ -517,6 +517,8 @@ size_t ltc_encoder_get_buffersize(LTCEncoder *e);
 /**
  * Change the encoder settings without re-allocating any
  * library internal data structure (realtime safe).
+ * changing the fps and or sample-rate implies a buffer flush,
+ * and biphase state reset.
  *
  * This call will fail if the internal buffer is too small
  * to hold one full LTC frame. Use \ref ltc_encoder_set_bufsize to
@@ -529,6 +531,14 @@ size_t ltc_encoder_get_buffersize(LTCEncoder *e);
  * @param use_date use LTC-user-data for date
  */
 int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_date);
+
+/**
+ * reset ecoder state.
+ * flushes buffer, reset biphase state
+ *
+ * @param e encoder handle
+ */
+void ltc_encoder_reset(LTCEncoder *e);
 
 /**
  * Configure a custom size for the internal buffer.
