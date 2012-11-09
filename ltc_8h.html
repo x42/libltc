@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">1.0.2</span>
+   &#160;<span id="projectnumber">1.0.3</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -150,6 +150,8 @@ Functions</h2></td></tr>
 <tr class="separator:a07af03e143b3f2aa76fda8884724dca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad67a6ed1d67a2cf3ae2bbfdcaafd1c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double sample_rate, double fps, int use_date)</td></tr>
 <tr class="separator:aad67a6ed1d67a2cf3ae2bbfdcaafd1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e1913e76f5e658b8427419dad58f5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ab5e1913e76f5e658b8427419dad58f5e">ltc_encoder_reset</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
+<tr class="separator:ab5e1913e76f5e658b8427419dad58f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0428876b560aab7c545b46f8472eef7c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double sample_rate, double fps)</td></tr>
 <tr class="separator:a0428876b560aab7c545b46f8472eef7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af53da428c8791004eeb05f199647412c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#af53da428c8791004eeb05f199647412c">ltc_encoder_set_volume</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double dBFS)</td></tr>
@@ -1332,7 +1334,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Change the encoder settings without re-allocating any library internal data structure (realtime safe).</p>
+<p>Change the encoder settings without re-allocating any library internal data structure (realtime safe). changing the fps and or sample-rate implies a buffer flush, and biphase state reset.</p>
 <p>This call will fail if the internal buffer is too small to hold one full LTC frame. Use <a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a> to prepare an internal buffer large enough to accommodate all sample_rate, fps combinations that you would like to re-init to.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1345,6 +1347,29 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a11">ltcencode.c</a>.</dd>
 </dl>
+</div>
+</div>
+<a class="anchor" id="ab5e1913e76f5e658b8427419dad58f5e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ltc_encoder_reset </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>reset ecoder state. flushes buffer, reset biphase state</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>encoder handle </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a0428876b560aab7c545b46f8472eef7c"></a>
@@ -1759,7 +1784,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 6 2012 22:28:20 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 9 2012 03:28:49 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
