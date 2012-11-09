@@ -104,7 +104,7 @@
 static double calc_volume_db(LTCDecoder *d) {
 	if (d->snd_to_biphase_max <= d->snd_to_biphase_min)
 		return -INFINITY;
-	return (20.0 * log((d->snd_to_biphase_max - d->snd_to_biphase_min) / 255.0));
+	return (20.0 * log10((d->snd_to_biphase_max - d->snd_to_biphase_min) / 255.0));
 }
 
 static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t posinfo) {
