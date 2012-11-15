@@ -95,8 +95,8 @@ typedef long long int ltc_off_t;
  * The last 16 Bits make up the SYNC WORD. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone.
  * The values of these Bits are fixed as 0011 1111 1111 1101
  *
- * The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes.
- * This means that the phase of the pulse train in every Sync Word will be the same.
+ * The Bi-Phase Mark Phase Correction Bit (Bit 27 or 59) may be set or cleared so that that every 80-bit word
+ * contains an even number of zeroes. This means that the phase of the pulse train in every Sync Word will be the same.
  *
  * Bit 10 indicates drop-frame timecode.
  * The Colour Frame Flag col.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set.
@@ -105,20 +105,59 @@ typedef long long int ltc_off_t;
  * and has not been given any other special purpose so remains unassigned.
  * This Bit has been RESERVED for future assignment.
  *
- * Bits 43 and 59 are assigned as the Binary Group Flag Bits.
- * These Bits are used to indicate when a standard character set is used to format the User Bits data.
+ * The Binary Group Flag Bits (bits 43 and 59) are two bits indicate the format of the User Bits data.
+ * SMPTE 12M-1999 defines the previously reserved bit 58 to signals that the time is locked to wall-clock
+ * within a tolerance of ± 0.5 seconds.
+ *
+ * SMPTE 12M-1999 also changes the numbering schema of the BGF. (BGF1 was renamed to BGF2 and bit 58 becomes BGFB1)
+ *
+ * To further complicate matters, the BGFB assignment as well as the biphase_mark_phase_correction (aka parity)
+ * bit depends on the timecode-format used.
+ *
+ * <pre>
+ *          25 fps   24, 30 fps
+ *  BGF0      27        43
+ *  BGF1      58        58
+ *  BGF2      43        59
+ *  Parity    59        27
+ * </pre>
+ *
+ * The variable naming chosen for the LTCFrame struct is based on the 24,30 fps standard.
+ *
  * The Binary Group Flag Bits should be used only as shown in the truth table below.
  * The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future.
  *
  * <pre>
- *                                  Bit 43  Bit 59
- *  No User Bits format specified     0       0
- *  Eight-bit character set           1       0
- *  Unassigned (Reserved)             0       1
- *  Unassigned (Reserved)             1       1
+ *                                                 BGF0      BGF1    BGF2
+ *       user-bits                     timecode    Bit 43   Bit 58  Bit 59 (30fps, 24 fps)
+ *                                    |        |   Bit 27   Bit 58  Bit 43 (25fps)
+ *  No User Bits format specified     |   ?    |     0       0        0
+ *  Eight-bit character set (1)       |   ?    |     1       0        0
+ *  Date and Timezone set             |   ?    |     0       0        1
+ *  Page/Line multiplex (2)           |   ?    |     1       0        1
+ *  Character set not specified       |  clk   |     0       1        0
+ *  Reserved                          |   ?    |     1       1        0
+ *  Date and Timezone set             |  clk   |     0       1        1
+ *  Page/Line multiplex (2)           |  clk   |     1       1        1
+ *
  * </pre>
  *
+ * (1) ISO/IEC 646 or ISO/IEC 2022 character set.
+ * If the seven-bit ISO codes are being used, they shall be converted to
+ * eight-bit codes by setting the eighth bit to zero. 4 ISO codes can be encoded,
+ * user7 and user8 are to be used for the first code with LSB 7 and MSB in 8.
+ * the remaining ISO codes are to be distributed in the same manner to
+ * user5/6 user3/4 and user1/2 accordingly.
+ *
+ * (2) The Page/Line indicates ANSI/SMPTE-262M is used for the user-bits. It is multiplex system that
+ * can be used to encode large amounts of data in the binary groups through the use of time multiplexing.
+ *
+ * libltc does not use any of the BGF - except for the Parity bit which can be calculated and set with
+ * \ref ltc_frame_set_parity. Setting and interpreting the BGF is left to the application using libltc.
+ * However libltc provides functionality to parse or set date and timezoe according to SMPTE 309M-1999.
+ *
  * further information: http://www.philrees.co.uk/articles/timecode.htm
+ * and http://www.barney-wol.net/time/timecode.html
  */
 #if (defined __BIG_ENDIAN__ && !defined DOXYGEN_IGNORE)
 // Big Endian version, bytes are "upside down"
@@ -142,7 +181,7 @@ struct LTCFrame {
 	unsigned int mins_units:4;
 
 	unsigned int user6:4;
-	unsigned int binary_group_flag_bit1:1;
+	unsigned int binary_group_flag_bit0:1;
 	unsigned int mins_tens:3;
 
 	unsigned int user7:4;
@@ -150,7 +189,7 @@ struct LTCFrame {
 
 	unsigned int user8:4;
 	unsigned int binary_group_flag_bit2:1;
-	unsigned int reserved:1;
+	unsigned int binary_group_flag_bit1:1;
 	unsigned int hours_tens:2;
 
 	unsigned int sync_word:16;
@@ -170,22 +209,22 @@ struct LTCFrame {
 	unsigned int user3:4;
 
 	unsigned int secs_tens:3; ///< SMPTE seconds BCD tens 0..6
-	unsigned int biphase_mark_phase_correction:1; ///< unused - see note on Bit 27 in description and \ref ltc_frame_set_parity .
+	unsigned int biphase_mark_phase_correction:1; ///< see note on Bit 27 in description and \ref ltc_frame_set_parity .
 	unsigned int user4:4;
 
 	unsigned int mins_units:4; ///< SMPTE minutes BCD unit 0..9
 	unsigned int user5:4;
 
 	unsigned int mins_tens:3; ///< SMPTE minutes BCD tens 0..6
-	unsigned int binary_group_flag_bit1:1; ///< indicate user-data char encoding, see table above
+	unsigned int binary_group_flag_bit0:1; ///< indicate user-data char encoding, see table above - bit 43
 	unsigned int user6:4;
 
 	unsigned int hours_units:4; ///< SMPTE hours BCD unit 0..9
 	unsigned int user7:4;
 
 	unsigned int hours_tens:2; ///< SMPTE hours BCD tens 0..2
-	unsigned int reserved:1; ///< reserved - do not use
-	unsigned int binary_group_flag_bit2:1; ///< indicate user-data char encoding, see table above
+	unsigned int binary_group_flag_bit1:1; ///< indicate timecode is local time wall-clock, see table above - bit 58
+	unsigned int binary_group_flag_bit2:1; ///< indicate user-data char encoding (or parity with 25fps), see table above - bit 59
 	unsigned int user8:4;
 
 	unsigned int sync_word:16;
@@ -199,6 +238,19 @@ typedef struct LTCFrame LTCFrame;
 
 /**
  * Extended LTC frame - includes audio-sample position offsets, volume, etc
+ *
+ * Note: For TV systems, the sample in the LTC audio data stream where the LTC Frame starts is not neccesarily at the same time
+ * as the video-frame which is described by the LTC Frame.
+ *
+ * \ref off_start denotes the time of the first transition of bit 0 in the LTC frame.
+ *
+ * For 525/60 Television systems, the first transition shall occur at the beginning of line 5 of the frame with which it is
+ * associated. The tolerance is ± 1.5 lines.
+ *
+ * For 625/50 systems, the first transition shall occur at the beginning of line 2  ± 1.5 lines of the frame with which it is associated.
+ *
+ * Only for 1125/60 systems, the first transition occurs exactly at the vertical sync timing reference of the frame. ± 1 line.
+ *
  */
 struct LTCFrameExt {
 	LTCFrame ltc; ///< the actual LTC frame. see \ref LTCFrame
