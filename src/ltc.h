@@ -580,18 +580,18 @@ int ltc_encoder_set_volume(LTCEncoder *e, double dBFS);
 /**
  * Set encoder signal rise-time / signal filtering
  *
- * LTC signal should have a rise time of 25 us +/- 5 us.
+ * LTC signal should have a rise time of 40us +/- 10 us.
  * by default the encoder honors this and low-pass filters
  * the output depending on the sample-rate.
  *
  * If you want a perfect square wave, set 'rise_time' to 0.
  *
  * Note \ref ltc_encoder_reinit resets the filter-time-constant to use
- * the default 25us for the given sample-rate, overriding any value
+ * the default 40us for the given sample-rate, overriding any value
  * previously set with \ref ltc_encoder_set_filter
  *
  * @param e encoder handle
- * @param rise_time the signal rise-time in us (10^(-6) sec), set to 0 for perfect square wave, default 25.0
+ * @param rise_time the signal rise-time in us (10^(-6) sec), set to 0 for perfect square wave, default 40.0
  */
 void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
 

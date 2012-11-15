@@ -40,13 +40,13 @@ static int addvalues(LTCEncoder *e, int n) {
 	const double tcf =  e->filter_const;
 	if (tcf > 0) {
 		/* low-pass-filter
-		 * LTC signal should have a rise time of 25 us +/- 5 us.
+		 * LTC signal should have a rise time of 40 us +/- 10 us.
 		 *
 		 * rise-time means from <10% to >90% of the signal.
 		 * in each call to addvalues() we start at 50%, so
-		 * here we need half-of it. (0.0000125 sec)
+		 * here we need half-of it. (0.000020 sec)
 		 *
-		 * e->cutoff = 1.0 -exp( -1.0 / (sample_rate * .0000125 / exp(1.0)) );
+		 * e->cutoff = 1.0 -exp( -1.0 / (sample_rate * .000020 / exp(1.0)) );
 		 */
 		int i;
 		ltcsnd_sample_t val = SAMPLE_CENTER;
