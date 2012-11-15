@@ -269,7 +269,7 @@ static inline void biphase_decode2(LTCDecoder *d, int offset, ltc_off_t pos) {
 }
 
 void decode_ltc(LTCDecoder *d, ltcsnd_sample_t *sound, size_t size, ltc_off_t posinfo) {
-	int i;
+	size_t i;
 
 	for (i = 0 ; i < size ; i++) {
 		ltcsnd_sample_t max_threshold, min_threshold;
