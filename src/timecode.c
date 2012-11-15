@@ -41,75 +41,75 @@ struct SMPTETimeZonesStruct {
  */
 const static struct SMPTETimeZonesStruct smpte_time_zones[] =
 {
-	/*	code,	timezone (UTC+)		//Standard time					//Daylight saving	*/
-	{	0x00,	"+0000"				/* Greenwich */					/* - */				},
-	{	0x00,	"-0000"				/* Greenwich */					/* - */				},
-	{	0x01,	"-0100"				/* Azores */					/* - */				},
-	{	0x02,	"-0200"				/* Mid-Atlantic */				/* - */				},
-	{	0x03,	"-0300"				/* Buenos Aires */				/* Halifax */		},
-	{	0x04,	"-0400"				/* Halifax */					/* New York */		},
-	{	0x05,	"-0500"				/* New York */					/* Chicago */		},
-	{	0x06,	"-0600"				/* Chicago Denver */			/* - */				},
-	{	0x07,	"-0700"				/* Denver */					/* Los Angeles */	},
-	{	0x08,	"-0800"				/* Los Angeles */				/* - */				},
-	{	0x09,	"-0900"				/* Alaska */					/* - */				},
-	{	0x10,	"-1000"				/* Hawaii */					/* - */				},
-	{	0x11,	"-1100"				/* Midway Island */				/* - */				},
-	{	0x12,	"-1200"				/* Kwaialein */					/* - */				},
-	{	0x13,	"+1300"				/* - */							/* New Zealand */	},
-	{	0x14,	"+1200"				/* New Zealand */				/* - */				},
-	{	0x15,	"+1100"				/* Solomon Islands */			/* - */				},
-	{	0x16,	"+1000"				/* Guam */						/* - */				},
-	{	0x17,	"+0900"				/* Tokyo */						/* - */				},
-	{	0x18,	"+0800"				/* Beijing */					/* - */				},
-	{	0x19,	"+0700"				/* Bangkok */					/* - */				},
-	{	0x20,	"+0600"				/* Dhaka */						/* - */				},
-	{	0x21,	"+0500"				/* Islamabad */					/* - */				},
-	{	0x22,	"+0400"				/* Abu Dhabi */					/* - */				},
-	{	0x23,	"+0300"				/* Moscow */					/* - */				},
-	{	0x24,	"+0200"				/* Eastern Europe */			/* - */				},
-	{	0x25,	"+0100"				/* Central Europe */			/* - */				},
-/*	{	0x26,	"Undefined"			Reserved; do not use								},*/
-/*	{	0x27,	"Undefined"			Reserved; do not use								},*/
-	{	0x28,	"TP-03"				/* Time precision class 3 */	/* - */				},
-	{	0x29,	"TP-02"				/* Time precision class 2 */	/* - */				},
-	{	0x30,	"TP-01"				/* Time precision class 1 */	/* - */				},
-	{	0x31,	"TP-00"				/* Time precision class 0 */	/* - */				},
-	{	0x0A,	"+0030"				/* - */							/* - */				},
-	{	0x0B,	"-0130"				/* - */							/* - */				},
-	{	0x0C,	"-0230"				/* - */							/* Newfoundland */	},
-	{	0x0D,	"-0330"				/* Newfoundland */				/* - */				},
-	{	0x0E,	"-0430"				/* - */							/* - */				},
-	{	0x0F,	"-0530"				/* - */							/* - */				},
-	{	0x1A,	"-0630"				/* - */							/* - */				},
-	{	0x1B,	"-0730"				/* - */							/* - */				},
-	{	0x1C,	"-0830"				/* - */							/* - */				},
-	{	0x1D,	"-0930"				/* Marquesa Islands */			/* - */				},
-	{	0x1E,	"-1030"				/* - */							/* - */				},
-	{	0x1F,	"-1130"				/* - */							/* - */				},
-	{	0x2A,	"+1130"				/* Norfolk Island */			/* - */				},
-	{	0x2B,	"+1030"				/* Lord Howe Is. */				/* - */				},
-	{	0x2C,	"+0930"				/* Darwin */					/* - */				},
-	{	0x2D,	"+0830"				/* - */							/* - */				},
-	{	0x2E,	"+0730"				/* - */							/* - */				},
-	{	0x2F,	"+0630"				/* Rangoon */					/* - */				},
-	{	0x3A,	"+0530"				/* Bombay */					/* - */				},
-	{	0x3B,	"+0430"				/* Kabul */						/* - */				},
-	{	0x3C,	"+0330"				/* Tehran */					/* - */				},
-	{	0x3D,	"+0230"				/* - */							/* - */				},
-	{	0x3E,	"+0130"				/* - */							/* - */				},
-	{	0x3F,	"+0030"				/* - */							/* - */				},
-	{	0x32,	"+1245"				/* Chatham Island */			/* - */				},
-/*	{	0x33,	"Undefined"			Reserved; do not use								},*/
-/*	{	0x34,	"Undefined"			Reserved; do not use								},*/
-/*	{	0x35,	"Undefined"			Reserved; do not use								},*/
-/*	{	0x36,	"Undefined"			Reserved; do not use								},*/
-/*	{	0x37,	"Undefined"			Reserved; do not use								},*/
-	{	0x38,	"+XXXX"				/* User defined time offset */	/* - */				},
-/*	{	0x39,	"Undefined"			Unknown							Unknown				},*/
-/*	{	0x39,	"Undefined"			Unknown							Unknown				},*/
+    /*  code,   timezone (UTC+)     //Standard time                 //Daylight saving   */
+    {   0x00,   "+0000"             /* Greenwich */                 /* - */             },
+    {   0x00,   "-0000"             /* Greenwich */                 /* - */             },
+    {   0x01,   "-0100"             /* Azores */                    /* - */             },
+    {   0x02,   "-0200"             /* Mid-Atlantic */              /* - */             },
+    {   0x03,   "-0300"             /* Buenos Aires */              /* Halifax */       },
+    {   0x04,   "-0400"             /* Halifax */                   /* New York */      },
+    {   0x05,   "-0500"             /* New York */                  /* Chicago */       },
+    {   0x06,   "-0600"             /* Chicago Denver */            /* - */             },
+    {   0x07,   "-0700"             /* Denver */                    /* Los Angeles */   },
+    {   0x08,   "-0800"             /* Los Angeles */               /* - */             },
+    {   0x09,   "-0900"             /* Alaska */                    /* - */             },
+    {   0x10,   "-1000"             /* Hawaii */                    /* - */             },
+    {   0x11,   "-1100"             /* Midway Island */             /* - */             },
+    {   0x12,   "-1200"             /* Kwaialein */                 /* - */             },
+    {   0x13,   "+1300"             /* - */                         /* New Zealand */   },
+    {   0x14,   "+1200"             /* New Zealand */               /* - */             },
+    {   0x15,   "+1100"             /* Solomon Islands */           /* - */             },
+    {   0x16,   "+1000"             /* Guam */                      /* - */             },
+    {   0x17,   "+0900"             /* Tokyo */                     /* - */             },
+    {   0x18,   "+0800"             /* Beijing */                   /* - */             },
+    {   0x19,   "+0700"             /* Bangkok */                   /* - */             },
+    {   0x20,   "+0600"             /* Dhaka */                     /* - */             },
+    {   0x21,   "+0500"             /* Islamabad */                 /* - */             },
+    {   0x22,   "+0400"             /* Abu Dhabi */                 /* - */             },
+    {   0x23,   "+0300"             /* Moscow */                    /* - */             },
+    {   0x24,   "+0200"             /* Eastern Europe */            /* - */             },
+    {   0x25,   "+0100"             /* Central Europe */            /* - */             },
+/*  {   0x26,   "Undefined"         Reserved; do not use                                },*/
+/*  {   0x27,   "Undefined"         Reserved; do not use                                },*/
+    {   0x28,   "TP-03"             /* Time precision class 3 */    /* - */             },
+    {   0x29,   "TP-02"             /* Time precision class 2 */    /* - */             },
+    {   0x30,   "TP-01"             /* Time precision class 1 */    /* - */             },
+    {   0x31,   "TP-00"             /* Time precision class 0 */    /* - */             },
+    {   0x0A,   "-0030"             /* - */                         /* - */             },
+    {   0x0B,   "-0130"             /* - */                         /* - */             },
+    {   0x0C,   "-0230"             /* - */                         /* Newfoundland */  },
+    {   0x0D,   "-0330"             /* Newfoundland */              /* - */             },
+    {   0x0E,   "-0430"             /* - */                         /* - */             },
+    {   0x0F,   "-0530"             /* - */                         /* - */             },
+    {   0x1A,   "-0630"             /* - */                         /* - */             },
+    {   0x1B,   "-0730"             /* - */                         /* - */             },
+    {   0x1C,   "-0830"             /* - */                         /* - */             },
+    {   0x1D,   "-0930"             /* Marquesa Islands */          /* - */             },
+    {   0x1E,   "-1030"             /* - */                         /* - */             },
+    {   0x1F,   "-1130"             /* - */                         /* - */             },
+    {   0x2A,   "+1130"             /* Norfolk Island */            /* - */             },
+    {   0x2B,   "+1030"             /* Lord Howe Is. */             /* - */             },
+    {   0x2C,   "+0930"             /* Darwin */                    /* - */             },
+    {   0x2D,   "+0830"             /* - */                         /* - */             },
+    {   0x2E,   "+0730"             /* - */                         /* - */             },
+    {   0x2F,   "+0630"             /* Rangoon */                   /* - */             },
+    {   0x3A,   "+0530"             /* Bombay */                    /* - */             },
+    {   0x3B,   "+0430"             /* Kabul */                     /* - */             },
+    {   0x3C,   "+0330"             /* Tehran */                    /* - */             },
+    {   0x3D,   "+0230"             /* - */                         /* - */             },
+    {   0x3E,   "+0130"             /* - */                         /* - */             },
+    {   0x3F,   "+0030"             /* - */                         /* - */             },
+    {   0x32,   "+1245"             /* Chatham Island */            /* - */             },
+/*  {   0x33,   "Undefined"         Reserved; do not use                                },*/
+/*  {   0x34,   "Undefined"         Reserved; do not use                                },*/
+/*  {   0x35,   "Undefined"         Reserved; do not use                                },*/
+/*  {   0x36,   "Undefined"         Reserved; do not use                                },*/
+/*  {   0x37,   "Undefined"         Reserved; do not use                                },*/
+    {   0x38,   "+XXXX"             /* User defined time offset */  /* - */             },
+/*  {   0x39,   "Undefined"         Unknown                         Unknown             },*/
+/*  {   0x39,   "Undefined"         Unknown                         Unknown             },*/
 
-	{	0xFF,	""					/* The End */										}
+    {   0xFF,   ""                  /* The End */                                       }
 };
 
 static void smpte_set_timezone_string(LTCFrame *frame, SMPTETimecode *stime) {
