@@ -166,7 +166,7 @@ struct LTCFrame {
 	unsigned int frame_units:4;
 
 	unsigned int user2:4;
-	unsigned int col_frm:1;
+	unsigned int col_frame:1;
 	unsigned int dfbit:1;
 	unsigned int frame_tens:2;
 
