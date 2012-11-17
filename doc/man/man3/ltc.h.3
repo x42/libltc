@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Fri Nov 9 2012" "Version 1.0.3" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Sat Nov 17 2012" "Version 1.1.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -54,23 +54,33 @@ libltc - en+decode linear timecode
 .RI "typedef struct \fBLTCEncoder\fP \fBLTCEncoder\fP"
 .br
 .in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBLTC_TV_STANDARD\fP { \fBLTC_TV_525_60\fP, \fBLTC_TV_625_50\fP, \fBLTC_TV_1125_60\fP, \fBLTC_TV_FILM_24\fP }"
+.br
+.ti -1c
+.RI "enum \fBLTC_BG_FLAGS\fP { \fBLTC_USE_DATE\fP = 1, \fBLTC_TC_CLOCK\fP = 2, \fBLTC_BGF_DONT_TOUCH\fP = 4, \fBLTC_NO_PARITY\fP = 8 }"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "void \fBltc_frame_to_time\fP (\fBSMPTETimecode\fP *stime, \fBLTCFrame\fP *frame, int set_flags)"
+.RI "void \fBltc_frame_to_time\fP (\fBSMPTETimecode\fP *stime, \fBLTCFrame\fP *frame, int flags)"
 .br
 .ti -1c
-.RI "void \fBltc_time_to_frame\fP (\fBLTCFrame\fP *frame, \fBSMPTETimecode\fP *stime, int set_flags)"
+.RI "void \fBltc_time_to_frame\fP (\fBLTCFrame\fP *frame, \fBSMPTETimecode\fP *stime, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 .br
 .ti -1c
 .RI "void \fBltc_frame_reset\fP (\fBLTCFrame\fP *frame)"
 .br
 .ti -1c
-.RI "int \fBltc_frame_increment\fP (\fBLTCFrame\fP *frame, int fps, int use_date)"
+.RI "int \fBltc_frame_increment\fP (\fBLTCFrame\fP *frame, int fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 .br
 .ti -1c
-.RI "int \fBltc_frame_decrement\fP (\fBLTCFrame\fP *frame, int fps, int use_date)"
+.RI "int \fBltc_frame_decrement\fP (\fBLTCFrame\fP *frame, int fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 .br
 .ti -1c
 .RI "\fBLTCDecoder\fP * \fBltc_decoder_create\fP (int apv, int queue_size)"
@@ -100,7 +110,7 @@ libltc - en+decode linear timecode
 .RI "int \fBltc_decoder_queue_length\fP (\fBLTCDecoder\fP *d)"
 .br
 .ti -1c
-.RI "\fBLTCEncoder\fP * \fBltc_encoder_create\fP (double sample_rate, double fps, int use_date)"
+.RI "\fBLTCEncoder\fP * \fBltc_encoder_create\fP (double sample_rate, double fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 .br
 .ti -1c
 .RI "void \fBltc_encoder_free\fP (\fBLTCEncoder\fP *e)"
@@ -136,7 +146,7 @@ libltc - en+decode linear timecode
 .RI "size_t \fBltc_encoder_get_buffersize\fP (\fBLTCEncoder\fP *e)"
 .br
 .ti -1c
-.RI "int \fBltc_encoder_reinit\fP (\fBLTCEncoder\fP *e, double sample_rate, double fps, int use_date)"
+.RI "int \fBltc_encoder_reinit\fP (\fBLTCEncoder\fP *e, double sample_rate, double fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 .br
 .ti -1c
 .RI "void \fBltc_encoder_reset\fP (\fBLTCEncoder\fP *e)"
@@ -157,7 +167,13 @@ libltc - en+decode linear timecode
 .RI "void \fBltc_encoder_encode_frame\fP (\fBLTCEncoder\fP *e)"
 .br
 .ti -1c
-.RI "void \fBltc_frame_set_parity\fP (\fBLTCFrame\fP *frame)"
+.RI "void \fBltc_frame_set_parity\fP (\fBLTCFrame\fP *frame, enum \fBLTC_TV_STANDARD\fP standard)"
+.br
+.ti -1c
+.RI "int \fBparse_bcg_flags\fP (\fBLTCFrame\fP *f, enum \fBLTC_TV_STANDARD\fP standard)"
+.br
+.ti -1c
+.RI "\fBltc_off_t\fP \fBltc_frame_alignment\fP (double sample_rate, enum \fBLTC_TV_STANDARD\fP standard)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -208,36 +224,75 @@ The function \fBltc_frame_to_time\fP can interpret the user-bits as SMPTE Date+T
 .PP
 The last 16 Bits make up the SYNC WORD\&. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone\&. The values of these Bits are fixed as 0011 1111 1111 1101
 .PP
-The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase of the pulse train in every Sync Word will be the same\&.
+The Bi-Phase Mark Phase Correction Bit (Bit 27 or 59) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase of the pulse train in every Sync Word will be the same\&.
 .PP
 Bit 10 indicates drop-frame timecode\&. The Colour Frame Flag col\&.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set\&.
 .PP
 Bit 58 is not required for the BCD count for HOURS-TENS (which has a maximum value of two) and has not been given any other special purpose so remains unassigned\&. This Bit has been RESERVED for future assignment\&.
 .PP
-Bits 43 and 59 are assigned as the Binary Group Flag Bits\&. These Bits are used to indicate when a standard character set is used to format the User Bits data\&. The Binary Group Flag Bits should be used only as shown in the truth table below\&. The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future\&.
+The Binary Group Flag Bits (bits 43 and 59) are two bits indicate the format of the User Bits data\&. SMPTE 12M-1999 defines the previously reserved bit 58 to signals that the time is locked to wall-clock within a tolerance of ± 0\&.5 seconds\&.
+.PP
+SMPTE 12M-1999 also changes the numbering schema of the BGF\&. (BGF1 was renamed to BGF2 and bit 58 becomes BGFB1)
+.PP
+To further complicate matters, the BGFB assignment as well as the biphase_mark_phase_correction (aka parity) bit depends on the timecode-format used\&.
 .PP
 .PP
 .nf
 
-                                 Bit 43  Bit 59
- No User Bits format specified     0       0
- Eight-bit character set           1       0
- Unassigned (Reserved)             0       1
- Unassigned (Reserved)             1       1
+         25 fps   24, 30 fps
+ BGF0      27        43
+ BGF1      58        58
+ BGF2      43        59
+ Parity    59        27
 .fi
 .PP
 .PP
-further information: http://www.philrees.co.uk/articles/timecode.htm 
+The variable naming chosen for the \fBLTCFrame\fP struct is based on the 24,30 fps standard\&.
+.PP
+The Binary Group Flag Bits should be used only as shown in the truth table below\&. The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future\&.
+.PP
+.PP
+.nf
+
+                                                BGF0      BGF1    BGF2
+      user-bits                     timecode    Bit 43   Bit 58  Bit 59 (30fps, 24 fps)
+                                   |        |   Bit 27   Bit 58  Bit 43 (25fps)
+ No User Bits format specified     |   ?    |     0       0        0
+ Eight-bit character set (1)       |   ?    |     1       0        0
+ Date and Timezone set             |   ?    |     0       0        1
+ Page/Line multiplex (2)           |   ?    |     1       0        1
+ Character set not specified       |  clk   |     0       1        0
+ Reserved                          |   ?    |     1       1        0
+ Date and Timezone set             |  clk   |     0       1        1
+ Page/Line multiplex (2)           |  clk   |     1       1        1
+.fi
+.PP
+.PP
+.PP
+.nf
+.fi
+.PP
+.PP
+(1) ISO/IEC 646 or ISO/IEC 2022 character set\&. If the seven-bit ISO codes are being used, they shall be converted to eight-bit codes by setting the eighth bit to zero\&. 4 ISO codes can be encoded, user7 and user8 are to be used for the first code with LSB 7 and MSB in 8\&. the remaining ISO codes are to be distributed in the same manner to user5/6 user3/4 and user1/2 accordingly\&.
+.PP
+(2) The Page/Line indicates ANSI/SMPTE-262M is used for the user-bits\&. It is multiplex system that can be used to encode large amounts of data in the binary groups through the use of time multiplexing\&.
+.PP
+libltc does not use any of the BGF - except for the Parity bit which can be calculated and set with \fBltc_frame_set_parity\fP\&. Setting and interpreting the BGF is left to the application using libltc\&. However libltc provides functionality to parse or set date and timezoe according to SMPTE 309M-1999\&.
+.PP
+further information: http://www.philrees.co.uk/articles/timecode.htm and http://www.barney-wol.net/time/timecode.html 
 .PP
 \fBData Fields:\fP
 .RS 4
-unsigned int \fIbinary_group_flag_bit1:1\fP indicate user-data char encoding, see table above 
+unsigned int \fIbinary_group_flag_bit0:1\fP indicate user-data char encoding, see table above - bit 43 
 .br
 .PP
-unsigned int \fIbinary_group_flag_bit2:1\fP indicate user-data char encoding, see table above 
+unsigned int \fIbinary_group_flag_bit1:1\fP indicate timecode is local time wall-clock, see table above - bit 58 
 .br
 .PP
-unsigned int \fIbiphase_mark_phase_correction:1\fP unused - see note on Bit 27 in description and \fBltc_frame_set_parity\fP \&. 
+unsigned int \fIbinary_group_flag_bit2:1\fP indicate user-data char encoding (or parity with 25fps), see table above - bit 59 
+.br
+.PP
+unsigned int \fIbiphase_mark_phase_correction:1\fP see note on Bit 27 in description and \fBltc_frame_set_parity\fP \&. 
 .br
 .PP
 unsigned int \fIcol_frame:1\fP colour-frame: timecode intentionally synchronized to a colour TV field sequence 
@@ -262,9 +317,6 @@ unsigned int \fImins_tens:3\fP SMPTE minutes BCD tens 0\&.\&.6\&.
 .br
 .PP
 unsigned int \fImins_units:4\fP SMPTE minutes BCD unit 0\&.\&.9\&. 
-.br
-.PP
-unsigned int \fIreserved:1\fP reserved - do not use 
 .br
 .PP
 unsigned int \fIsecs_tens:3\fP SMPTE seconds BCD tens 0\&.\&.6\&. 
@@ -304,7 +356,17 @@ unsigned int \fIuser8:4\fP
 .PP
 .SH "struct LTCFrameExt"
 .PP 
-Extended LTC frame - includes audio-sample position offsets, volume, etc 
+Extended LTC frame - includes audio-sample position offsets, volume, etc
+.PP
+Note: For TV systems, the sample in the LTC audio data stream where the LTC Frame starts is not neccesarily at the same time as the video-frame which is described by the LTC Frame\&.
+.PP
+\fBoff_start\fP denotes the time of the first transition of bit 0 in the LTC frame\&.
+.PP
+For 525/60 Television systems, the first transition shall occur at the beginning of line 5 of the frame with which it is associated\&. The tolerance is ± 1\&.5 lines\&.
+.PP
+For 625/50 systems, the first transition shall occur at the beginning of line 2 ± 1\&.5 lines of the frame with which it is associated\&.
+.PP
+Only for 1125/60 systems, the first transition occurs exactly at the vertical sync timing reference of the frame\&. ± 1 line\&. 
 .PP
 \fBExamples: \fP
 .in +1c
@@ -394,6 +456,42 @@ see \fBLTCFrameExt\fP
 default audio sample type: 8bit unsigned (mono) 
 .SS "typedef struct \fBSMPTETimecode\fP \fBSMPTETimecode\fP"
 see \fBSMPTETimecode\fP 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBLTC_BG_FLAGS\fP"
+encoder and LTCframe <> timecode operation flags 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fILTC_USE_DATE \fP\fP
+\fBLTCFrame\fP <> \fBSMPTETimecode\fP converter and \fBLTCFrame\fP increment/decrement use date, also set BGF2 to '1' when encoder is initialized or re-initialized (unless LTC_BGF_DONT_TOUCH is given) 
+.TP
+\fB\fILTC_TC_CLOCK \fP\fP
+the Timecode is wall-clock aka freerun\&. This also sets BGF1 (unless LTC_BGF_DONT_TOUCH is given) 
+.TP
+\fB\fILTC_BGF_DONT_TOUCH \fP\fP
+encoder init or re-init does not touch the BGF bits (initial values after initialization is zero) 
+.TP
+\fB\fILTC_NO_PARITY \fP\fP
+parity bit is left untouched when setting or in/decrementing the encoder frame-number 
+.SS "enum \fBLTC_TV_STANDARD\fP"
+the standard defines the assignment of the binary-group-flag bits basically only 25fps is different, but other standards defined in the SMPTE spec have been included for completeness\&. 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fILTC_TV_525_60 \fP\fP
+30fps 
+.TP
+\fB\fILTC_TV_625_50 \fP\fP
+25fps 
+.TP
+\fB\fILTC_TV_1125_60 \fP\fP
+30fps 
+.TP
+\fB\fILTC_TV_FILM_24 \fP\fP
+24fps 
 .SH "Function Documentation"
 .PP 
 .SS "\fBLTCDecoder\fP* ltc_decoder_create (int apv, int queue_size)"
@@ -547,10 +645,10 @@ reset the write-pointer of the encoder-buffer
 .RE
 .PP
 
-.SS "\fBLTCEncoder\fP* ltc_encoder_create (double sample_rate, double fps, int use_date)"
+.SS "\fBLTCEncoder\fP* ltc_encoder_create (double sample_rate, double fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 Allocate and initialize LTC audio encoder\&.
 .PP
-Note: if fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbit' bit is set to 1 to indicate drop-frame timecode\&.
+calls \fBltc_encoder_reinit\fP internally see, see notes there\&.
 .PP
 \fBParameters:\fP
 .RS 4
@@ -558,7 +656,9 @@ Note: if fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbi
 .br
 \fIfps\fP video-frames per second (e\&.g\&. 25\&.0) 
 .br
-\fIuse_date\fP use LTC-user-data for date 
+\fIstandard\fP the TV standard to use for Binary Group Flag bit position 
+.br
+\fIflags\fP binary combination of \fBLTC_BG_FLAGS\fP 
 .RE
 .PP
 
@@ -720,10 +820,14 @@ Move the encoder to the next timecode frame\&. uses \fBltc_frame_increment()\fP 
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
-.SS "int ltc_encoder_reinit (\fBLTCEncoder\fP * e, double sample_rate, double fps, int use_date)"
+.SS "int ltc_encoder_reinit (\fBLTCEncoder\fP * e, double sample_rate, double fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 Change the encoder settings without re-allocating any library internal data structure (realtime safe)\&. changing the fps and or sample-rate implies a buffer flush, and biphase state reset\&.
 .PP
 This call will fail if the internal buffer is too small to hold one full LTC frame\&. Use \fBltc_encoder_set_bufsize\fP to prepare an internal buffer large enough to accommodate all sample_rate, fps combinations that you would like to re-init to\&.
+.PP
+The LTC frame payload data is not modified by this call, however, the flag-bits of the LTC-Frame are updated: If fps equals to 29\&.97 or 30000\&.0/1001\&.0, the \fBLTCFrame\fP's 'dfbit' bit is set to 1 to indicate drop-frame timecode\&.
+.PP
+Unless the LTC_BGF_DONT_TOUCH flag is set the BGF1 is set or cleared depending on LTC_TC_CLOCK and BGF0,2 according to LTC_USE_DATE and the given standard\&. col_frame is cleared and the parity recomputed (unless LTC_NO_PARITY is given)\&.
 .PP
 \fBParameters:\fP
 .RS 4
@@ -733,7 +837,9 @@ This call will fail if the internal buffer is too small to hold one full LTC fra
 .br
 \fIfps\fP video-frames per second (e\&.g\&. 25\&.0) 
 .br
-\fIuse_date\fP use LTC-user-data for date 
+\fIstandard\fP the TV standard to use for Binary Group Flag bit position 
+.br
+\fIflags\fP binary combination of \fBLTC_BG_FLAGS\fP 
 .RE
 .PP
 
@@ -779,17 +885,17 @@ The buffer-size is (1 + sample_rate / fps) bytes\&. resizing the internal buffer
 .SS "void ltc_encoder_set_filter (\fBLTCEncoder\fP * e, double rise_time)"
 Set encoder signal rise-time / signal filtering
 .PP
-LTC signal should have a rise time of 25 us +/- 5 us\&. by default the encoder honors this and low-pass filters the output depending on the sample-rate\&.
+LTC signal should have a rise time of 40us +/- 10 us\&. by default the encoder honors this and low-pass filters the output depending on the sample-rate\&.
 .PP
 If you want a perfect square wave, set 'rise_time' to 0\&.
 .PP
-Note \fBltc_encoder_reinit\fP resets the filter-time-constant to use the default 25us for the given sample-rate, overriding any value previously set with \fBltc_encoder_set_filter\fP
+Note \fBltc_encoder_reinit\fP resets the filter-time-constant to use the default 40us for the given sample-rate, overriding any value previously set with \fBltc_encoder_set_filter\fP
 .PP
 \fBParameters:\fP
 .RS 4
 \fIe\fP encoder handle 
 .br
-\fIrise_time\fP the signal rise-time in us (10^(\-6) sec), set to 0 for perfect square wave, default 25\&.0 
+\fIrise_time\fP the signal rise-time in us (10^(\-6) sec), set to 0 for perfect square wave, default 40\&.0 
 .RE
 .PP
 
@@ -853,7 +959,27 @@ since libltc generated 8bit audio-data, the minium dBFS is about \-42dB which co
 \fBExamples: \fP
 .in +1c
 \fBltcencode\&.c\fP\&.
-.SS "int ltc_frame_decrement (\fBLTCFrame\fP * frame, int fps, int use_date)"
+.SS "\fBltc_off_t\fP ltc_frame_alignment (double sample_rate, enum \fBLTC_TV_STANDARD\fP standard)"
+\fBLTCFrame\fP sample alignment offset\&.
+.PP
+There is a relative offset of the LTC-Frame start and the TV-frame\&. The first bit of a LTC frame corresponds to a specific line in the actual video frame\&. When decoding this offset needs to be subtracted from the LTC-frame's audio-sample-time to match the TV-frame's start position\&.
+.PP
+For film frames or HDV the offset is zero\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsample_rate\fP audio sample rate (eg\&. 48000) 
+.br
+\fIstandard\fP the TV standard 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+offset in samples 
+.RE
+.PP
+
+.SS "int ltc_frame_decrement (\fBLTCFrame\fP * frame, int fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 Decrement the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
 \fBParameters:\fP
@@ -862,7 +988,9 @@ Decrement the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 .br
 \fIfps\fP integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps)\&. 
 .br
-\fIuse_date\fP interpret user-data as date and decrement date if timecode wraps at 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
+\fIstandard\fP the TV standard to use for parity bit assignment if set to 1 the 25fps standard is enabled and LTC Frame bit 59 instead of 27 is used for the parity\&. It only has only has effect flag bit 4 (LTC_NO_PARITY) is cleared\&. 
+.br
+\fIflags\fP binary combination of \fBLTC_BG_FLAGS\fP - here only LTC_USE_DATE and LTC_NO_PARITY are relevant\&. if the bit 0 is set (1) interpret user-data as date and decrement date if timecode wraps at 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) bit 3 (8) indicates that the parity bit should not be touched 
 .RE
 .PP
 \fBReturns:\fP
@@ -871,7 +999,7 @@ Decrement the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 .RE
 .PP
 
-.SS "int ltc_frame_increment (\fBLTCFrame\fP * frame, int fps, int use_date)"
+.SS "int ltc_frame_increment (\fBLTCFrame\fP * frame, int fps, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 Increment the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
 \fBParameters:\fP
@@ -880,7 +1008,9 @@ Increment the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 .br
 \fIfps\fP integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps)\&. 
 .br
-\fIuse_date\fP interpret user-data as date and increment date if timecode wraps after 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
+\fIstandard\fP the TV standard to use for parity bit assignment if set to 1 the 25fps standard is enabled and LTC Frame bit 59 instead of 27 is used for the parity\&. It only has only has effect flag bit 4 (LTC_NO_PARITY) is cleared\&. 
+.br
+\fIflags\fP binary combination of \fBLTC_BG_FLAGS\fP - here only LTC_USE_DATE and LTC_NO_PARITY are relevant\&. If the bit 0 (1) is set (1) interpret user-data as date and increment date if timecode wraps after 24h\&. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored\&. '00' is assumed to be year 2000 which was a leap year\&.) 
 .RE
 .PP
 \fBReturns:\fP
@@ -898,10 +1028,10 @@ Reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at th
 .RE
 .PP
 
-.SS "void ltc_frame_set_parity (\fBLTCFrame\fP * frame)"
+.SS "void ltc_frame_set_parity (\fBLTCFrame\fP * frame, enum \fBLTC_TV_STANDARD\fP standard)"
 Set the parity of the LTC frame\&.
 .PP
-Bi-Phase Mark Phase Correction bit (bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase in every Sync Word will be the same\&.
+Bi-Phase Mark Phase Correction bit (bit 27 - or 59) may be set or cleared so that that every 80-bit word contains an even number of zeroes\&. This means that the phase in every Sync Word will be the same\&.
 .PP
 This is merely cosmetic; the motivation to keep the polarity of the waveform constant is to make finding the Sync Word visibly (on a scope) easier\&.
 .PP
@@ -910,10 +1040,12 @@ There is usually no need to call this function directly\&. The encoder utility f
 \fBParameters:\fP
 .RS 4
 \fIframe\fP the LTC to analyze and set or clear the biphase_mark_phase_correction bit\&. 
+.br
+\fIstandard\fP If 1 (aka LTC_TV_625_50) , the 25fps mode (bit 59 - aka binary_group_flag_bit2) is used, otherwise the 30fps, 24fps mode (bit 27 -- biphase_mark_phase_correction) is set or cleared\&. 
 .RE
 .PP
 
-.SS "void ltc_frame_to_time (\fBSMPTETimecode\fP * stime, \fBLTCFrame\fP * frame, int set_flags)"
+.SS "void ltc_frame_to_time (\fBSMPTETimecode\fP * stime, \fBLTCFrame\fP * frame, int flags)"
 Convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct
 .PP
 \fBParameters:\fP
@@ -922,7 +1054,7 @@ Convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct
 .br
 \fIframe\fP input 
 .br
-\fIset_flags\fP if > 0 the user-fields in \fBLTCFrame\fP will be parsed into the date variable of \fBSMPTETimecode\fP\&. If < 0 all date fields are reset to zero\&. if set_flags is zero, all the date and timezone is not touched\&. 
+\fIflags\fP binary combination of \fBLTC_BG_FLAGS\fP - here only LTC_USE_DATE is relevant\&. if LTC_USE_DATE is set, the user-fields in \fBLTCFrame\fP will be parsed into the date variable of \fBSMPTETimecode\fP\&. otherwise the date information in the \fBSMPTETimecode\fP is set to zero\&. 
 .RE
 .PP
 
@@ -930,7 +1062,7 @@ Convert binary \fBLTCFrame\fP into \fBSMPTETimecode\fP struct
 \fBExamples: \fP
 .in +1c
 \fBltcdecode\&.c\fP\&.
-.SS "void ltc_time_to_frame (\fBLTCFrame\fP * frame, \fBSMPTETimecode\fP * stime, int set_flags)"
+.SS "void ltc_time_to_frame (\fBLTCFrame\fP * frame, \fBSMPTETimecode\fP * stime, enum \fBLTC_TV_STANDARD\fP standard, int flags)"
 Translate \fBSMPTETimecode\fP struct into its binary LTC representation and set the LTC frame's parity bit accordingly (see \fBltc_frame_set_parity\fP)
 .PP
 \fBParameters:\fP
@@ -939,7 +1071,25 @@ Translate \fBSMPTETimecode\fP struct into its binary LTC representation and set 
 .br
 \fIstime\fP input - timecode input 
 .br
-\fIset_flags\fP if > 0 the user-fields in \fBLTCFrame\fP will be set from the date in \fBSMPTETimecode\fP, if < 0 the user-fields will be set to zero\&. If > 1 or < \-1 the binary_group_flag and color-frame flag are reset to zero\&. if set_flags is zero, all non-timecode fields remain untouched\&. 
+\fIstandard\fP the TV standard to use for parity bit assignment 
+.br
+\fIflags\fP binary combination of \fBLTC_BG_FLAGS\fP - here only LTC_USE_DATE and LTC_NO_PARITY are relevant\&. if LTC_USE_DATE is given, user-fields in \fBLTCFrame\fP will be set from the date in \fBSMPTETimecode\fP, otherwise the user-bits are not modified\&. All non-timecode fields remain untouched - except for the parity bit unless LTC_NO_PARITY is given\&. 
+.RE
+.PP
+
+.SS "int parse_bcg_flags (\fBLTCFrame\fP * f, enum \fBLTC_TV_STANDARD\fP standard)"
+Parse Binary Group Flags into standard independent format: bit 0 (1) - BGF 0, bit 1 (2) - BGF 1, bit 2 (4) - BGF 2
+.PP
+\fBParameters:\fP
+.RS 4
+\fIf\fP LTC frame data analyze 
+.br
+\fIstandard\fP the TV standard to use -- see \fBLTCFrame\fP for BGF assignment 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+LTC Binary Group Flags 
 .RE
 .PP
 
