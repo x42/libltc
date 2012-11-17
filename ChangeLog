@@ -1,3 +1,12 @@
+2012-11-17 (v1.1.0) Robin Gareus <robin@gareus.org>
+* non-backwards compatible API update for 12M-1999 spec additions
+- rework encoder and frame inc/dec API.
+- add support for TV-standard offset and binary-group-flags
+* fix LTCFrame struct for big-endian architectures
+* fix volume db calculation
+* update default rise-time - 40us
+* fix timezone 0x0a -> -0030
+
 2012-11-09 (v1.0.3) Robin Gareus <robin@gareus.org>
 * fix version-number in header (was stuck at 1.0.1)
 * fix internal  buffer size of non-integer fps

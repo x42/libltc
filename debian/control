@@ -18,7 +18,7 @@ Package: libltc-dev
 Section: libdevel
 Architecture: any
 Depends:
- libltc8(= ${binary:Version}),
+ libltc11(= ${binary:Version}),
  ${misc:Depends}
 Multi-Arch: same
 Description: Development files for libltc
@@ -45,7 +45,7 @@ Description: Documentation for libltc
  This package contains the API reference (as manpages) for the development of
  applications.
 
-Package: libltc8
+Package: libltc11
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends:
