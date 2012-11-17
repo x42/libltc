@@ -231,6 +231,25 @@ struct LTCFrame {
 };
 #endif
 
+/** the standard defines the assignment of the binary-group-flag bits
+ * basically only 25fps is different, but other standards defined in
+ * the SMPTE spec have been included for completeness.
+ */
+enum LTC_TV_STANDARD {
+	LTC_TV_525_60, ///< 30fps
+	LTC_TV_625_50, ///< 25fps
+	LTC_TV_1125_60,///< 30fps
+	LTC_TV_FILM_24 ///< 24fps
+};
+
+/** encoder and LTCframe <> timecode operation flags */
+enum LTC_BG_FLAGS {
+	LTC_USE_DATE  = 1, ///< LTCFrame <> SMPTETimecode converter and LTCFrame increment/decrement use date, also set BGF2 to '1' when encoder is initialized or re-initialized (unless LTC_BGF_DONT_TOUCH is given)
+	LTC_TC_CLOCK  = 2,///< the Timecode is wall-clock aka freerun. This also sets BGF1 (unless LTC_BGF_DONT_TOUCH is given)
+	LTC_BGF_DONT_TOUCH = 4, ///< encoder init or re-init does not touch the BGF bits (initial values after initialization is zero)
+	LTC_NO_PARITY = 8 ///< parity bit is left untouched when setting or in/decrementing the encoder frame-number
+};
+
 /**
  * see LTCFrame
  */
@@ -306,11 +325,11 @@ typedef struct LTCEncoder LTCEncoder;
  *
  * @param stime output
  * @param frame input
- * @param set_flags if > 0 the user-fields in LTCFrame will be parsed into the date variable of SMPTETimecode.
- * If < 0 all date fields are reset to zero.
- * if set_flags is zero, all the date and timezone is not touched.
+ * @param flags binary combination of \ref LTC_BG_FLAGS - here only LTC_USE_DATE is relevant.
+ * if LTC_USE_DATE is set, the user-fields in LTCFrame will be parsed into the date variable of SMPTETimecode.
+ * otherwise the date information in the SMPTETimecode is set to zero.
  */
-void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_flags);
+void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int flags);
 
 /**
  * Translate SMPTETimecode struct into its binary LTC representation
@@ -318,11 +337,13 @@ void ltc_frame_to_time(SMPTETimecode* stime, LTCFrame* frame, int set_flags);
  *
  * @param frame output - the frame to be set
  * @param stime input - timecode input
- * @param set_flags if > 0 the user-fields in LTCFrame will be set from the date in SMPTETimecode,
- * if < 0 the user-fields will be set to zero. If > 1 or < -1 the binary_group_flag and color-frame flag are reset to zero.
- * if set_flags is zero, all non-timecode fields remain untouched.
+ * @param standard the TV standard to use for parity bit assignment
+ * @param flags binary combination of \ref LTC_BG_FLAGS - here only LTC_USE_DATE and LTC_NO_PARITY are relevant.
+ * if LTC_USE_DATE is given, user-fields in LTCFrame will be set from the date in SMPTETimecode,
+ * otherwise the user-bits are not modified. All non-timecode fields remain untouched - except for the parity bit
+ * unless LTC_NO_PARITY is given.
  */
-void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_flags);
+void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, enum LTC_TV_STANDARD standard, int flags);
 
 /**
  * Reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end.
@@ -338,12 +359,15 @@ void ltc_frame_reset(LTCFrame* frame);
  *
  * @param frame the LTC-timecode to increment
  * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
- * @param use_date interpret user-data as date and increment date if timecode wraps after 24h.
+ * @param standard the TV standard to use for parity bit assignment
+ * if set to 1 the 25fps standard is enabled and LTC Frame bit 59 instead of 27 is used for the parity. It only has only has effect flag bit 4 (LTC_NO_PARITY) is cleared.
+ * @param flags binary combination of \ref LTC_BG_FLAGS - here only LTC_USE_DATE and LTC_NO_PARITY are relevant.
+ * If the bit 0 (1) is set (1) interpret user-data as date and increment date if timecode wraps after 24h.
  * (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored.
  * "00" is assumed to be year 2000 which was a leap year.)
  * @return 1 if timecode was wrapped around after 23:59:59:ff, 0 otherwise
  */
-int ltc_frame_increment(LTCFrame *frame, int fps, int use_date);
+int ltc_frame_increment(LTCFrame* frame, int fps, enum LTC_TV_STANDARD standard, int flags);
 
 /**
  * Decrement the timecode by one Frame (1/framerate seconds)
@@ -351,12 +375,16 @@ int ltc_frame_increment(LTCFrame *frame, int fps, int use_date);
  *
  * @param frame the LTC-timecode to decrement
  * @param fps integer framerate (for drop-frame-timecode set frame->dfbit and round-up the fps).
- * @param use_date interpret user-data as date and decrement date if timecode wraps at 24h.
+ * @param standard the TV standard to use for parity bit assignment
+ * if set to 1 the 25fps standard is enabled and LTC Frame bit 59 instead of 27 is used for the parity. It only has only has effect flag bit 4 (LTC_NO_PARITY) is cleared.
+ * @param flags binary combination of \ref LTC_BG_FLAGS - here only LTC_USE_DATE and LTC_NO_PARITY are relevant.
+ * if the bit 0 is set (1) interpret user-data as date and decrement date if timecode wraps at 24h.
  * (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored.
  * "00" is assumed to be year 2000 which was a leap year.)
+ * bit 3 (8) indicates that the parity bit should not be touched
  * @return 1 if timecode was wrapped around at 23:59:59:ff, 0 otherwise
  */
-int ltc_frame_decrement(LTCFrame* frame, int fps, int use_date);
+int ltc_frame_decrement(LTCFrame* frame, int fps, enum LTC_TV_STANDARD standard, int flags);
 
 /**
  * Create a new LTC decoder.
@@ -451,14 +479,14 @@ int ltc_decoder_queue_length(LTCDecoder* d);
 /**
  * Allocate and initialize LTC audio encoder.
  *
- * Note: if fps equals to 29.97 or 30000.0/1001.0, the LTCFrame's 'dfbit' bit is set to 1
- * to indicate drop-frame timecode.
+ * calls \ref ltc_encoder_reinit internally see, see notes there.
  *
  * @param sample_rate audio sample rate (eg. 48000)
  * @param fps video-frames per second (e.g. 25.0)
- * @param use_date use LTC-user-data for date
+ * @param standard the TV standard to use for Binary Group Flag bit position
+ * @param flags binary combination of \ref LTC_BG_FLAGS
  */
-LTCEncoder * ltc_encoder_create(double sample_rate, double fps, int use_date);
+LTCEncoder* ltc_encoder_create(double sample_rate, double fps, enum LTC_TV_STANDARD standard, int flags);
 
 /**
  * Release memory of the encoder.
@@ -577,12 +605,22 @@ size_t ltc_encoder_get_buffersize(LTCEncoder *e);
  * prepare an internal buffer large enough to accommodate all
  * sample_rate, fps combinations that you would like to re-init to.
  *
+ * The LTC frame payload data is not modified by this call, however,
+ * the flag-bits of the LTC-Frame are updated:
+ * If fps equals to 29.97 or 30000.0/1001.0, the LTCFrame's 'dfbit' bit is set to 1
+ * to indicate drop-frame timecode.
+ *
+ * Unless the LTC_BGF_DONT_TOUCH flag is set the BGF1 is set or cleared depending
+ * on LTC_TC_CLOCK and BGF0,2 according to LTC_USE_DATE and the given standard.
+ * col_frame is cleared  and the parity recomputed (unless LTC_NO_PARITY is given).
+ *
  * @param e encoder handle
  * @param sample_rate audio sample rate (eg. 48000)
  * @param fps video-frames per second (e.g. 25.0)
- * @param use_date use LTC-user-data for date
+ * @param standard the TV standard to use for Binary Group Flag bit position
+ * @param flags binary combination of \ref LTC_BG_FLAGS
  */
-int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_date);
+int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, enum LTC_TV_STANDARD standard, int flags);
 
 /**
  * reset ecoder state.
@@ -676,8 +714,8 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
  * This is equivalent to calling \ref ltc_encoder_encode_byte 10 times for
  * bytes 0..9 with speed 1.0.
  *
- * Note: The internal buffer must be empty before calling this function. 
- * Otherwise it may overflow. This is usually the case if it is read with 
+ * Note: The internal buffer must be empty before calling this function.
+ * Otherwise it may overflow. This is usually the case if it is read with
  * \ref ltc_encoder_get_buffer after calling this function.
  *
  * The default internal buffersize is exactly one full LTC frame at speed 1.0.
@@ -689,7 +727,7 @@ void ltc_encoder_encode_frame(LTCEncoder *e);
 /**
  * Set the parity of the LTC frame.
  *
- * Bi-Phase Mark Phase Correction bit (bit 27) may be set or cleared so that
+ * Bi-Phase Mark Phase Correction bit (bit 27 - or 59) may be set or cleared so that
  * that every 80-bit word contains an even number of zeroes.
  * This means that the phase in every Sync Word will be the same.
  *
@@ -701,8 +739,21 @@ void ltc_encoder_encode_frame(LTCEncoder *e);
  * \ref ltc_frame_decrement include a call to it.
  *
  * @param frame the LTC to analyze and set or clear the biphase_mark_phase_correction bit.
+ * @param standard If 1 (aka LTC_TV_625_50) , the 25fps mode (bit 59 - aka binary_group_flag_bit2) is used, otherwise the 30fps, 24fps mode (bit 27 -- biphase_mark_phase_correction) is set or cleared.
  */
-void ltc_frame_set_parity(LTCFrame *frame);
+void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard);
+
+/**
+ * Parse Binary Group Flags into standard independent format:
+ * bit 0 (1) - BGF 0,
+ * bit 1 (2) - BGF 1,
+ * bit 2 (4) - BGF 2
+ *
+ * @param f LTC frame data analyze
+ * @param standard the TV standard to use -- see \ref LTCFrame for BGF assignment
+ * @return LTC Binary Group Flags
+ */
+int parse_bcg_flags(LTCFrame *f, enum LTC_TV_STANDARD standard);
 
 #ifdef __cplusplus
 }

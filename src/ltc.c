@@ -112,7 +112,7 @@ int ltc_decoder_queue_length(LTCDecoder* d) {
  * Encoder
  */
 
-LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
+LTCEncoder* ltc_encoder_create(double sample_rate, double fps, enum LTC_TV_STANDARD standard, int flags) {
 	if (sample_rate < 1)
 		return NULL;
 
@@ -131,17 +131,8 @@ LTCEncoder* ltc_encoder_create(double sample_rate, double fps, int use_date) {
 		return NULL;
 	}
 
-	e->sample_rate = sample_rate;
-	ltc_encoder_set_filter(e, 40.0);
-	e->fps = fps;
-	e->use_date = use_date;
-	e->samples_per_clock = sample_rate / (fps * 80.0);
-	e->samples_per_clock_2 = e->samples_per_clock / 2.0;
-	e->sample_remainder = 0.5;
 	ltc_frame_reset(&e->f);
-
-	if (rint(fps*100) == 2997)
-		e->f.dfbit = 1;
+	ltc_encoder_reinit(e, sample_rate, fps, standard, flags);
 	return e;
 }
 
@@ -151,7 +142,7 @@ void ltc_encoder_free(LTCEncoder *e) {
 	free(e);
 }
 
-int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_date) {
+int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, enum LTC_TV_STANDARD standard, int flags) {
 	if (sample_rate < 1)
 		return -1;
 
@@ -165,13 +156,38 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, int use_da
 	e->sample_rate = sample_rate;
 	ltc_encoder_set_filter(e, 40.0);
 	e->fps = fps;
-	e->use_date = use_date;
+	e->flags = flags;
+	e->standard = standard;
 	e->samples_per_clock = sample_rate / (fps * 80.0);
 	e->samples_per_clock_2 = e->samples_per_clock / 2.0;
 	e->sample_remainder = 0.5;
 
+	if (flags & LTC_BGF_DONT_TOUCH) {
+		e->f.col_frame = 0;
+		if (flags&LTC_TC_CLOCK) {
+			e->f.binary_group_flag_bit1 = 1;
+		} else {
+			e->f.binary_group_flag_bit1 = 0;
+		}
+		switch (standard) {
+			case LTC_TV_625_50: /* 25 fps mode */
+				e->f.biphase_mark_phase_correction = 0; // BGF0
+				e->f.binary_group_flag_bit0 = (flags&LTC_USE_DATE)?1:0; // BGF2
+				break;
+			default:
+				e->f.binary_group_flag_bit0 = 0;
+				e->f.binary_group_flag_bit2 = (flags&LTC_USE_DATE)?1:0;
+				break;
+		}
+	}
+	if ((flags&LTC_NO_PARITY) == 0) {
+		ltc_frame_set_parity(&e->f, standard);
+	}
+
 	if (rint(fps*100) == 2997)
 		e->f.dfbit = 1;
+	else
+		e->f.dfbit = 0;
 	return 0;
 }
 
@@ -231,11 +247,11 @@ void ltc_encoder_encode_frame(LTCEncoder *e) {
 }
 
 void ltc_encoder_get_timecode(LTCEncoder *e, SMPTETimecode *t) {
-	ltc_frame_to_time(t, &e->f, e->use_date);
+	ltc_frame_to_time(t, &e->f, e->flags);
 }
 
 void ltc_encoder_set_timecode(LTCEncoder *e, SMPTETimecode *t) {
-	ltc_time_to_frame(&e->f, t, e->use_date);
+	ltc_time_to_frame(&e->f, t, e->standard, e->flags);
 }
 
 void ltc_encoder_get_frame(LTCEncoder *e, LTCFrame *f) {
@@ -247,11 +263,11 @@ void ltc_encoder_set_frame(LTCEncoder *e, LTCFrame *f) {
 }
 
 int ltc_encoder_inc_timecode(LTCEncoder *e) {
-	return ltc_frame_increment (&e->f, rint(e->fps), e->use_date);
+	return ltc_frame_increment (&e->f, rint(e->fps), e->standard, e->flags);
 }
 
 int ltc_encoder_dec_timecode(LTCEncoder *e) {
-	return ltc_frame_decrement (&e->f, rint(e->fps), e->use_date);
+	return ltc_frame_decrement (&e->f, rint(e->fps), e->standard, e->flags);
 }
 
 size_t ltc_encoder_get_buffersize(LTCEncoder *e) {
@@ -275,14 +291,26 @@ int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf) {
 	return(len);
 }
 
-void ltc_frame_set_parity(LTCFrame *frame) {
+void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard) {
 	int i;
 	unsigned char p = 0;
-	frame->biphase_mark_phase_correction = 0;
+
+	if (standard != LTC_TV_625_50) { /* 30fps, 24fps */
+		frame->biphase_mark_phase_correction = 0;
+	} else { /* 25fps */
+		frame->binary_group_flag_bit2 = 0;
+	}
+
 	for (i=0; i < LTC_FRAME_BIT_COUNT / 8; ++i){
 		p = p ^ (((unsigned char*)frame)[i]);
 	}
 #define PRY(BIT) ((p>>BIT)&1)
-	frame->biphase_mark_phase_correction =
-		PRY(0)^PRY(1)^PRY(2)^PRY(3)^PRY(4)^PRY(5)^PRY(6)^PRY(7);
+
+	if (standard != LTC_TV_625_50) { /* 30fps, 24fps */
+		frame->biphase_mark_phase_correction =
+			PRY(0)^PRY(1)^PRY(2)^PRY(3)^PRY(4)^PRY(5)^PRY(6)^PRY(7);
+	} else { /* 25fps */
+		frame->binary_group_flag_bit2 =
+			PRY(0)^PRY(1)^PRY(2)^PRY(3)^PRY(4)^PRY(5)^PRY(6)^PRY(7);
+	}
 }

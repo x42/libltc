@@ -161,16 +161,16 @@ static void skip_drop_frames(LTCFrame* frame) {
 	}
 }
 
-void ltc_frame_to_time(SMPTETimecode *stime, LTCFrame *frame, int set_flags) {
+void ltc_frame_to_time(SMPTETimecode *stime, LTCFrame *frame, int flags) {
 	if (!stime) return;
 
-	if (set_flags > 0) {
+	if (flags & LTC_USE_DATE) {
 		smpte_set_timezone_string(frame, stime);
 
 		stime->years  = frame->user5 + frame->user6*10;
 		stime->months = frame->user3 + frame->user4*10;
 		stime->days   = frame->user1 + frame->user2*10;
-	} else if (set_flags < 0) {
+	} else {
 		stime->years  = 0;
 		stime->months = 0;
 		stime->days   = 0;
@@ -183,8 +183,8 @@ void ltc_frame_to_time(SMPTETimecode *stime, LTCFrame *frame, int set_flags) {
 	stime->frame = frame->frame_units + frame->frame_tens*10;
 }
 
-void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_flags) {
-	if (set_flags > 0) {
+void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, enum LTC_TV_STANDARD standard, int flags) {
+	if (flags & LTC_USE_DATE) {
 		smpte_set_timezone_code(stime, frame);
 		frame->user6 = stime->years/10;
 		frame->user5 = stime->years - frame->user6*10;
@@ -192,20 +192,6 @@ void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_flags) {
 		frame->user3 = stime->months - frame->user4*10;
 		frame->user2 = stime->days/10;
 		frame->user1 = stime->days - frame->user2*10;
-	} else if (set_flags < 0) {
-		frame->user8 = 0;
-		frame->user7 = 0;
-		frame->user6 = 0;
-		frame->user5 = 0;
-		frame->user4 = 0;
-		frame->user3 = 0;
-		frame->user2 = 0;
-		frame->user1 = 0;
-	}
-	if (abs(set_flags) > 1) {
-		frame->binary_group_flag_bit1 = 0;
-		frame->binary_group_flag_bit2 = 0;
-		frame->col_frame = 0; // colour
 	}
 
 	frame->hours_tens  = stime->hours/10;
@@ -222,7 +208,9 @@ void ltc_time_to_frame(LTCFrame* frame, SMPTETimecode* stime, int set_flags) {
 		skip_drop_frames(frame);
 	}
 
-	ltc_frame_set_parity(frame);
+	if ((flags & LTC_NO_PARITY) == 0) {
+		ltc_frame_set_parity(frame, standard);
+	}
 }
 
 void ltc_frame_reset(LTCFrame* frame) {
@@ -237,7 +225,7 @@ void ltc_frame_reset(LTCFrame* frame) {
 #endif
 }
 
-int ltc_frame_increment(LTCFrame* frame, int fps, int use_date) {
+int ltc_frame_increment(LTCFrame* frame, int fps, enum LTC_TV_STANDARD standard, int flags) {
 	int rv = 0;
 
 	frame->frame_units++;
@@ -280,7 +268,7 @@ int ltc_frame_increment(LTCFrame* frame, int fps, int use_date) {
 							frame->hours_tens=0;
 							frame->hours_units = 0;
 
-							if (use_date)
+							if (flags&1)
 							{
 								/* wrap date */
 								SMPTETimecode stime;
@@ -328,11 +316,14 @@ int ltc_frame_increment(LTCFrame* frame, int fps, int use_date) {
 		skip_drop_frames(frame);
 	}
 
-	ltc_frame_set_parity(frame);
+	if ((flags & LTC_NO_PARITY) == 0) {
+		ltc_frame_set_parity(frame, standard);
+	}
 
 	return rv;
 }
-int ltc_frame_decrement(LTCFrame* frame, int fps, int use_date) {
+
+int ltc_frame_decrement(LTCFrame* frame, int fps, enum LTC_TV_STANDARD standard, int flags) {
 	int rv = 0;
 
 	int frames = frame->frame_units + frame->frame_tens * 10;
@@ -378,7 +369,7 @@ int ltc_frame_decrement(LTCFrame* frame, int fps, int use_date) {
 				if (hours == 23) {
 					/* 24h wrap around */
 					rv=1;
-					if (use_date)
+					if (flags&LTC_USE_DATE)
 					{
 						/* wrap date */
 						SMPTETimecode stime;
@@ -428,12 +419,33 @@ int ltc_frame_decrement(LTCFrame* frame, int fps, int use_date) {
 			&& (frame->frame_units == 1)
 			&& (frame->frame_tens == 0)
 			) {
-			ltc_frame_decrement(frame, fps, use_date);
-			ltc_frame_decrement(frame, fps, use_date);
+			ltc_frame_decrement(frame, fps, standard, flags&LTC_USE_DATE);
+			ltc_frame_decrement(frame, fps, standard, flags&LTC_USE_DATE);
 		}
 	}
 
-	ltc_frame_set_parity(frame);
+	if ((flags & LTC_NO_PARITY) == 0) {
+		ltc_frame_set_parity(frame, standard);
+	}
 
 	return rv;
+}
+
+int parse_bcg_flags(LTCFrame *f, enum LTC_TV_STANDARD standard) {
+	switch (standard) {
+		case LTC_TV_625_50: /* 25 fps mode */
+			return (
+					  ((f->binary_group_flag_bit0)?4:0)
+					| ((f->binary_group_flag_bit1)?2:0)
+					| ((f->biphase_mark_phase_correction)?1:0)
+					);
+			break;
+		default: /* 24,30 fps mode */
+			return (
+					  ((f->binary_group_flag_bit2)?4:0)
+					| ((f->binary_group_flag_bit1)?2:0)
+					| ((f->binary_group_flag_bit0)?1:0)
+					);
+			break;
+	}
 }

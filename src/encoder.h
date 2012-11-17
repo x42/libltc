@@ -27,7 +27,8 @@ struct LTCEncoder {
 	double fps;
 	double sample_rate;
 	double filter_const;
-	int use_date;
+	int flags;
+	enum LTC_TV_STANDARD standard;
 	ltcsnd_sample_t enc_lo, enc_hi;
 
 	size_t offset;

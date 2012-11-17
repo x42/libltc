@@ -99,7 +99,8 @@ int main(int argc, char **argv) {
 	}
 
 	/* prepare encoder */
-	encoder = ltc_encoder_create(sample_rate, fps, 1);
+	encoder = ltc_encoder_create(sample_rate, fps,
+			fps==25?LTC_TV_625_50:LTC_TV_525_60, LTC_USE_DATE);
 	ltc_encoder_set_timecode(encoder, &st);
 
 #ifdef USE_LOCAL_BUFFER
