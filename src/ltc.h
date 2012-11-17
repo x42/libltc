@@ -755,6 +755,22 @@ void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard);
  */
 int parse_bcg_flags(LTCFrame *f, enum LTC_TV_STANDARD standard);
 
+/**
+ * LTCFrame sample alignment offset.
+ *
+ * There is a relative offset of the LTC-Frame start and the TV-frame.
+ * The first bit of a LTC frame corresponds to a specific line in the actual video
+ * frame. When decoding this offset needs to be subtracted from the LTC-frame's
+ * audio-sample-time to match the TV-frame's start position.
+ *
+ * For film frames or HDV the offset is zero.
+ *
+ * @param sample_rate audio sample rate (eg. 48000)
+ * @param standard the TV standard
+ * @return offset in samples
+ */
+ltc_off_t ltc_frame_alignment(double sample_rate, enum LTC_TV_STANDARD standard);
+
 #ifdef __cplusplus
 }
 #endif
