@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">1.0.3</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -52,6 +52,7 @@
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ltc.h File Reference</div>  </div>
@@ -94,18 +95,33 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a3c037295fc56b69e7282427bac3e38c4"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a></td></tr>
 <tr class="separator:a3c037295fc56b69e7282427bac3e38c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a77b5ef194f01a8143f60d070adf65b11"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> { <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11aac0f1156ebc23906670dee336521b415">LTC_TV_525_60</a>, 
+<a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11a9aa2757a4b6e7360e39756a51c6206c3">LTC_TV_625_50</a>, 
+<a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11ab6645218664f0e2481dfbd7252e58ae1">LTC_TV_1125_60</a>, 
+<a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11a5b7d7c959d4aeea84f4b0daf5d6ec36c">LTC_TV_FILM_24</a>
+ }</td></tr>
+<tr class="separator:a77b5ef194f01a8143f60d070adf65b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ff5c146f280a87f305880d9a0ddbc7e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a> { <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7eaae2cfa6071dceb221a38df388248eecd">LTC_USE_DATE</a> = 1, 
+<a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7ea331229ce2f0eb76c20e45d5928652547">LTC_TC_CLOCK</a> = 2, 
+<a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7ea6384d39568862ac93b6ef16460617bfd">LTC_BGF_DONT_TOUCH</a> = 4, 
+<a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7eae570f2f9c8c6915b884b0b8f41dab8be">LTC_NO_PARITY</a> = 8
+ }</td></tr>
+<tr class="separator:a1ff5c146f280a87f305880d9a0ddbc7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a319746c44fb02682a26872ce2929baca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a319746c44fb02682a26872ce2929baca">ltc_frame_to_time</a> (<a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *stime, <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int set_flags)</td></tr>
-<tr class="separator:a319746c44fb02682a26872ce2929baca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a455cb67c4721605c0119d555c7d90dc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *stime, int set_flags)</td></tr>
-<tr class="separator:a455cb67c4721605c0119d555c7d90dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b29fed73072a500e4c3566bec8340a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a6b29fed73072a500e4c3566bec8340a1">ltc_frame_to_time</a> (<a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *stime, <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int flags)</td></tr>
+<tr class="separator:a6b29fed73072a500e4c3566bec8340a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ba499f8832ebd56c3ae17acc8dd76d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a7ba499f8832ebd56c3ae17acc8dd76d5">ltc_time_to_frame</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *stime, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard, int flags)</td></tr>
+<tr class="separator:a7ba499f8832ebd56c3ae17acc8dd76d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe4a7d0fb406b90f08d5c5d59749bfcb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#abe4a7d0fb406b90f08d5c5d59749bfcb">ltc_frame_reset</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame)</td></tr>
 <tr class="separator:abe4a7d0fb406b90f08d5c5d59749bfcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cef71e2a23b9075cb7a4f7a974a8e0d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int fps, int use_date)</td></tr>
-<tr class="separator:a1cef71e2a23b9075cb7a4f7a974a8e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab62275a9737480adebb3e67207e8e8cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int fps, int use_date)</td></tr>
-<tr class="separator:ab62275a9737480adebb3e67207e8e8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d42e1733c28e1211a7c9d551b487a0b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a5d42e1733c28e1211a7c9d551b487a0b">ltc_frame_increment</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int fps, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard, int flags)</td></tr>
+<tr class="separator:a5d42e1733c28e1211a7c9d551b487a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a8d1fb98f604002f55707aa88ca5a05"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a6a8d1fb98f604002f55707aa88ca5a05">ltc_frame_decrement</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, int fps, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard, int flags)</td></tr>
+<tr class="separator:a6a8d1fb98f604002f55707aa88ca5a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0707029b20a1ea7305dd6ba85c0d03f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a0707029b20a1ea7305dd6ba85c0d03f8">ltc_decoder_create</a> (int apv, int queue_size)</td></tr>
 <tr class="separator:a0707029b20a1ea7305dd6ba85c0d03f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7d79ffa10e4ac4726676d3427ad2f15"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad7d79ffa10e4ac4726676d3427ad2f15">ltc_decoder_free</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
@@ -124,8 +140,8 @@ Functions</h2></td></tr>
 <tr class="separator:abd9d3361b1a2bd65a8d55947c9a58936"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af67cd942ac9ef94e06cefdea99faca8d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#af67cd942ac9ef94e06cefdea99faca8d">ltc_decoder_queue_length</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
 <tr class="separator:af67cd942ac9ef94e06cefdea99faca8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe31d23e55d4af47a2d1e6bc5c1bbff9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#afe31d23e55d4af47a2d1e6bc5c1bbff9">ltc_encoder_create</a> (double sample_rate, double fps, int use_date)</td></tr>
-<tr class="separator:afe31d23e55d4af47a2d1e6bc5c1bbff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fac0218112ea33a1a9ffcdf139e5673"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a6fac0218112ea33a1a9ffcdf139e5673">ltc_encoder_create</a> (double sample_rate, double fps, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard, int flags)</td></tr>
+<tr class="separator:a6fac0218112ea33a1a9ffcdf139e5673"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a116e4b5b95b27e52a522c1001421e345"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
 <tr class="separator:a116e4b5b95b27e52a522c1001421e345"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3046829f29d125287ec4a5d3316a53f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a3046829f29d125287ec4a5d3316a53f0">ltc_encoder_set_timecode</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> *t)</td></tr>
@@ -148,8 +164,8 @@ Functions</h2></td></tr>
 <tr class="separator:a397b2509c73c55d3042b6cc574fc86ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07af03e143b3f2aa76fda8884724dca0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a07af03e143b3f2aa76fda8884724dca0">ltc_encoder_get_buffersize</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
 <tr class="separator:a07af03e143b3f2aa76fda8884724dca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad67a6ed1d67a2cf3ae2bbfdcaafd1c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double sample_rate, double fps, int use_date)</td></tr>
-<tr class="separator:aad67a6ed1d67a2cf3ae2bbfdcaafd1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9caffd9ac38aa48067d8da91f310f263"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a9caffd9ac38aa48067d8da91f310f263">ltc_encoder_reinit</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double sample_rate, double fps, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard, int flags)</td></tr>
+<tr class="separator:a9caffd9ac38aa48067d8da91f310f263"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5e1913e76f5e658b8427419dad58f5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ab5e1913e76f5e658b8427419dad58f5e">ltc_encoder_reset</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
 <tr class="separator:ab5e1913e76f5e658b8427419dad58f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0428876b560aab7c545b46f8472eef7c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e, double sample_rate, double fps)</td></tr>
@@ -162,8 +178,12 @@ Functions</h2></td></tr>
 <tr class="separator:a274bf28daef0c440205478c26e21b5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad38539cbe0d906fd7abeefda17824702"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a> (<a class="el" href="ltc_8h.html#a3c037295fc56b69e7282427bac3e38c4">LTCEncoder</a> *e)</td></tr>
 <tr class="separator:ad38539cbe0d906fd7abeefda17824702"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a405e7c6638565c93e5c3d9cf919553ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame)</td></tr>
-<tr class="separator:a405e7c6638565c93e5c3d9cf919553ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e834e9a495fd8b0f5dac0c98e0f9970"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a3e834e9a495fd8b0f5dac0c98e0f9970">ltc_frame_set_parity</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *frame, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard)</td></tr>
+<tr class="separator:a3e834e9a495fd8b0f5dac0c98e0f9970"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92fda2b49cee4b91f73fd65094c0412a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a92fda2b49cee4b91f73fd65094c0412a">parse_bcg_flags</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *f, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard)</td></tr>
+<tr class="separator:a92fda2b49cee4b91f73fd65094c0412a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a238baab8cd287e8542eb46dd0358a195"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a238baab8cd287e8542eb46dd0358a195">ltc_frame_alignment</a> (double sample_rate, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard)</td></tr>
+<tr class="separator:a238baab8cd287e8542eb46dd0358a195"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>libltc - en+decode linear timecode </p>
@@ -197,39 +217,63 @@ Functions</h2></td></tr>
 <p>In each frame, 26 of the eighty bits carry the SMPTE time in binary coded decimal (BCD).</p>
 <p>These Bits are FRAME-UNITS, FRAME-TENS, SECS-UNITS, SECS-TENS, MINS-UNITS, MINS-TENS, HOURS-UNITS and HOURS-TENS. The BCD digits are loaded 'least significant bit first' (libltc takes care of the architecture specific alignment).</p>
 <p>32 bits are assigned as eight groups of four USER-BITS (also sometimes called the "Binary Groups"). This capacity is generally used to carry extra info such as reel number and/or date. The User Bits may be allocated howsoever one wishes as long as both Binary Group Flag Bits are cleared.</p>
-<p>The function <a class="el" href="ltc_8h.html#a319746c44fb02682a26872ce2929baca">ltc_frame_to_time</a> can interpret the user-bits as SMPTE Date+Timezone according to SMPTE 309M-1999. similarly <a class="el" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a> will do the reverse.</p>
+<p>The function <a class="el" href="ltc_8h.html#a6b29fed73072a500e4c3566bec8340a1">ltc_frame_to_time</a> can interpret the user-bits as SMPTE Date+Timezone according to SMPTE 309M-1999. similarly <a class="el" href="ltc_8h.html#a7ba499f8832ebd56c3ae17acc8dd76d5">ltc_time_to_frame</a> will do the reverse.</p>
 <p>The last 16 Bits make up the SYNC WORD. These bits indicate the frame boundary, the tape direction, and the bit-rate of the sync tone. The values of these Bits are fixed as 0011 1111 1111 1101</p>
-<p>The Bi-Phase Mark Phase Correction Bit (Bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes. This means that the phase of the pulse train in every Sync Word will be the same.</p>
+<p>The Bi-Phase Mark Phase Correction Bit (Bit 27 or 59) may be set or cleared so that that every 80-bit word contains an even number of zeroes. This means that the phase of the pulse train in every Sync Word will be the same.</p>
 <p>Bit 10 indicates drop-frame timecode. The Colour Frame Flag col.frm is Bit 11; if the timecode intentionally synchronized to a colour TV field sequence, this bit is set.</p>
 <p>Bit 58 is not required for the BCD count for HOURS-TENS (which has a maximum value of two) and has not been given any other special purpose so remains unassigned. This Bit has been RESERVED for future assignment.</p>
-<p>Bits 43 and 59 are assigned as the Binary Group Flag Bits. These Bits are used to indicate when a standard character set is used to format the User Bits data. The Binary Group Flag Bits should be used only as shown in the truth table below. The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future.</p>
+<p>The Binary Group Flag Bits (bits 43 and 59) are two bits indicate the format of the User Bits data. SMPTE 12M-1999 defines the previously reserved bit 58 to signals that the time is locked to wall-clock within a tolerance of ± 0.5 seconds.</p>
+<p>SMPTE 12M-1999 also changes the numbering schema of the BGF. (BGF1 was renamed to BGF2 and bit 58 becomes BGFB1)</p>
+<p>To further complicate matters, the BGFB assignment as well as the biphase_mark_phase_correction (aka parity) bit depends on the timecode-format used.</p>
 <pre>
-                                 Bit 43  Bit 59
- No User Bits format specified     0       0
- Eight-bit character set           1       0
- Unassigned (Reserved)             0       1
- Unassigned (Reserved)             1       1
-</pre><p>further information: <a href="http://www.philrees.co.uk/articles/timecode.htm">http://www.philrees.co.uk/articles/timecode.htm</a> </p>
+         25 fps   24, 30 fps
+ BGF0      27        43
+ BGF1      58        58
+ BGF2      43        59
+ Parity    59        27
+</pre><p>The variable naming chosen for the <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> struct is based on the 24,30 fps standard.</p>
+<p>The Binary Group Flag Bits should be used only as shown in the truth table below. The Unassigned entries in the table should not be used, as they may be allocated specific meanings in the future.</p>
+<pre>
+                                                BGF0      BGF1    BGF2
+      user-bits                     timecode    Bit 43   Bit 58  Bit 59 (30fps, 24 fps)
+                                   |        |   Bit 27   Bit 58  Bit 43 (25fps)
+ No User Bits format specified     |   ?    |     0       0        0
+ Eight-bit character set (1)       |   ?    |     1       0        0
+ Date and Timezone set             |   ?    |     0       0        1
+ Page/Line multiplex (2)           |   ?    |     1       0        1
+ Character set not specified       |  clk   |     0       1        0
+ Reserved                          |   ?    |     1       1        0
+ Date and Timezone set             |  clk   |     0       1        1
+ Page/Line multiplex (2)           |  clk   |     1       1        1</pre><pre></pre><p>(1) ISO/IEC 646 or ISO/IEC 2022 character set. If the seven-bit ISO codes are being used, they shall be converted to eight-bit codes by setting the eighth bit to zero. 4 ISO codes can be encoded, user7 and user8 are to be used for the first code with LSB 7 and MSB in 8. the remaining ISO codes are to be distributed in the same manner to user5/6 user3/4 and user1/2 accordingly.</p>
+<p>(2) The Page/Line indicates ANSI/SMPTE-262M is used for the user-bits. It is multiplex system that can be used to encode large amounts of data in the binary groups through the use of time multiplexing.</p>
+<p>libltc does not use any of the BGF - except for the Parity bit which can be calculated and set with <a class="el" href="ltc_8h.html#a3e834e9a495fd8b0f5dac0c98e0f9970">ltc_frame_set_parity</a>. Setting and interpreting the BGF is left to the application using libltc. However libltc provides functionality to parse or set date and timezoe according to SMPTE 309M-1999.</p>
+<p>further information: <a href="http://www.philrees.co.uk/articles/timecode.htm">http://www.philrees.co.uk/articles/timecode.htm</a> and <a href="http://www.barney-wol.net/time/timecode.html">http://www.barney-wol.net/time/timecode.html</a> </p>
 </div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a class="anchor" id="a6503b01ce4cda5cd9758bef3da9e3a26"></a>unsigned int</td>
+<td class="fieldname">
+binary_group_flag_bit0:1</td>
+<td class="fielddoc">
+indicate user-data char encoding, see table above - bit 43 </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="ad1962f5eca00a2fecc4feb66703f41a1"></a>unsigned int</td>
 <td class="fieldname">
 binary_group_flag_bit1:1</td>
 <td class="fielddoc">
-indicate user-data char encoding, see table above </td></tr>
+indicate timecode is local time wall-clock, see table above - bit 58 </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="a9da8bdceccbc4c8c7d60d005d72380f6"></a>unsigned int</td>
 <td class="fieldname">
 binary_group_flag_bit2:1</td>
 <td class="fielddoc">
-indicate user-data char encoding, see table above </td></tr>
+indicate user-data char encoding (or parity with 25fps), see table above - bit 59 </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="a374773ff711166efc529a88911d5235e"></a>unsigned int</td>
 <td class="fieldname">
 biphase_mark_phase_correction:1</td>
 <td class="fielddoc">
-unused - see note on Bit 27 in description and <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a> . </td></tr>
+see note on Bit 27 in description and <a class="el" href="ltc_8h.html#a3e834e9a495fd8b0f5dac0c98e0f9970">ltc_frame_set_parity</a> . </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="a71311d8f860051ac0720f92ce0657f67"></a>unsigned int</td>
 <td class="fieldname">
@@ -278,12 +322,6 @@ SMPTE minutes BCD tens 0..6. </td></tr>
 mins_units:4</td>
 <td class="fielddoc">
 SMPTE minutes BCD unit 0..9. </td></tr>
-<tr><td class="fieldtype">
-<a class="anchor" id="ae747ba45b1a6f6b551147abc6d1505d2"></a>unsigned int</td>
-<td class="fieldname">
-reserved:1</td>
-<td class="fielddoc">
-reserved - do not use </td></tr>
 <tr><td class="fieldtype">
 <a class="anchor" id="ac665de0697c9149b95657cf36dd94a02"></a>unsigned int</td>
 <td class="fieldname">
@@ -363,7 +401,12 @@ user8:4</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><p>Extended LTC frame - includes audio-sample position offsets, volume, etc </p>
+<div class="textblock"><p>Extended LTC frame - includes audio-sample position offsets, volume, etc</p>
+<p>Note: For TV systems, the sample in the LTC audio data stream where the LTC Frame starts is not neccesarily at the same time as the video-frame which is described by the LTC Frame.</p>
+<p><a class="el" href="ltc_8h.html#off_start">off_start</a> denotes the time of the first transition of bit 0 in the LTC frame.</p>
+<p>For 525/60 Television systems, the first transition shall occur at the beginning of line 5 of the frame with which it is associated. The tolerance is ± 1.5 lines.</p>
+<p>For 625/50 systems, the first transition shall occur at the beginning of line 2 ± 1.5 lines of the frame with which it is associated.</p>
+<p>Only for 1125/60 systems, the first transition occurs exactly at the vertical sync timing reference of the frame. ± 1 line. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcdecode_8c-example.html#_a0">ltcdecode.c</a>.</dd>
 </dl></div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
@@ -533,7 +576,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Opaque structure see: <a class="el" href="ltc_8h.html#afe31d23e55d4af47a2d1e6bc5c1bbff9">ltc_encoder_create</a>, <a class="el" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a> </p>
+<p>Opaque structure see: <a class="el" href="ltc_8h.html#a6fac0218112ea33a1a9ffcdf139e5673">ltc_encoder_create</a>, <a class="el" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a> </p>
 
 </div>
 </div>
@@ -586,6 +629,65 @@ LTC-date uses 2-digit year 00.99. </td></tr>
       </table>
 </div><div class="memdoc">
 <p>see <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="a1ff5c146f280a87f305880d9a0ddbc7e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>encoder and LTCframe &lt;&gt; timecode operation flags </p>
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a1ff5c146f280a87f305880d9a0ddbc7eaae2cfa6071dceb221a38df388248eecd"></a>LTC_USE_DATE</em>&nbsp;</td><td>
+<p><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> &lt;&gt; <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> converter and <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> increment/decrement use date, also set BGF2 to '1' when encoder is initialized or re-initialized (unless LTC_BGF_DONT_TOUCH is given) </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a1ff5c146f280a87f305880d9a0ddbc7ea331229ce2f0eb76c20e45d5928652547"></a>LTC_TC_CLOCK</em>&nbsp;</td><td>
+<p>the Timecode is wall-clock aka freerun. This also sets BGF1 (unless LTC_BGF_DONT_TOUCH is given) </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a1ff5c146f280a87f305880d9a0ddbc7ea6384d39568862ac93b6ef16460617bfd"></a>LTC_BGF_DONT_TOUCH</em>&nbsp;</td><td>
+<p>encoder init or re-init does not touch the BGF bits (initial values after initialization is zero) </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a1ff5c146f280a87f305880d9a0ddbc7eae570f2f9c8c6915b884b0b8f41dab8be"></a>LTC_NO_PARITY</em>&nbsp;</td><td>
+<p>parity bit is left untouched when setting or in/decrementing the encoder frame-number </p>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a77b5ef194f01a8143f60d070adf65b11"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>the standard defines the assignment of the binary-group-flag bits basically only 25fps is different, but other standards defined in the SMPTE spec have been included for completeness. </p>
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a77b5ef194f01a8143f60d070adf65b11aac0f1156ebc23906670dee336521b415"></a>LTC_TV_525_60</em>&nbsp;</td><td>
+<p>30fps </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a77b5ef194f01a8143f60d070adf65b11a9aa2757a4b6e7360e39756a51c6206c3"></a>LTC_TV_625_50</em>&nbsp;</td><td>
+<p>25fps </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a77b5ef194f01a8143f60d070adf65b11ab6645218664f0e2481dfbd7252e58ae1"></a>LTC_TV_1125_60</em>&nbsp;</td><td>
+<p>30fps </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a77b5ef194f01a8143f60d070adf65b11a5b7d7c959d4aeea84f4b0daf5d6ec36c"></a>LTC_TV_FILM_24</em>&nbsp;</td><td>
+<p>24fps </p>
+</td></tr>
+</table>
+</dd>
+</dl>
 
 </div>
 </div>
@@ -950,7 +1052,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afe31d23e55d4af47a2d1e6bc5c1bbff9"></a>
+<a class="anchor" id="a6fac0218112ea33a1a9ffcdf139e5673"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -969,8 +1071,14 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>use_date</em>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -980,12 +1088,13 @@ LTC-date uses 2-digit year 00.99. </td></tr>
       </table>
 </div><div class="memdoc">
 <p>Allocate and initialize LTC audio encoder.</p>
-<p>Note: if fps equals to 29.97 or 30000.0/1001.0, the <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a>'s 'dfbit' bit is set to 1 to indicate drop-frame timecode.</p>
+<p>calls <a class="el" href="ltc_8h.html#a9caffd9ac38aa48067d8da91f310f263">ltc_encoder_reinit</a> internally see, see notes there.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sample_rate</td><td>audio sample rate (eg. 48000) </td></tr>
     <tr><td class="paramname">fps</td><td>video-frames per second (e.g. 25.0) </td></tr>
-    <tr><td class="paramname">use_date</td><td>use LTC-user-data for date </td></tr>
+    <tr><td class="paramname">standard</td><td>the TV standard to use for Binary Group Flag bit position </td></tr>
+    <tr><td class="paramname">flags</td><td>binary combination of <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -1006,7 +1115,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Move the encoder to the previous timecode frame. This is useful for encoding reverse LTC. uses <a class="el" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement()</a> internally. </p>
+<p>Move the encoder to the previous timecode frame. This is useful for encoding reverse LTC. uses <a class="el" href="ltc_8h.html#a6a8d1fb98f604002f55707aa88ca5a05">ltc_frame_decrement()</a> internally. </p>
 
 </div>
 </div>
@@ -1053,7 +1162,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if byte is invalid or buffer overflow (speed &gt; 10.0) </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a12">example_encode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a15">example_encode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1079,7 +1188,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a15">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a15">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a18">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a18">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1103,7 +1212,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a17">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a18">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a20">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a21">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1139,7 +1248,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the number of bytes written to the memory area pointed to by buf. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a13">example_encode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a16">example_encode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1165,7 +1274,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>size of the allocated internal buffer. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a11">example_encode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a14">example_encode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1208,7 +1317,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to encoder-buffer </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a14">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a16">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a17">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a19">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1294,12 +1403,12 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Move the encoder to the next timecode frame. uses <a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment()</a> internally. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a16">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a17">ltcencode.c</a>.</dd>
+<p>Move the encoder to the next timecode frame. uses <a class="el" href="ltc_8h.html#a5d42e1733c28e1211a7c9d551b487a0b">ltc_frame_increment()</a> internally. </p>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a19">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a20">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
-<a class="anchor" id="aad67a6ed1d67a2cf3ae2bbfdcaafd1c7"></a>
+<a class="anchor" id="a9caffd9ac38aa48067d8da91f310f263"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1324,8 +1433,14 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>use_date</em>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1336,16 +1451,19 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><div class="memdoc">
 <p>Change the encoder settings without re-allocating any library internal data structure (realtime safe). changing the fps and or sample-rate implies a buffer flush, and biphase state reset.</p>
 <p>This call will fail if the internal buffer is too small to hold one full LTC frame. Use <a class="el" href="ltc_8h.html#a0428876b560aab7c545b46f8472eef7c">ltc_encoder_set_bufsize</a> to prepare an internal buffer large enough to accommodate all sample_rate, fps combinations that you would like to re-init to.</p>
+<p>The LTC frame payload data is not modified by this call, however, the flag-bits of the LTC-Frame are updated: If fps equals to 29.97 or 30000.0/1001.0, the <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a>'s 'dfbit' bit is set to 1 to indicate drop-frame timecode.</p>
+<p>Unless the LTC_BGF_DONT_TOUCH flag is set the BGF1 is set or cleared depending on LTC_TC_CLOCK and BGF0,2 according to LTC_USE_DATE and the given standard. col_frame is cleared and the parity recomputed (unless LTC_NO_PARITY is given).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
     <tr><td class="paramname">sample_rate</td><td>audio sample rate (eg. 48000) </td></tr>
     <tr><td class="paramname">fps</td><td>video-frames per second (e.g. 25.0) </td></tr>
-    <tr><td class="paramname">use_date</td><td>use LTC-user-data for date </td></tr>
+    <tr><td class="paramname">standard</td><td>the TV standard to use for Binary Group Flag bit position </td></tr>
+    <tr><td class="paramname">flags</td><td>binary combination of <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a> </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a11">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a12">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1402,7 +1520,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
       </table>
 </div><div class="memdoc">
 <p>Configure a custom size for the internal buffer.</p>
-<p>This is needed if you are planning to call <a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit()</a> or if you want to keep more than one LTC frame's worth of data in the library's internal buffer.</p>
+<p>This is needed if you are planning to call <a class="el" href="ltc_8h.html#a9caffd9ac38aa48067d8da91f310f263">ltc_encoder_reinit()</a> or if you want to keep more than one LTC frame's worth of data in the library's internal buffer.</p>
 <p>The buffer-size is (1 + sample_rate / fps) bytes. resizing the internal buffer will flush all existing data in it - alike <a class="el" href="ltc_8h.html#a397b2509c73c55d3042b6cc574fc86ab">ltc_encoder_buffer_flush</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1413,7 +1531,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if allocation fails (which makes the encoder unusable, call <a class="el" href="ltc_8h.html#a116e4b5b95b27e52a522c1001421e345">ltc_encoder_free</a> or realloc the buffer) </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a10">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a11">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1441,17 +1559,17 @@ LTC-date uses 2-digit year 00.99. </td></tr>
       </table>
 </div><div class="memdoc">
 <p>Set encoder signal rise-time / signal filtering</p>
-<p>LTC signal should have a rise time of 25 us +/- 5 us. by default the encoder honors this and low-pass filters the output depending on the sample-rate.</p>
+<p>LTC signal should have a rise time of 40us +/- 10 us. by default the encoder honors this and low-pass filters the output depending on the sample-rate.</p>
 <p>If you want a perfect square wave, set 'rise_time' to 0.</p>
-<p>Note <a class="el" href="ltc_8h.html#aad67a6ed1d67a2cf3ae2bbfdcaafd1c7">ltc_encoder_reinit</a> resets the filter-time-constant to use the default 25us for the given sample-rate, overriding any value previously set with <a class="el" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a></p>
+<p>Note <a class="el" href="ltc_8h.html#a9caffd9ac38aa48067d8da91f310f263">ltc_encoder_reinit</a> resets the filter-time-constant to use the default 40us for the given sample-rate, overriding any value previously set with <a class="el" href="ltc_8h.html#a54af196359fa0fa49467967770c2491d">ltc_encoder_set_filter</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
-    <tr><td class="paramname">rise_time</td><td>the signal rise-time in us (10^(-6) sec), set to 0 for perfect square wave, default 25.0 </td></tr>
+    <tr><td class="paramname">rise_time</td><td>the signal rise-time in us (10^(-6) sec), set to 0 for perfect square wave, default 40.0 </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a12">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a15">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1514,7 +1632,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
       </table>
 </div><div class="memdoc">
 <p>Set the encoder LTC-frame to the given <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>. The next call to <a class="el" href="ltc_8h.html#a274bf28daef0c440205478c26e21b5cd">ltc_encoder_encode_byte</a> or <a class="el" href="ltc_8h.html#ad38539cbe0d906fd7abeefda17824702">ltc_encoder_encode_frame</a> will encode this time to LTC audio-samples.</p>
-<p>Internally this call uses <a class="el" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a> because the LTCEncoder operates on LTCframes only. see als <a class="el" href="ltc_8h.html#ac217926ac997495868c1bff43269991f">ltc_encoder_set_frame</a></p>
+<p>Internally this call uses <a class="el" href="ltc_8h.html#a7ba499f8832ebd56c3ae17acc8dd76d5">ltc_time_to_frame</a> because the LTCEncoder operates on LTCframes only. see als <a class="el" href="ltc_8h.html#ac217926ac997495868c1bff43269991f">ltc_encoder_set_frame</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>encoder handle </td></tr>
@@ -1522,7 +1640,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a10">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a14">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="example_encode_8c-example.html#a13">example_encode.c</a>, and <a class="el" href="ltcencode_8c-example.html#a17">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -1561,11 +1679,48 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if the value was out of range </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a13">ltcencode.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="ltcencode_8c-example.html#a16">ltcencode.c</a>.</dd>
 </dl>
 </div>
 </div>
-<a class="anchor" id="ab62275a9737480adebb3e67207e8e8cc"></a>
+<a class="anchor" id="a238baab8cd287e8542eb46dd0358a195"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> ltc_frame_alignment </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sample_rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> sample alignment offset.</p>
+<p>There is a relative offset of the LTC-Frame start and the TV-frame. The first bit of a LTC frame corresponds to a specific line in the actual video frame. When decoding this offset needs to be subtracted from the LTC-frame's audio-sample-time to match the TV-frame's start position.</p>
+<p>For film frames or HDV the offset is zero.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sample_rate</td><td>audio sample rate (eg. 48000) </td></tr>
+    <tr><td class="paramname">standard</td><td>the TV standard </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>offset in samples </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6a8d1fb98f604002f55707aa88ca5a05"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1584,8 +1739,14 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>use_date</em>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1594,12 +1755,13 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Decrement the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
+<p>Decrement the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a3e834e9a495fd8b0f5dac0c98e0f9970">ltc_frame_set_parity</a>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the LTC-timecode to decrement </td></tr>
     <tr><td class="paramname">fps</td><td>integer framerate (for drop-frame-timecode set frame-&gt;dfbit and round-up the fps). </td></tr>
-    <tr><td class="paramname">use_date</td><td>interpret user-data as date and decrement date if timecode wraps at 24h. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored. "00" is assumed to be year 2000 which was a leap year.) </td></tr>
+    <tr><td class="paramname">standard</td><td>the TV standard to use for parity bit assignment if set to 1 the 25fps standard is enabled and LTC Frame bit 59 instead of 27 is used for the parity. It only has only has effect flag bit 4 (LTC_NO_PARITY) is cleared. </td></tr>
+    <tr><td class="paramname">flags</td><td>binary combination of <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a> - here only LTC_USE_DATE and LTC_NO_PARITY are relevant. if the bit 0 is set (1) interpret user-data as date and decrement date if timecode wraps at 24h. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored. "00" is assumed to be year 2000 which was a leap year.) bit 3 (8) indicates that the parity bit should not be touched </td></tr>
   </table>
   </dd>
 </dl>
@@ -1607,7 +1769,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1cef71e2a23b9075cb7a4f7a974a8e0d"></a>
+<a class="anchor" id="a5d42e1733c28e1211a7c9d551b487a0b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1626,8 +1788,14 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>use_date</em>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1636,12 +1804,13 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Increment the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
+<p>Increment the timecode by one Frame (1/framerate seconds) and set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a3e834e9a495fd8b0f5dac0c98e0f9970">ltc_frame_set_parity</a>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the LTC-timecode to increment </td></tr>
     <tr><td class="paramname">fps</td><td>integer framerate (for drop-frame-timecode set frame-&gt;dfbit and round-up the fps). </td></tr>
-    <tr><td class="paramname">use_date</td><td>interpret user-data as date and increment date if timecode wraps after 24h. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored. "00" is assumed to be year 2000 which was a leap year.) </td></tr>
+    <tr><td class="paramname">standard</td><td>the TV standard to use for parity bit assignment if set to 1 the 25fps standard is enabled and LTC Frame bit 59 instead of 27 is used for the parity. It only has only has effect flag bit 4 (LTC_NO_PARITY) is cleared. </td></tr>
+    <tr><td class="paramname">flags</td><td>binary combination of <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a> - here only LTC_USE_DATE and LTC_NO_PARITY are relevant. If the bit 0 (1) is set (1) interpret user-data as date and increment date if timecode wraps after 24h. (Note: leap-years are taken into account, but since the year is two-digit only, the 100,400yr rules are ignored. "00" is assumed to be year 2000 which was a leap year.) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1662,7 +1831,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end. The sync word is set according to architecture (big/little endian). Also set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>) </p>
+<p>Reset all values of a LTC FRAME to zero, except for the sync-word (0x3FFD) at the end. The sync word is set according to architecture (big/little endian). Also set the Frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a3e834e9a495fd8b0f5dac0c98e0f9970">ltc_frame_set_parity</a>) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> to reset </td></tr>
@@ -1672,7 +1841,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a405e7c6638565c93e5c3d9cf919553ba"></a>
+<a class="anchor" id="a3e834e9a495fd8b0f5dac0c98e0f9970"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1680,25 +1849,36 @@ LTC-date uses 2-digit year 00.99. </td></tr>
           <td class="memname">void ltc_frame_set_parity </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *&#160;</td>
-          <td class="paramname"><em>frame</em></td><td>)</td>
+          <td class="paramname"><em>frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Set the parity of the LTC frame.</p>
-<p>Bi-Phase Mark Phase Correction bit (bit 27) may be set or cleared so that that every 80-bit word contains an even number of zeroes. This means that the phase in every Sync Word will be the same.</p>
+<p>Bi-Phase Mark Phase Correction bit (bit 27 - or 59) may be set or cleared so that that every 80-bit word contains an even number of zeroes. This means that the phase in every Sync Word will be the same.</p>
 <p>This is merely cosmetic; the motivation to keep the polarity of the waveform constant is to make finding the Sync Word visibly (on a scope) easier.</p>
-<p>There is usually no need to call this function directly. The encoder utility functions <a class="el" href="ltc_8h.html#a455cb67c4721605c0119d555c7d90dc9">ltc_time_to_frame</a>, <a class="el" href="ltc_8h.html#a1cef71e2a23b9075cb7a4f7a974a8e0d">ltc_frame_increment</a> and <a class="el" href="ltc_8h.html#ab62275a9737480adebb3e67207e8e8cc">ltc_frame_decrement</a> include a call to it.</p>
+<p>There is usually no need to call this function directly. The encoder utility functions <a class="el" href="ltc_8h.html#a7ba499f8832ebd56c3ae17acc8dd76d5">ltc_time_to_frame</a>, <a class="el" href="ltc_8h.html#a5d42e1733c28e1211a7c9d551b487a0b">ltc_frame_increment</a> and <a class="el" href="ltc_8h.html#a6a8d1fb98f604002f55707aa88ca5a05">ltc_frame_decrement</a> include a call to it.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>the LTC to analyze and set or clear the biphase_mark_phase_correction bit. </td></tr>
+    <tr><td class="paramname">standard</td><td>If 1 (aka LTC_TV_625_50) , the 25fps mode (bit 59 - aka binary_group_flag_bit2) is used, otherwise the 30fps, 24fps mode (bit 27 &ndash; biphase_mark_phase_correction) is set or cleared. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a319746c44fb02682a26872ce2929baca"></a>
+<a class="anchor" id="a6b29fed73072a500e4c3566bec8340a1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1718,7 +1898,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>set_flags</em>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1732,7 +1912,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   <table class="params">
     <tr><td class="paramname">stime</td><td>output </td></tr>
     <tr><td class="paramname">frame</td><td>input </td></tr>
-    <tr><td class="paramname">set_flags</td><td>if &gt; 0 the user-fields in <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> will be parsed into the date variable of <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>. If &lt; 0 all date fields are reset to zero. if set_flags is zero, all the date and timezone is not touched. </td></tr>
+    <tr><td class="paramname">flags</td><td>binary combination of <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a> - here only LTC_USE_DATE is relevant. if LTC_USE_DATE is set, the user-fields in <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> will be parsed into the date variable of <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>. otherwise the date information in the <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> is set to zero. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1740,7 +1920,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </dl>
 </div>
 </div>
-<a class="anchor" id="a455cb67c4721605c0119d555c7d90dc9"></a>
+<a class="anchor" id="a7ba499f8832ebd56c3ae17acc8dd76d5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1759,8 +1939,14 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>set_flags</em>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1769,22 +1955,58 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Translate <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> struct into its binary LTC representation and set the LTC frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a405e7c6638565c93e5c3d9cf919553ba">ltc_frame_set_parity</a>)</p>
+<p>Translate <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a> struct into its binary LTC representation and set the LTC frame's parity bit accordingly (see <a class="el" href="ltc_8h.html#a3e834e9a495fd8b0f5dac0c98e0f9970">ltc_frame_set_parity</a>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frame</td><td>output - the frame to be set </td></tr>
     <tr><td class="paramname">stime</td><td>input - timecode input </td></tr>
-    <tr><td class="paramname">set_flags</td><td>if &gt; 0 the user-fields in <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> will be set from the date in <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>, if &lt; 0 the user-fields will be set to zero. If &gt; 1 or &lt; -1 the binary_group_flag and color-frame flag are reset to zero. if set_flags is zero, all non-timecode fields remain untouched. </td></tr>
+    <tr><td class="paramname">standard</td><td>the TV standard to use for parity bit assignment </td></tr>
+    <tr><td class="paramname">flags</td><td>binary combination of <a class="el" href="ltc_8h.html#a1ff5c146f280a87f305880d9a0ddbc7e">LTC_BG_FLAGS</a> - here only LTC_USE_DATE and LTC_NO_PARITY are relevant. if LTC_USE_DATE is given, user-fields in <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> will be set from the date in <a class="el" href="ltc_8h.html#structSMPTETimecode">SMPTETimecode</a>, otherwise the user-bits are not modified. All non-timecode fields remain untouched - except for the parity bit unless LTC_NO_PARITY is given. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
+<a class="anchor" id="a92fda2b49cee4b91f73fd65094c0412a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int parse_bcg_flags </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a>&#160;</td>
+          <td class="paramname"><em>standard</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parse Binary Group Flags into standard independent format: bit 0 (1) - BGF 0, bit 1 (2) - BGF 1, bit 2 (4) - BGF 2</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">f</td><td>LTC frame data analyze </td></tr>
+    <tr><td class="paramname">standard</td><td>the TV standard to use &ndash; see <a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> for BGF assignment </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>LTC Binary Group Flags </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 9 2012 03:28:49 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 17 2012 21:11:17 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
