@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Sat Nov 17 2012" "Version 1.1.0" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Sun Nov 18 2012" "Version 1.1.1" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -173,7 +173,7 @@ libltc - en+decode linear timecode
 .RI "int \fBparse_bcg_flags\fP (\fBLTCFrame\fP *f, enum \fBLTC_TV_STANDARD\fP standard)"
 .br
 .ti -1c
-.RI "\fBltc_off_t\fP \fBltc_frame_alignment\fP (double sample_rate, enum \fBLTC_TV_STANDARD\fP standard)"
+.RI "\fBltc_off_t\fP \fBltc_frame_alignment\fP (double samples_per_frame, enum \fBLTC_TV_STANDARD\fP standard)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -959,7 +959,7 @@ since libltc generated 8bit audio-data, the minium dBFS is about \-42dB which co
 \fBExamples: \fP
 .in +1c
 \fBltcencode\&.c\fP\&.
-.SS "\fBltc_off_t\fP ltc_frame_alignment (double sample_rate, enum \fBLTC_TV_STANDARD\fP standard)"
+.SS "\fBltc_off_t\fP ltc_frame_alignment (double samples_per_frame, enum \fBLTC_TV_STANDARD\fP standard)"
 \fBLTCFrame\fP sample alignment offset\&.
 .PP
 There is a relative offset of the LTC-Frame start and the TV-frame\&. The first bit of a LTC frame corresponds to a specific line in the actual video frame\&. When decoding this offset needs to be subtracted from the LTC-frame's audio-sample-time to match the TV-frame's start position\&.
@@ -968,7 +968,7 @@ For film frames or HDV the offset is zero\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIsample_rate\fP audio sample rate (eg\&. 48000) 
+\fIsamples_per_frame\fP audio-samples per timecode-frame (eg\&. 1920 = 48000/25) 
 .br
 \fIstandard\fP the TV standard 
 .RE

@@ -1,3 +1,7 @@
+2012-11-18 (v1.1.1) Robin Gareus <robin@gareus.org>
+* start LTC frame with rising edge
+* fix typo in variable name and clarify documentation
+
 2012-11-17 (v1.1.0) Robin Gareus <robin@gareus.org>
 * non-backwards compatible API update for 12M-1999 spec additions
 - rework encoder and frame inc/dec API.
