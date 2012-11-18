@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">1.1.1</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -64,16 +64,16 @@
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifndef DOXYGEN_IGNORE</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="comment">/* libltc version */</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define LIBLTC_VERSION &quot;1.1.0&quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define LIBLTC_VERSION &quot;1.1.1&quot;</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_VERSION_MAJOR  1</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_VERSION_MINOR  1</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_VERSION_MICRO  0</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_VERSION_MICRO  1</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">/* interface revision number</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define LIBLTC_CUR 11</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_REV  0</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_REV  1</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LIBLTC_AGE  0</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* end DOXYGEN_IGNORE */</span><span class="preprocessor"></span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span></div>
@@ -279,7 +279,7 @@
 <div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;</div>
 <div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ltc_8h.html#a92fda2b49cee4b91f73fd65094c0412a">parse_bcg_flags</a>(<a class="code" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *f, <span class="keyword">enum</span> <a class="code" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard);</div>
 <div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;ltc_off_t <a class="code" href="ltc_8h.html#a238baab8cd287e8542eb46dd0358a195">ltc_frame_alignment</a>(<span class="keywordtype">double</span> sample_rate, <span class="keyword">enum</span> <a class="code" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard);</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;ltc_off_t <a class="code" href="ltc_8h.html#a255b63cc8c9981266d23c70f8eeaf160">ltc_frame_alignment</a>(<span class="keywordtype">double</span> samples_per_frame, <span class="keyword">enum</span> <a class="code" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard);</div>
 <div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;</div>
 <div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;<span class="preprocessor"></span>}</div>
@@ -289,7 +289,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 17 2012 21:11:17 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 18 2012 02:04:31 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

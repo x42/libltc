@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">1.1.1</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -182,8 +182,8 @@ Functions</h2></td></tr>
 <tr class="separator:a3e834e9a495fd8b0f5dac0c98e0f9970"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92fda2b49cee4b91f73fd65094c0412a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a92fda2b49cee4b91f73fd65094c0412a">parse_bcg_flags</a> (<a class="el" href="ltc_8h.html#structLTCFrame">LTCFrame</a> *f, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard)</td></tr>
 <tr class="separator:a92fda2b49cee4b91f73fd65094c0412a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a238baab8cd287e8542eb46dd0358a195"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a238baab8cd287e8542eb46dd0358a195">ltc_frame_alignment</a> (double sample_rate, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard)</td></tr>
-<tr class="separator:a238baab8cd287e8542eb46dd0358a195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a255b63cc8c9981266d23c70f8eeaf160"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a255b63cc8c9981266d23c70f8eeaf160">ltc_frame_alignment</a> (double samples_per_frame, enum <a class="el" href="ltc_8h.html#a77b5ef194f01a8143f60d070adf65b11">LTC_TV_STANDARD</a> standard)</td></tr>
+<tr class="separator:a255b63cc8c9981266d23c70f8eeaf160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>libltc - en+decode linear timecode </p>
@@ -1683,7 +1683,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </dl>
 </div>
 </div>
-<a class="anchor" id="a238baab8cd287e8542eb46dd0358a195"></a>
+<a class="anchor" id="a255b63cc8c9981266d23c70f8eeaf160"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1691,7 +1691,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
           <td class="memname"><a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> ltc_frame_alignment </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>sample_rate</em>, </td>
+          <td class="paramname"><em>samples_per_frame</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1711,7 +1711,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 <p>For film frames or HDV the offset is zero.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">sample_rate</td><td>audio sample rate (eg. 48000) </td></tr>
+    <tr><td class="paramname">samples_per_frame</td><td>audio-samples per timecode-frame (eg. 1920 = 48000/25) </td></tr>
     <tr><td class="paramname">standard</td><td>the TV standard </td></tr>
   </table>
   </dd>
@@ -2006,7 +2006,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 17 2012 21:11:17 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 18 2012 02:04:32 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
