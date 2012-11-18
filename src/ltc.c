@@ -315,12 +315,12 @@ void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard) {
 	}
 }
 
-ltc_off_t ltc_frame_alignment(double sample_rate, enum LTC_TV_STANDARD standard) {
+ltc_off_t ltc_frame_alignment(double samples_per_frame, enum LTC_TV_STANDARD standard) {
 	switch (standard) {
 		case LTC_TV_525_60:
-			return rint(sample_rate * 4.0 / 525.0);
+			return rint(samples_per_timecode_frame * 4.0 / 525.0);
 		case LTC_TV_625_50:
-			return rint(sample_rate * 1.0 / 625.0);
+			return rint(samples_per_timecode_frame * 1.0 / 625.0);
 		default:
 			return 0;
 	}

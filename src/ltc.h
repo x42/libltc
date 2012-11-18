@@ -765,11 +765,11 @@ int parse_bcg_flags(LTCFrame *f, enum LTC_TV_STANDARD standard);
  *
  * For film frames or HDV the offset is zero.
  *
- * @param sample_rate audio sample rate (eg. 48000)
+ * @param samples_per_frame audio-samples per timecode-frame (eg. 1920 = 48000/25)
  * @param standard the TV standard
  * @return offset in samples
  */
-ltc_off_t ltc_frame_alignment(double sample_rate, enum LTC_TV_STANDARD standard);
+ltc_off_t ltc_frame_alignment(double samples_per_frame, enum LTC_TV_STANDARD standard);
 
 #ifdef __cplusplus
 }
