@@ -114,7 +114,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, int offset, ltc_off_t po
 		memset(&d->ltc_frame, 0, sizeof(LTCFrame));
 
 		if (d->frame_start_prev < 0) {
-			d->frame_start_off = posinfo; // - d->snd_to_biphase_period;
+			d->frame_start_off = posinfo - d->snd_to_biphase_period;
 		} else {
 			d->frame_start_off = d->frame_start_prev;
 		}

@@ -29,7 +29,7 @@
  * add values to the output buffer
  */
 static int addvalues(LTCEncoder *e, int n) {
-	const ltcsnd_sample_t tgtval = e->state ? e->enc_lo : e->enc_hi;
+	const ltcsnd_sample_t tgtval = e->state ? e->enc_hi : e->enc_lo;
 
 	if (e->offset + n >= e->bufsize) {
 		fprintf(stderr, "libltc: buffer overflow: %d/%lu\n", (int) e->offset, (unsigned long) e->bufsize);
