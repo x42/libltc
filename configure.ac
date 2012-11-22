@@ -42,7 +42,7 @@ LIBLTC_CFLAGS="-Wall"
 LIBLTC_LDFLAGS="-export-symbols-regex '^(ltc_).*'"
 
 AC_MSG_CHECKING([if -Wl,--as-needed works])
-LFDLAGS_save=$LDFLAGS
+LDFLAGS_save=$LDFLAGS
 LDFLAGS="$LDFLAGS -Wl,--as-needed"
 AC_TRY_LINK([], [],
             [
