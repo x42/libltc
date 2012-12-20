@@ -76,7 +76,7 @@
   Yes it does. See the documentation for \ref LTCFrameExt
  </dd>
 
- <dt>Is there free software is using libltc?</dt>
+ <dt>Is there [free] software is using libltc?</dt>
  <dd>
   yes, <a href="https://github.com/x42/ltc-tools">ltc-tools</a>.
   It comprises <a href="http://jackaudio.org">JACK</a> applications to generate
@@ -91,6 +91,8 @@
   There are lots of apps (incl iOS applications, NLEs and hardware/firmware
   solutions) using libltcsmpte.
   We dare say that many - if not most - of them will be updated to libLTC in time.
+
+  Mattijs Kneppers has written a MAX/MSP external <a href="http://cycling74.com/toolbox/smpte/">smpte~</a> to encode LTC.
  </dd>
 
  <dt>What is the difference between libltcsmpte and libltc?</dt>
