@@ -449,7 +449,7 @@ void ltc_decoder_write_s16(LTCDecoder *d, short *buf, size_t size, ltc_off_t pos
  * @param size number of samples to parse
  * @param posinfo (optional, recommended) sample-offset in the audio-stream.
  */
-void ltc_decoder_write_u16(LTCDecoder *d, short *buf, size_t size, ltc_off_t posinfo);
+void ltc_decoder_write_u16(LTCDecoder *d, unsigned short *buf, size_t size, ltc_off_t posinfo);
 
 /**
  * Decoded LTC frames are placed in a queue. This function retrieves
