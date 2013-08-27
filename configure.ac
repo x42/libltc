@@ -41,16 +41,23 @@ dnl *** misc complier/linker flags ***
 LIBLTC_CFLAGS="-Wall"
 LIBLTC_LDFLAGS="-export-symbols-regex '^(ltc_).*'"
 
-AC_MSG_CHECKING([if -Wl,--as-needed works])
-LDFLAGS_save=$LDFLAGS
-LDFLAGS="$LDFLAGS -Wl,--as-needed"
-AC_TRY_LINK([], [],
-            [
-             AC_MSG_RESULT([yes])
-             LIBLTC_LDFLAGS="$LIBLTC_LDFLAGS -Wl,--as-needed"
-            ], 
-            [AC_MSG_RESULT([no])])
-LDFLAGS=$LDFLAGS_save
+case $target_os in
+  *mingw32*|*win*)
+    LDFLAGS="-no-undefined"
+		;;
+  *)
+    AC_MSG_CHECKING([if -Wl,--as-needed works])
+    LDFLAGS_save=$LDFLAGS
+    LDFLAGS="$LDFLAGS -Wl,--as-needed"
+    AC_TRY_LINK([], [],
+                [
+                 AC_MSG_RESULT([yes])
+                 LIBLTC_LDFLAGS="$LIBLTC_LDFLAGS -Wl,--as-needed"
+                ],
+                [AC_MSG_RESULT([no])])
+    LDFLAGS=$LDFLAGS_save
+  ;;
+esac
 
 dnl *** check for dependencies ***
 AC_CHECK_HEADERS(stdio.h stdlib.h string.h unistd.h math.h stdint.h)
