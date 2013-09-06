@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">1.1.1</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -86,10 +86,11 @@ Q&amp;A</h1>
 <dd><p class="startdd">Yes it does. See the documentation for <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> </p>
 <p class="enddd"></p>
 </dd>
-<dt>Is there free software is using libltc? </dt>
+<dt>Is there [free] software is using libltc? </dt>
 <dd><p class="startdd">yes, <a href="https://github.com/x42/ltc-tools">ltc-tools</a>. It comprises <a href="http://jackaudio.org">JACK</a> applications to generate and decode LTC from live sources and includes tools to read or write LTC from/to audio-files. <a href="http://xjadeo.sf.net">xjadeo</a> video-monitor has been updated to use libltc, and <a href="http://ardour.org">ardour</a>3 DAW fully supports chasing and latency free [re]encoding of LTC since svn rev 13390.</p>
 <p>The library comes self-test code, which can en&amp;decode LTC from raw audio-data.</p>
-<p>There are lots of apps (incl iOS applications, NLEs and hardware/firmware solutions) using libltcsmpte. We dare say that many - if not most - of them will be updated to libLTC in time. </p>
+<p>There are lots of apps (incl iOS applications, NLEs and hardware/firmware solutions) using libltcsmpte. We dare say that many - if not most - of them will be updated to libLTC in time.</p>
+<p>Mattijs Kneppers has written a MAX/MSP external <a href="http://cycling74.com/toolbox/smpte/">smpte~</a> to encode LTC. </p>
 <p class="enddd"></p>
 </dd>
 <dt>What is the difference between libltcsmpte and libltc? </dt>
@@ -146,11 +147,11 @@ License</h1>
 <p>Copyright (C) 2008-2010 by Jan Weiß</p>
 <p>libltc is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.</p>
 <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more details.</p>
-<p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a> </p>
+<p>You should have received a copy of the GNU Lesser General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a> </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 18 2012 04:43:57 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 6 2013 12:55:12 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

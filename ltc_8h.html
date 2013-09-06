@@ -18,7 +18,7 @@
   <td id="projectlogo"><img alt="Logo" src="libltc.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">libltc
-   &#160;<span id="projectnumber">1.1.1</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
    <div id="projectbrief">Linear/Logitudinal Time Code (LTC) Library</div>
   </td>
@@ -75,6 +75,8 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a535fbd5fa76f243fc039bbb13309b904"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a535fbd5fa76f243fc039bbb13309b904">LTC_BIG_ENDIAN</a></td></tr>
+<tr class="separator:a535fbd5fa76f243fc039bbb13309b904"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a304950a2158a30b9c6438ae8d23408ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a304950a2158a30b9c6438ae8d23408ae">LTC_FRAME_BIT_COUNT</a>&#160;&#160;&#160;80</td></tr>
 <tr class="separator:a304950a2158a30b9c6438ae8d23408ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -132,8 +134,8 @@ Functions</h2></td></tr>
 <tr class="separator:a4ae7fa4f57f8c99eb819f1b52d5a2532"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a178e0280a0a17748d2606a93df48a78a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a178e0280a0a17748d2606a93df48a78a">ltc_decoder_write_s16</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, short *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
 <tr class="separator:a178e0280a0a17748d2606a93df48a78a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9c8468c9b135c10f48f6c303e52e2a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#ad9c8468c9b135c10f48f6c303e52e2a6">ltc_decoder_write_u16</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, short *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
-<tr class="separator:ad9c8468c9b135c10f48f6c303e52e2a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f34547174b42b09dbd4f380a0beb2b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a5f34547174b42b09dbd4f380a0beb2b1">ltc_decoder_write_u16</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, unsigned short *buf, size_t size, <a class="el" href="ltc_8h.html#a204469b0ba8c2e2ef72e4512ce8595d3">ltc_off_t</a> posinfo)</td></tr>
+<tr class="separator:a5f34547174b42b09dbd4f380a0beb2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cb40ff1bede260caeafae14bafb9a95"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#a3cb40ff1bede260caeafae14bafb9a95">ltc_decoder_read</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d, <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> *frame)</td></tr>
 <tr class="separator:a3cb40ff1bede260caeafae14bafb9a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd9d3361b1a2bd65a8d55947c9a58936"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ltc_8h.html#abd9d3361b1a2bd65a8d55947c9a58936">ltc_decoder_queue_flush</a> (<a class="el" href="ltc_8h.html#ad3763ec6befdd820c15da6111a575606">LTCDecoder</a> *d)</td></tr>
@@ -528,6 +530,18 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a535fbd5fa76f243fc039bbb13309b904"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LTC_BIG_ENDIAN</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a304950a2158a30b9c6438ae8d23408ae"></a>
 <div class="memitem">
 <div class="memproto">
@@ -981,7 +995,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad9c8468c9b135c10f48f6c303e52e2a6"></a>
+<a class="anchor" id="a5f34547174b42b09dbd4f380a0beb2b1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -994,7 +1008,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">short *&#160;</td>
+          <td class="paramtype">unsigned short *&#160;</td>
           <td class="paramname"><em>buf</em>, </td>
         </tr>
         <tr>
@@ -2006,7 +2020,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 18 2012 04:43:57 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 6 2013 12:55:11 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
