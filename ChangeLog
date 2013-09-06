@@ -1,3 +1,8 @@
+2013-09-06 (v1.1.2) Robin Gareus <robin@gareus.org>
+* better BIG_ENDIAN detection (should fix mips, sparc, s390 builds)
+* fix decoder_write_u16() -- use unsigned short
+* allow to use buffersizes larger than 1024 samples with ltc_decoder_write_*
+
 2012-11-18 (v1.1.1) Robin Gareus <robin@gareus.org>
 * start LTC frame with rising edge
 * fix typo in variable name and clarify documentation

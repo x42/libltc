@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Sun Nov 18 2012" "Version 1.1.1" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Fri Sep 6 2013" "Version 1.1.2" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -25,6 +25,9 @@ libltc - en+decode linear timecode
 .SS "Macros"
 
 .in +1c
+.ti -1c
+.RI "#define \fBLTC_BIG_ENDIAN\fP"
+.br
 .ti -1c
 .RI "#define \fBLTC_FRAME_BIT_COUNT\fP   80"
 .br
@@ -98,7 +101,7 @@ libltc - en+decode linear timecode
 .RI "void \fBltc_decoder_write_s16\fP (\fBLTCDecoder\fP *d, short *buf, size_t size, \fBltc_off_t\fP posinfo)"
 .br
 .ti -1c
-.RI "void \fBltc_decoder_write_u16\fP (\fBLTCDecoder\fP *d, short *buf, size_t size, \fBltc_off_t\fP posinfo)"
+.RI "void \fBltc_decoder_write_u16\fP (\fBLTCDecoder\fP *d, unsigned short *buf, size_t size, \fBltc_off_t\fP posinfo)"
 .br
 .ti -1c
 .RI "int \fBltc_decoder_read\fP (\fBLTCDecoder\fP *d, \fBLTCFrameExt\fP *frame)"
@@ -438,6 +441,8 @@ unsigned char \fIyears\fP LTC-date uses 2-digit year 00\&.99\&.
 .PP
 .SH "Macro Definition Documentation"
 .PP 
+.SS "#define LTC_BIG_ENDIAN"
+
 .SS "#define LTC_FRAME_BIT_COUNT   80"
 
 .SH "Typedef Documentation"
@@ -621,7 +626,7 @@ Wrapper around \fBltc_decoder_write\fP that accepts signed 16 bit audio samples\
 .RE
 .PP
 
-.SS "void ltc_decoder_write_u16 (\fBLTCDecoder\fP * d, short * buf, size_t size, \fBltc_off_t\fP posinfo)"
+.SS "void ltc_decoder_write_u16 (\fBLTCDecoder\fP * d, unsigned short * buf, size_t size, \fBltc_off_t\fP posinfo)"
 Wrapper around \fBltc_decoder_write\fP that accepts unsigned 16 bit audio samples\&. Note: internally libltc uses 8 bit only\&.
 .PP
 \fBParameters:\fP
