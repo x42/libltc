@@ -40,6 +40,18 @@
 extern "C" {
 #endif
 
+#ifdef __BIG_ENDIAN__
+# define LTC_BIG_ENDIAN
+#elif defined _BIG_ENDIAN
+# define LTC_BIG_ENDIAN
+#else
+# include <endian.h>
+# if __BYTE_ORDER__ ==  __ORDER_BIG_ENDIAN__
+#  define LTC_BIG_ENDIAN
+# endif
+#endif
+
+
 #include <stddef.h> /* size_t */
 
 #ifndef DOXYGEN_IGNORE
@@ -159,7 +171,7 @@ typedef long long int ltc_off_t;
  * further information: http://www.philrees.co.uk/articles/timecode.htm
  * and http://www.barney-wol.net/time/timecode.html
  */
-#if (defined __BIG_ENDIAN__ && !defined DOXYGEN_IGNORE)
+#if (defined LTC_BIG_ENDIAN && !defined DOXYGEN_IGNORE)
 // Big Endian version, bytes are "upside down"
 struct LTCFrame {
 	unsigned int user1:4;
