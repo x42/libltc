@@ -1,6 +1,6 @@
 check_PROGRAMS = ltcencode ltcdecode
 
-CLEANFILES = output.raw
+CLEANFILES = output.raw atconfig
 
 EXTRA_DIST= \
 	example_encode.c \
@@ -23,12 +23,12 @@ check: $(check_PROGRAMS)
 	 uname -a
 	 @echo "-----------------------------------------------------------------"
 	 ./ltcencode output.raw
-	 ./ltcdecode output.raw | diff -q expect_48k_2sec.txt -
+	 ./ltcdecode output.raw | diff -q $(srcdir)/expect_48k_2sec.txt -
 	 @echo "-----------------------------------------------------------------"
 	 ./ltcencode output.raw 192000
-	 ./ltcdecode output.raw 7680 | diff -q expect_96k_2sec.txt -
+	 ./ltcdecode output.raw 7680 | diff -q $(srcdir)/expect_96k_2sec.txt -
 	 @echo "-----------------------------------------------------------------"
-	 ./ltcdecode timecode.raw 882 | diff -q timecode.txt -
+	 ./ltcdecode $(srcdir)/timecode.raw 882 | diff -q $(srcdir)/timecode.txt -
 	 @echo "-----------------------------------------------------------------"
 	 @echo "  ${PACKAGE}-${VERSION} passed all tests."
 	 @echo "-----------------------------------------------------------------"
