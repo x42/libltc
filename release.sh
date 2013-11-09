@@ -74,7 +74,11 @@ if test "$a" != "n" -a "$a" != "N"; then
 fi
 
 make distcheck
+
 ls -l "libltc-${VERSION}.tar.gz"
 
 GITREPO="x42/libltc"
-x-www-browser https://github.com/${GITREPO}/downloads
+
+# open windows for github release drag/drop (until this can be scripted)
+nautilus ./
+x-www-browser https://github.com/${GITREPO}/releases/
