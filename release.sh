@@ -73,7 +73,7 @@ if test "$a" != "n" -a "$a" != "N"; then
 	cd ../..
 fi
 
-make dist
+make distcheck
 ls -l "libltc-${VERSION}.tar.gz"
 
 GITREPO="x42/libltc"
