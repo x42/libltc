@@ -13,7 +13,7 @@
    @author Robin Gareus <robin@gareus.org>
    @copyright
 
-   Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2014 Robin Gareus <robin@gareus.org>
 
    Copyright (C) 2008-2009 Jan Weiß <jan@geheimwerk.de>
 
@@ -44,6 +44,10 @@ extern "C" {
 # define LTC_BIG_ENDIAN
 #elif defined _BIG_ENDIAN
 # define LTC_BIG_ENDIAN
+#elif defined __BYTE_ORDER__
+# if __BYTE_ORDER__ ==  __ORDER_BIG_ENDIAN__
+#  define LTC_BIG_ENDIAN
+# endif
 #else
 # include <endian.h>
 # if __BYTE_ORDER__ ==  __ORDER_BIG_ENDIAN__
