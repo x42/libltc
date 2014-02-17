@@ -48,7 +48,7 @@ extern "C" {
 # if __BYTE_ORDER__ ==  __ORDER_BIG_ENDIAN__
 #  define LTC_BIG_ENDIAN
 # endif
-#else
+#elif !defined __LITTLE_ENDIAN__
 # include <endian.h>
 # if __BYTE_ORDER__ ==  __ORDER_BIG_ENDIAN__
 #  define LTC_BIG_ENDIAN
