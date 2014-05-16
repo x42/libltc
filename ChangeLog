@@ -1,5 +1,6 @@
-2014-02-06 (unreleased) Robin Gareus <robin@gareus.org>
-* fix compile on systems w/o endian.h
+2014-05-16 (v1.1.4) Robin Gareus <robin@gareus.org>
+* rework endianess detection
+* fix compile on systems w/o endian.h 
 * remove obsolte autotools macros
 
 2013-11-09 (v1.1.3) Robin Gareus <robin@gareus.org>
