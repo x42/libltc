@@ -43,6 +43,7 @@ LTCDecoder* ltc_decoder_create(int apv, int queue_len) {
 	}
 	d->biphase_state = 1;
 	d->snd_to_biphase_period = apv / 80;
+	d->initial_biphase_period = d->snd_to_biphase_period;
 	d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 3) / 4;
 
 	d->snd_to_biphase_min = SAMPLE_CENTER;
@@ -52,6 +53,48 @@ LTCDecoder* ltc_decoder_create(int apv, int queue_len) {
 
 	return d;
 }
+#if 1 // decoder reset tests
+
+void ltc_decoder_reset_signal_discriminator(LTCDecoder *d) {
+	d->snd_to_biphase_min = SAMPLE_CENTER;
+	d->snd_to_biphase_max = SAMPLE_CENTER;
+}
+
+void ltc_decoder_reset_biphase_phase_tracker(LTCDecoder *d) {
+	d->snd_to_biphase_period = d->initial_biphase_period;
+	d->snd_to_biphase_lmt = (d->snd_to_biphase_period * 3) / 4;
+	d->snd_to_biphase_cnt = 0;
+}
+
+void ltc_decoder_reset_biphase_decoder(LTCDecoder *d) {
+	d->snd_to_biphase_state = 0;
+
+	d->biphase_state = 1;
+	d->biphase_prev = 0;
+	d->biphase_tic = 0;
+	memset(d->biphase_tics, 0, sizeof(float) * LTC_FRAME_BIT_COUNT);
+}
+
+void ltc_decoder_reset_parser(LTCDecoder *d) {
+	d->bit_cnt = 0;
+	d->decoder_sync_word = 0;
+	d->frame_start_prev = -1;
+	d->frame_start_off = 0;
+}
+
+void ltc_decoder_reset_queue(LTCDecoder *d) {
+	d->queue_read_off = 0;
+	d->queue_write_off = 0;
+}
+
+void ltc_decoder_reset(LTCDecoder *d) {
+	ltc_decoder_reset_signal_discriminator(d);
+	ltc_decoder_reset_biphase_phase_tracker(d);
+	ltc_decoder_reset_biphase_decoder(d);
+	ltc_decoder_reset_parser(d);
+	ltc_decoder_reset_queue(d);
+}
+#endif
 
 int ltc_decoder_free(LTCDecoder *d) {
 	if (!d) return 1;

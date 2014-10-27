@@ -419,6 +419,17 @@ LTCDecoder * ltc_decoder_create(int apv, int queue_size);
  */
 int ltc_decoder_free(LTCDecoder *d);
 
+#if 1
+/* prototype and debug reset functions */
+void ltc_decoder_reset_signal_discriminator(LTCDecoder *d);
+void ltc_decoder_reset_biphase_phase_tracker(LTCDecoder *d);
+void ltc_decoder_reset_biphase_decoder(LTCDecoder *d);
+void ltc_decoder_reset_parser(LTCDecoder *d);
+void ltc_decoder_reset_queue(LTCDecoder *d);
+
+void ltc_decoder_reset(LTCDecoder *d); //< calls all of the above
+#endif
+
 /**
  * Feed the LTC decoder with new audio samples.
  *

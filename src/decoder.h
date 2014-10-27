@@ -35,6 +35,7 @@ struct LTCDecoder {
 	int snd_to_biphase_cnt;		///< counts the samples in the current period
 	int snd_to_biphase_lmt;	///< specifies when a state-change is considered biphase-clock or 2*biphase-clock
 	double snd_to_biphase_period;	///< track length of a period - used to set snd_to_biphase_lmt
+	double initial_biphase_period; ///< used for reset, set from audio-frames/video-frame during init.
 
 	ltcsnd_sample_t snd_to_biphase_min;
 	ltcsnd_sample_t snd_to_biphase_max;
