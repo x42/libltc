@@ -39,7 +39,7 @@ struct SMPTETimeZonesStruct {
 /**
  * SMPTE Timezone codes as per http://www.barney-wol.net/time/timecode.html
  */
-const static struct SMPTETimeZonesStruct smpte_time_zones[] =
+static const struct SMPTETimeZonesStruct smpte_time_zones[] =
 {
     /*  code,   timezone (UTC+)     //Standard time                 //Daylight saving   */
     {   0x00,   "+0000"             /* Greenwich */                 /* - */             },
