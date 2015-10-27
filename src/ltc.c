@@ -198,7 +198,7 @@ int ltc_encoder_reinit(LTCEncoder *e, double sample_rate, double fps, enum LTC_T
 		ltc_frame_set_parity(&e->f, standard);
 	}
 
-	if (rint(fps*100) == 2997)
+	if ((int)rint(fps * 100.0) == 2997)
 		e->f.dfbit = 1;
 	else
 		e->f.dfbit = 0;
