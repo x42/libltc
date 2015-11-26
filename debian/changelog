@@ -1,10 +1,10 @@
-libltc (1.1.4-1) unstable; urgency=low
+libltc (1.2.0-1) unstable; urgency=low
 
   * Robin's private package. see ../ChangeLog
   * official debian package at 
     http://anonscm.debian.org/gitweb/?p=pkg-multimedia/libltc.git
 
- -- Robin Gareus <robin@gareus.org>  Fri, 16 May 2014 18:58:05 +0200
+ -- Robin Gareus <robin@gareus.org>  Thu, 26 Nov 2015 21:41:27 +0100
 
 libltc (1.0.1-1) unstable; urgency=low
 

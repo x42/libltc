@@ -1,3 +1,8 @@
+2015-11-26 (v1.2.0) Robin Gareus <robin@gareus.org>
+* support older MSVC without C99
+* fix endianess detection (gcc-4.4 compat)
+* improve realtime safety, don't even print errors
+
 2014-05-16 (v1.1.4) Robin Gareus <robin@gareus.org>
 * rework endianess detection
 * fix compile on systems w/o endian.h 

@@ -1,14 +1,17 @@
-.TH "ltc.h" 3 "Fri May 16 2014" "Version 1.1.4" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Thu Nov 26 2015" "Version 1.2.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-ltc.h \- 
-.PP
-libltc - en+decode linear timecode  
+ltc.h \- libltc - en+decode linear timecode  
 
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <endian\&.h>\fP
+.br
+\fC#include <stddef\&.h>\fP
+.br
+
 .SS "Data Structures"
 
 .in +1c
@@ -25,9 +28,6 @@ libltc - en+decode linear timecode
 .SS "Macros"
 
 .in +1c
-.ti -1c
-.RI "#define \fBLTC_BIG_ENDIAN\fP"
-.br
 .ti -1c
 .RI "#define \fBLTC_FRAME_BIT_COUNT\fP   80"
 .br
@@ -377,7 +377,7 @@ Only for 1125/60 systems, the first transition occurs exactly at the vertical sy
 .PP
 \fBData Fields:\fP
 .RS 4
-float \fIbiphase_tics\fP detailed timing info: phase of the LTC signal; the time between each bit in the LTC-frame in audio-frames\&. Summing all 80 values in the array will yield audio-frames/LTC-frame = (\fBoff_end\fP - \fBoff_start\fP + 1)\&. 
+float \fIbiphase_tics[\fBLTC_FRAME_BIT_COUNT\fP]\fP detailed timing info: phase of the LTC signal; the time between each bit in the LTC-frame in audio-frames\&. Summing all 80 values in the array will yield audio-frames/LTC-frame = (\fBoff_end\fP - \fBoff_start\fP + 1)\&. 
 .br
 .PP
 \fBLTCFrame\fP \fIltc\fP the actual LTC frame\&. see \fBLTCFrame\fP 
@@ -431,7 +431,7 @@ unsigned char \fImonths\fP valid months are 1\&.\&.12
 unsigned char \fIsecs\fP second 0\&.\&.60 
 .br
 .PP
-char \fItimezone\fP the timezone 6bytes: '+HHMM' textual representation 
+char \fItimezone[6]\fP the timezone 6bytes: '+HHMM' textual representation 
 .br
 .PP
 unsigned char \fIyears\fP LTC-date uses 2-digit year 00\&.99\&. 
@@ -441,8 +441,6 @@ unsigned char \fIyears\fP LTC-date uses 2-digit year 00\&.99\&.
 .PP
 .SH "Macro Definition Documentation"
 .PP 
-.SS "#define LTC_BIG_ENDIAN"
-
 .SS "#define LTC_FRAME_BIT_COUNT   80"
 
 .SH "Typedef Documentation"
@@ -466,7 +464,7 @@ see \fBSMPTETimecode\fP
 .SS "enum \fBLTC_BG_FLAGS\fP"
 encoder and LTCframe <> timecode operation flags 
 .PP
-\fBEnumerator: \fP
+\fBEnumerator\fP
 .in +1c
 .TP
 \fB\fILTC_USE_DATE \fP\fP
@@ -483,7 +481,7 @@ parity bit is left untouched when setting or in/decrementing the encoder frame-n
 .SS "enum \fBLTC_TV_STANDARD\fP"
 the standard defines the assignment of the binary-group-flag bits basically only 25fps is different, but other standards defined in the SMPTE spec have been included for completeness\&. 
 .PP
-\fBEnumerator: \fP
+\fBEnumerator\fP
 .in +1c
 .TP
 \fB\fILTC_TV_525_60 \fP\fP
@@ -586,9 +584,7 @@ Parse raw audio for LTC timestamps\&. Once a complete LTC frame has been decoded
 .br
 \fIbuf\fP pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data 
 .br
-\fIsize\fP number of samples to parse 
-.br
-\fIposinfo\fP (optional, recommended) sample-offset in the audio-stream\&. It is added to \fBoff_start\fP, \fBoff_end\fP in \fBLTCFrameExt\fP and should be monotonic (ie incremented by \fBsize\fP for every call to ltc_decoder_write) 
+\fIsize\fP 
 .RE
 .PP
 
