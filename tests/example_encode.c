@@ -3,7 +3,7 @@
    @file example_encode.c
    @author Robin Gareus <robin@gareus.org>
 
-   Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2016 Robin Gareus <robin@gareus.org>
    Copyright (C) 2008-2009 Jan <jan@geheimwerk.de>
 
    This program is free software; you can redistribute it and/or modify
@@ -35,6 +35,10 @@
 #include <string.h>
 
 #include <ltc.h>
+
+#ifdef _WIN32
+#include <fcntl.h> // for _fmode
+#endif
 
 /* define "USE_LOCAL_BUFFER" to
  * use a local buffer instead of a pointer to
@@ -90,6 +94,12 @@ int main(int argc, char **argv) {
 		printf("Report bugs to Robin Gareus <robin@gareus.org>\n");
 		return 1;
 	}
+
+#ifdef _WIN32
+	// see https://msdn.microsoft.com/en-us/library/ktss1a9b.aspx and
+	// https://github.com/x42/libltc/issues/18
+	_set_fmode(_O_BINARY);
+#endif
 
 	/* open output file */
 	file = fopen(filename, "wb");
