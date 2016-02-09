@@ -76,9 +76,27 @@
   Yes it does. See the documentation for \ref LTCFrameExt
  </dd>
 
+ <dt>Can I use libltc in a proprietary/closed-source project?</dt>
+ <dd>
+  Yes, with some care. In a nutshell:<br/>
+  Create a dynamic library (.dll, ,dylib, .so) of libltc and link your program against it.
+  Your project remains independent.
+  You only need to be able to convey means to re-create this library (source-code, build-scripts) to anyone who asks.
+  The easiest way to do this is to simply not modify libltc and refer to the upstream source (keep a copy just in case).<br/>
+  If you copy the library code directly into your project and statically link your application against it,
+  your project will have to be licensed in terms of the LGPL or a compatible license.
+  See the license text for details and consult with a person with expertise in licensing.
+ </dd>
+
+ <dt>Is commercial licensing available?</dt>
+ <dd>
+  No, libltc is only available in terms of the GNU Lesser General Public License:
+  <a href="http://www.gnu.org/licenses/lgpl.txt">LGPLv3</a>.<br/>
+ </dd>
+
  <dt>Is there [free] software is using libltc?</dt>
  <dd>
-  yes, <a href="https://github.com/x42/ltc-tools">ltc-tools</a>.
+  Yes, <a href="https://github.com/x42/ltc-tools">ltc-tools</a>.
   It comprises <a href="http://jackaudio.org">JACK</a> applications to generate
   and decode LTC from live sources and includes tools to read or write
   LTC from/to audio-files.
