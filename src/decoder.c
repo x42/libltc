@@ -2,7 +2,7 @@
    libltc - en+decode linear timecode
 
    Copyright (C) 2005 Maarten de Boer <mdeboer@iua.upf.es>
-   Copyright (C) 2006-2012 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2016 Robin Gareus <robin@gareus.org>
    Copyright (C) 2008-2009 Jan <jan@geheimwerk.de>
 
    Binary constant generator macro for endianess conversion
@@ -100,6 +100,13 @@
 	}\
 	printf("\n"); \
 }
+
+#if (!defined INFINITY && defined _MSVC_VER)
+#define INFINITY std::numeric_limits<double>::infinity()
+#endif
+#if (!defined INFINITY && defined HUGE_VAL)
+#define INFINITY HUGE_VAL
+#endif
 
 static double calc_volume_db(LTCDecoder *d) {
 	if (d->snd_to_biphase_max <= d->snd_to_biphase_min)
