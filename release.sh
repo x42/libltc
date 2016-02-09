@@ -80,5 +80,5 @@ ls -l "libltc-${VERSION}.tar.gz"
 GITREPO="x42/libltc"
 
 # open windows for github release drag/drop (until this can be scripted)
-nautilus ./
+xdg-open ./
 x-www-browser https://github.com/${GITREPO}/releases/
