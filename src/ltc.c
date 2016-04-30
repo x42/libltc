@@ -27,7 +27,7 @@
 #include "decoder.h"
 #include "encoder.h"
 
-#if (defined _MSVC_VER && _MSVC_VER < 1800)
+#if (defined _MSC_VER && _MSC_VER < 1800)
 static double rint(double v) {
 	// NB. this is identical to round(), not rint(), but the difference is not relevant here
 	return floor(v + 0.5);

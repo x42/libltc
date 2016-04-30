@@ -101,7 +101,7 @@
 	printf("\n"); \
 }
 
-#if (!defined INFINITY && defined _MSVC_VER)
+#if (!defined INFINITY && defined _MSC_VER)
 #define INFINITY std::numeric_limits<double>::infinity()
 #endif
 #if (!defined INFINITY && defined HUGE_VAL)
