@@ -42,7 +42,11 @@
 
  The self-test code lends itself as good examples on how to get started.
  See \ref ltcdecode.c, \ref ltcencode.c and \ref example_encode.c.
- Another good starting point is <a href="https://github.com/x42/ltc-tools">ltc-tools</a>.
+ Other good starting point include
+ <ul>
+ <li><a href="https://github.com/x42/ltc-tools">ltc-tools</a> portable commandline-tools with file-i/o via <a href="https://github.com/erikd/libsndfile">libsndfile</a> and audio-i/o via <a hre="http://jackaudio.org/">libjack</a></li>
+ <li><a href="https://github.com/loupus/LtcWaveAudio">LtcWaveAudio</a>, a MSVC project to generate and play LTC by Hakan Soyalp.</li>
+ </ul>
 
 @section about Q&A
 
