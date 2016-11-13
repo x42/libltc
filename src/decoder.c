@@ -101,6 +101,10 @@
 	printf("\n"); \
 }
 
+#if (defined _MSC_VER && _MSC_VER <= 1800)
+#define inline __inline
+#endif
+
 #if (!defined INFINITY && defined _MSC_VER)
 #define INFINITY std::numeric_limits<double>::infinity()
 #endif
