@@ -208,6 +208,7 @@
  <li><a href="http://www.barney-wol.net/time/timecode.html">Barney Wol's Timecode page</a></li>
  <li><a href="http://en.wikipedia.org/wiki/Linear_timecode">Wikipedia Info on Linear Timecode</a></li>
  <li><a href="http://en.wikipedia.org/wiki/SMPTE_timecode">Wikipedia Page on SMPTE</a></li>
+ <li><a href="https://github.com/BernsteinA/libltc-jni">Java wrapper around libltc</a></li>
 </ul>
 
 @section license License
