@@ -277,7 +277,7 @@ typedef struct LTCFrame LTCFrame;
 /**
  * Extended LTC frame - includes audio-sample position offsets, volume, etc
  *
- * Note: For TV systems, the sample in the LTC audio data stream where the LTC Frame starts is not neccesarily at the same time
+ * Note: For TV systems, the sample in the LTC audio data stream where the LTC Frame starts is not necessarily at the same time
  * as the video-frame which is described by the LTC Frame.
  *
  * \ref off_start denotes the time of the first transition of bit 0 in the LTC frame.
@@ -674,7 +674,7 @@ int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
  * typically LTC is sent at 0dBu ; in EBU callibrated systems that
  * corresponds to -18dBFS. - by default libltc creates -3dBFS
  *
- * since libltc generated 8bit audio-data, the minium dBFS
+ * since libltc generated 8bit audio-data, the minimum dBFS
  * is about -42dB which corresponds to 1 bit.
  *
  * 0dB corresponds to a signal range of 127
