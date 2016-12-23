@@ -1,3 +1,10 @@
+2016-12-23 (v1.3.0) Robin Gareus <robin@gareus.org>
+* fix potential offset overflow (user provided relative position)
+* further improve MSVC compatibility (-infinity)
+* fix self-test for windows (binary file i/o)
+* add link examples and bindings/wrapper code to documentation
+* documentation spelling fixes
+
 2015-11-26 (v1.2.0) Robin Gareus <robin@gareus.org>
 * support older MSVC without C99
 * fix endianess detection (gcc-4.4 compat)

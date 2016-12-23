@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Thu Nov 26 2015" "Version 1.2.0" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Fri Dec 23 2016" "Version 1.3.0" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -361,7 +361,7 @@ unsigned int \fIuser8:4\fP
 .PP 
 Extended LTC frame - includes audio-sample position offsets, volume, etc
 .PP
-Note: For TV systems, the sample in the LTC audio data stream where the LTC Frame starts is not neccesarily at the same time as the video-frame which is described by the LTC Frame\&.
+Note: For TV systems, the sample in the LTC audio data stream where the LTC Frame starts is not necessarily at the same time as the video-frame which is described by the LTC Frame\&.
 .PP
 \fBoff_start\fP denotes the time of the first transition of bit 0 in the LTC frame\&.
 .PP
@@ -939,7 +939,7 @@ Set the volume of the generated LTC signal
 .PP
 typically LTC is sent at 0dBu ; in EBU callibrated systems that corresponds to \-18dBFS\&. - by default libltc creates \-3dBFS
 .PP
-since libltc generated 8bit audio-data, the minium dBFS is about \-42dB which corresponds to 1 bit\&.
+since libltc generated 8bit audio-data, the minimum dBFS is about \-42dB which corresponds to 1 bit\&.
 .PP
 0dB corresponds to a signal range of 127 1\&.\&.255 with 128 at the center\&.
 .PP
