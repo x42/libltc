@@ -1,0 +1,45 @@
+
+cmake_minimum_required(VERSION 3.0)
+set(PROJECT_NAME libltc)
+project(${PROJECT_NAME} C)
+
+# Look for config files in the build directory..
+LIST( APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} )
+
+file(GLOB_RECURSE sources src/*.c src/*.h)
+file(GLOB_RECURSE tests tests/*.c tests/*.h)
+
+add_library(libltc STATIC ${sources})
+target_compile_options(libltc PUBLIC -std=c++1y -Wall)
+target_include_directories(libltc PUBLIC src)
+
+option(BUILD_EXAMPLES "Build examples" OFF)
+
+if(${BUILD_EXAMPLES})
+	add_executable(libltc_decode tests/ltcdecode.c)
+	add_executable(libltc_encode tests/ltcencode.c)
+	add_executable(libltc_encode_example tests/example_encode.c)
+
+	target_link_libraries(libltc_decode libltc)
+	target_link_libraries(libltc_encode libltc)
+	target_link_libraries(libltc_encode_example libltc)
+
+	target_compile_options(libltc_decode PUBLIC -std=c++1y -Wall)
+	target_compile_options(libltc_encode PUBLIC -std=c++1y -Wall)
+	target_compile_options(libltc_encode_example PUBLIC -std=c++1y -Wall)
+
+	target_include_directories(libltc_decode PUBLIC src)
+	target_include_directories(libltc_encode PUBLIC src)
+	target_include_directories(libltc_encode_example PUBLIC src)
+endif(${BUILD_EXAMPLES})
+
+###############################################
+# Exports
+###############################################
+
+SET( CFG_TARGET ${PROJECT_NAME} )
+SET( CFG_DEFINITIONS ${${PROJECT_NAME}_DEFINITIONS} )
+SET( CFG_COMPILE_FLAGS "" )
+SET( CFG_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src"  )
+SET( CFG_LIBRARIES ${PROJECT_NAME} )
+CONFIGURE_FILE( "${PROJECT_NAME}Config.cmake.in" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake" @ONLY )

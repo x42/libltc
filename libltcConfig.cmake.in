@@ -1,0 +1,13 @@
+# - Config file for the @CFG_TARGET@ package
+#
+# It defines the following variables:
+#  @CFG_TARGET@_INCLUDE_DIRS - include directories for @CFG_TARGET@
+#  @CFG_TARGET@_DEFINITIONS  - libraries to link against
+#  @CFG_TARGET@_LIBRARIES    - libraries to link against
+#  @CFG_TARGET@_EXECUTABLE   - the bar executable
+
+SET( @CFG_TARGET@_DEFINITIONS "@CFG_DEFINITIONS@" )
+SET( @CFG_TARGET@_COMPILE_FLAGS "@CFG_COMPILE_FLAGS@" )
+SET( @CFG_TARGET@_INCLUDE_DIRS "@CFG_INCLUDE_DIRS@" )
+SET( @CFG_TARGET@_LIBRARIES "@CFG_LIBRARIES@" )
+SET( @CFG_TARGET@_SHARED_LIBRARIES "@CFG_SHARED_LIBRARIES@" )
