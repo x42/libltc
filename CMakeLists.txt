@@ -7,7 +7,6 @@ project(${PROJECT_NAME} C)
 LIST( APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} )
 
 file(GLOB_RECURSE sources src/*.c src/*.h)
-file(GLOB_RECURSE tests tests/*.c tests/*.h)
 
 add_library(libltc STATIC ${sources})
 target_compile_options(libltc PUBLIC -std=c++1y -Wall)
