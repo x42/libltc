@@ -9,7 +9,8 @@ LIST( APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} )
 file(GLOB_RECURSE sources src/*.c src/*.h)
 
 add_library(libltc STATIC ${sources})
-target_compile_options(libltc PUBLIC -std=c++1y -Wall)
+target_link_libraries(libltc m)
+target_compile_options(libltc PUBLIC -Wall)
 target_include_directories(libltc PUBLIC src)
 
 option(BUILD_EXAMPLES "Build examples" OFF)
@@ -23,9 +24,9 @@ if(${BUILD_EXAMPLES})
 	target_link_libraries(libltc_encode libltc)
 	target_link_libraries(libltc_encode_example libltc)
 
-	target_compile_options(libltc_decode PUBLIC -std=c++1y -Wall)
-	target_compile_options(libltc_encode PUBLIC -std=c++1y -Wall)
-	target_compile_options(libltc_encode_example PUBLIC -std=c++1y -Wall)
+	target_compile_options(libltc_decode PUBLIC -Wall)
+	target_compile_options(libltc_encode PUBLIC -Wall)
+	target_compile_options(libltc_encode_example PUBLIC -Wall)
 
 	target_include_directories(libltc_decode PUBLIC src)
 	target_include_directories(libltc_encode PUBLIC src)
