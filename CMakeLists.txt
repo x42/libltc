@@ -9,7 +9,9 @@ LIST( APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} )
 file(GLOB_RECURSE sources src/*.c src/*.h)
 
 add_library(libltc STATIC ${sources})
-target_link_libraries(libltc m)
+if(NOT MSVC)
+	target_link_libraries(libltc m)
+endif(NOT MSVC)
 target_compile_options(libltc PUBLIC -Wall)
 target_include_directories(libltc PUBLIC src)
 
