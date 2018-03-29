@@ -15,9 +15,9 @@ endif(NOT MSVC)
 target_compile_options(libltc PUBLIC -Wall)
 target_include_directories(libltc PUBLIC src)
 
-option(BUILD_EXAMPLES "Build examples" OFF)
+option(BUILD_TESTS "Build tests" OFF)
 
-if(${BUILD_EXAMPLES})
+if(${BUILD_TESTS})
 	add_executable(libltc_decode tests/ltcdecode.c)
 	add_executable(libltc_encode tests/ltcencode.c)
 	add_executable(libltc_encode_example tests/example_encode.c)
@@ -33,7 +33,7 @@ if(${BUILD_EXAMPLES})
 	target_include_directories(libltc_decode PUBLIC src)
 	target_include_directories(libltc_encode PUBLIC src)
 	target_include_directories(libltc_encode_example PUBLIC src)
-endif(${BUILD_EXAMPLES})
+endif(${BUILD_TESTS})
 
 ###############################################
 # Exports
