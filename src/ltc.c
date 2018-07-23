@@ -268,6 +268,46 @@ void ltc_encoder_set_timecode(LTCEncoder *e, SMPTETimecode *t) {
 	ltc_time_to_frame(&e->f, t, e->standard, e->flags);
 }
 
+void ltc_encoder_set_user_bits(LTCEncoder *e, unsigned long data){
+	LTCFrame *f = &(e->f);
+	f->user1 = data & 0xF;
+	data >>= 4;
+	f->user2 = data & 0xF;
+	data >>= 4;
+	f->user3 = data & 0xF;
+	data >>= 4;
+	f->user4 = data & 0xF;
+	data >>= 4;
+	f->user5 = data & 0xF;
+	data >>= 4;
+	f->user6 = data & 0xF;
+	data >>= 4;
+	f->user7 = data & 0xF;
+	data >>= 4;
+	f->user8 = data & 0xF;
+	data >>= 4;
+}
+
+unsigned long ltc_frame_get_user_bits(LTCFrame *f){
+	unsigned long data = 0;
+	data += f->user8;
+	data <<= 4;
+	data += f->user7;
+	data <<= 4;
+	data += f->user6;
+	data <<= 4;
+	data += f->user5;
+	data <<= 4;
+	data += f->user4;
+	data <<= 4;
+	data += f->user3;
+	data <<= 4;
+	data += f->user2;
+	data <<= 4;
+	data += f->user1;
+	return data;
+}
+
 void ltc_encoder_get_frame(LTCEncoder *e, LTCFrame *f) {
 	memcpy(f, &e->f, sizeof(LTCFrame));
 }

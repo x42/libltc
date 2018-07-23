@@ -540,6 +540,26 @@ void ltc_encoder_set_timecode(LTCEncoder *e, SMPTETimecode *t);
 void ltc_encoder_get_timecode(LTCEncoder *e, SMPTETimecode *t);
 
 /**
+* Set the user-bits of the frame to the given data.
+*
+* The data should be a 32-bits unsigned integer.
+* It is written LSB first continiously int the eight user fields.
+*
+* @param e encoder handle
+* @param data the data to write
+*/
+void ltc_encoder_set_user_bits(LTCEncoder *e, unsigned long data);
+
+/**
+* Get a 32-bits unsigned integer from the user-data bits.
+* The data should be written LSB first in the frame
+*
+* @param e encoder handle
+*/
+
+unsigned long ltc_frame_get_user_bits(LTCFrame *f);
+
+/**
  * Move the encoder to the next timecode frame.
  * uses \ref ltc_frame_increment() internally.
  */
