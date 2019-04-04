@@ -1,3 +1,7 @@
+2019-04-04 (v1.3.1) Robin Gareus <robin@gareus.org>
+* Added methods to write and read numbers from user bytes
+* Fix compilation for Ardunio/AVR (missing rint)
+
 2016-12-23 (v1.3.0) Robin Gareus <robin@gareus.org>
 * fix potential offset overflow (user provided relative position)
 * further improve MSVC compatibility (-infinity)

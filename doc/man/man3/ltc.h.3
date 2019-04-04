@@ -1,4 +1,4 @@
-.TH "ltc.h" 3 "Fri Dec 23 2016" "Version 1.3.0" "libltc" \" -*- nroff -*-
+.TH "ltc.h" 3 "Thu Apr 4 2019" "Version 1.3.1" "libltc" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -123,6 +123,12 @@ ltc.h \- libltc - en+decode linear timecode
 .br
 .ti -1c
 .RI "void \fBltc_encoder_get_timecode\fP (\fBLTCEncoder\fP *e, \fBSMPTETimecode\fP *t)"
+.br
+.ti -1c
+.RI "void \fBltc_encoder_set_user_bits\fP (\fBLTCEncoder\fP *e, unsigned long data)"
+.br
+.ti -1c
+.RI "unsigned long \fBltc_frame_get_user_bits\fP (\fBLTCFrame\fP *f)"
 .br
 .ti -1c
 .RI "int \fBltc_encoder_inc_timecode\fP (\fBLTCEncoder\fP *e)"
@@ -934,6 +940,19 @@ Internally this call uses \fBltc_time_to_frame\fP because the LTCEncoder operate
 \fBExamples: \fP
 .in +1c
 \fBexample_encode\&.c\fP, and \fBltcencode\&.c\fP\&.
+.SS "void ltc_encoder_set_user_bits (\fBLTCEncoder\fP * e, unsigned long data)"
+Set the user-bits of the frame to the given data\&.
+.PP
+The data should be a 32-bits unsigned integer\&. It is written LSB first continiously int the eight user fields\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
+.br
+\fIdata\fP the data to write 
+.RE
+.PP
+
 .SS "int ltc_encoder_set_volume (\fBLTCEncoder\fP * e, double dBFS)"
 Set the volume of the generated LTC signal
 .PP
@@ -997,6 +1016,15 @@ Decrement the timecode by one Frame (1/framerate seconds) and set the Frame's pa
 \fBReturns:\fP
 .RS 4
 1 if timecode was wrapped around at 23:59:59:ff, 0 otherwise 
+.RE
+.PP
+
+.SS "unsigned long ltc_frame_get_user_bits (\fBLTCFrame\fP * f)"
+Get a 32-bits unsigned integer from the user-data bits\&. The data should be written LSB first in the frame
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP encoder handle 
 .RE
 .PP
 
