@@ -13,7 +13,7 @@
    @author Robin Gareus <robin@gareus.org>
    @copyright
 
-   Copyright (C) 2006-2014 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2019 Robin Gareus <robin@gareus.org>
 
    Copyright (C) 2008-2009 Jan Weiß <jan@geheimwerk.de>
 
