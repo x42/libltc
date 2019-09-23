@@ -430,8 +430,8 @@ int ltc_decoder_free(LTCDecoder *d);
  *
  * @param d decoder handle
  * @param buf pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data
- * @param size \anchor size number of samples to parse
- * @param posinfo (optional, recommended) sample-offset in the audio-stream. It is added to \ref off_start, \ref off_end in \ref LTCFrameExt and should be monotonic (ie incremented by \ref size for every call to ltc_decoder_write)
+ * @param size size number of samples to parse
+ * @param posinfo (optional, recommended) sample-offset in the audio-stream. It is added to \ref off_start, \ref off_end in \ref LTCFrameExt and should be monotonic (ie incremented by \param size for every call to ltc_decoder_write)
  */
 void ltc_decoder_write(LTCDecoder *d,
 		ltcsnd_sample_t *buf, size_t size,
@@ -551,12 +551,11 @@ void ltc_encoder_get_timecode(LTCEncoder *e, SMPTETimecode *t);
 void ltc_encoder_set_user_bits(LTCEncoder *e, unsigned long data);
 
 /**
-* Get a 32-bits unsigned integer from the user-data bits.
+* Get the 32-bits unsigned integer from the user-data bits.
 * The data should be written LSB first in the frame
 *
-* @param e encoder handle
+* @param f LTC frame data to parse
 */
-
 unsigned long ltc_frame_get_user_bits(LTCFrame *f);
 
 /**
