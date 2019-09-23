@@ -285,7 +285,6 @@ void ltc_encoder_set_user_bits(LTCEncoder *e, unsigned long data){
 	f->user7 = data & 0xF;
 	data >>= 4;
 	f->user8 = data & 0xF;
-	data >>= 4;
 }
 
 unsigned long ltc_frame_get_user_bits(LTCFrame *f){
