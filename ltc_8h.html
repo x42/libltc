@@ -193,7 +193,7 @@ Functions</h2></td></tr>
 <p>libltc facilitates decoding and encoding of LTC from/to timecode, including SMPTE date support.</p>
 <dl class="section author"><dt>Author</dt><dd>Robin Gareus <a href="#" onclick="location.href='mai'+'lto:'+'rob'+'in'+'@ga'+'re'+'us.'+'or'+'g'; return false;">robin<span style="display: none;">.nosp@m.</span>@gar<span style="display: none;">.nosp@m.</span>eus.o<span style="display: none;">.nosp@m.</span>rg</a> </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd></dd></dl>
-<p>Copyright (C) 2006-2014 Robin Gareus <a href="#" onclick="location.href='mai'+'lto:'+'rob'+'in'+'@ga'+'re'+'us.'+'or'+'g'; return false;">robin<span style="display: none;">.nosp@m.</span>@gar<span style="display: none;">.nosp@m.</span>eus.o<span style="display: none;">.nosp@m.</span>rg</a></p>
+<p>Copyright (C) 2006-2019 Robin Gareus <a href="#" onclick="location.href='mai'+'lto:'+'rob'+'in'+'@ga'+'re'+'us.'+'or'+'g'; return false;">robin<span style="display: none;">.nosp@m.</span>@gar<span style="display: none;">.nosp@m.</span>eus.o<span style="display: none;">.nosp@m.</span>rg</a></p>
 <p>Copyright (C) 2008-2009 Jan Weiß <a href="#" onclick="location.href='mai'+'lto:'+'jan'+'@g'+'ehe'+'im'+'wer'+'k.'+'de'; return false;">jan@g<span style="display: none;">.nosp@m.</span>ehei<span style="display: none;">.nosp@m.</span>mwerk<span style="display: none;">.nosp@m.</span>.de</a></p>
 <p>Inspired by SMPTE Decoder - Maarten de Boer <a href="#" onclick="location.href='mai'+'lto:'+'mde'+'bo'+'er@'+'iu'+'a.u'+'pf'+'.es'; return false;">mdebo<span style="display: none;">.nosp@m.</span>er@i<span style="display: none;">.nosp@m.</span>ua.up<span style="display: none;">.nosp@m.</span>f.es</a></p>
 <p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
@@ -902,7 +902,9 @@ LTC-date uses 2-digit year 00.99. </td></tr>
   <table class="params">
     <tr><td class="paramname">d</td><td>decoder handle </td></tr>
     <tr><td class="paramname">buf</td><td>pointer to ltcsnd_sample_t - unsigned 8 bit mono audio data </td></tr>
-    <tr><td class="paramname">size</td><td></td></tr>
+    <tr><td class="paramname">size</td><td>size number of samples to parse </td></tr>
+    <tr><td class="paramname">posinfo</td><td>(optional, recommended) sample-offset in the audio-stream. It is added to <a class="el" href="ltc_8h.html#off_start">off_start</a>, <a class="el" href="ltc_8h.html#off_end">off_end</a> in <a class="el" href="ltc_8h.html#structLTCFrameExt">LTCFrameExt</a> and should be monotonic (ie incremented by </td></tr>
+    <tr><td class="paramname">size</td><td>for every call to ltc_decoder_write) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1892,10 +1894,10 @@ LTC-date uses 2-digit year 00.99. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get a 32-bits unsigned integer from the user-data bits. The data should be written LSB first in the frame</p>
+<p>Get the 32-bits unsigned integer from the user-data bits. The data should be written LSB first in the frame</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>encoder handle </td></tr>
+    <tr><td class="paramname">f</td><td>LTC frame data to parse </td></tr>
   </table>
   </dd>
 </dl>
@@ -2150,7 +2152,7 @@ LTC-date uses 2-digit year 00.99. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 4 2019 03:37:31 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Sep 23 2019 20:38:21 for libltc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
