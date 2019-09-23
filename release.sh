@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 EDITOR=${EDITOR:-editor}
 
@@ -65,9 +65,13 @@ read -n1 a
 echo
 
 if test "$a" != "n" -a "$a" != "N"; then
-	git push origin || exit 1
+	for remote in $(git remote); do
+		git push $remote || exit 1
+	done
 	#git push --tags ## would push ALL existing tags,
-	git push origin "refs/tags/v${VERSION}:refs/tags/v${VERSION}" || exit 1
+	for remote in $(git remote); do
+		git push $remote "refs/tags/v${VERSION}:refs/tags/v${VERSION}" || exit 1
+	done
 	cd doc/html
 	git push origin gh-pages || exit 1
 	cd ../..
