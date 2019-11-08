@@ -260,6 +260,13 @@ void ltc_encoder_encode_frame(LTCEncoder *e) {
 	}
 }
 
+void ltc_encoder_encode_reversed_frame(LTCEncoder *e) {
+	int byte;
+	for (byte = 9 ; byte > 0 ; --byte) {
+		encode_byte(e, byte, -1.0);
+	}
+}
+
 void ltc_encoder_get_timecode(LTCEncoder *e, SMPTETimecode *t) {
 	ltc_frame_to_time(t, &e->f, e->flags);
 }

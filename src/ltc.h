@@ -763,6 +763,19 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
 void ltc_encoder_encode_frame(LTCEncoder *e);
 
 /**
+ * Encode a full LTC frame at fixed speed -1.
+ * This is equivalent to calling \ref ltc_encoder_encode_byte 10 times for
+ * bytes 9..0, rolling in reverse at speed 1.
+ *
+ * Note: The internal buffer must be empty before calling this function.
+ * Otherwise it may overflow. This is usually the case if it is read with
+ * \ref ltc_encoder_get_buffer after calling this function.
+ *
+ * @param e encoder handle
+ */
+void ltc_encoder_encode_reversed_frame(LTCEncoder *e);
+
+/**
  * Set the parity of the LTC frame.
  *
  * Bi-Phase Mark Phase Correction bit (bit 27 - or 59) may be set or cleared so that
