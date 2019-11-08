@@ -438,7 +438,18 @@ void ltc_decoder_write(LTCDecoder *d,
 		ltc_off_t posinfo);
 
 /**
- * Wrapper around \ref ltc_decoder_write that accepts floating point
+ * Wrapper around \ref ltc_decoder_write that accepts 64-bit floating point
+ * audio samples. Note: internally libltc uses 8 bit only.
+ *
+ * @param d decoder handle
+ * @param buf pointer to audio sample data
+ * @param size number of samples to parse
+ * @param posinfo (optional, recommended) sample-offset in the audio-stream.
+ */
+void ltc_decoder_write_double(LTCDecoder *d, double *buf, size_t size, ltc_off_t posinfo);
+
+/**
+ * Wrapper around \ref ltc_decoder_write that accepts 32-bit floating point
  * audio samples. Note: internally libltc uses 8 bit only.
  *
  * @param d decoder handle
