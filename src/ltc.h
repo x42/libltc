@@ -699,6 +699,14 @@ void ltc_encoder_reset(LTCEncoder *e);
 int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
 
 /**
+ * Query the volume of the generated LTC signal
+ *
+ * @param e encoder handle
+ * @return the volume in dB full-scale (<= 0.0)
+ */
+double ltc_encoder_get_volume(LTCEncoder *e);
+
+/**
  * Set the volume of the generated LTC signal
  *
  * typically LTC is sent at 0dBu ; in EBU callibrated systems that
@@ -715,6 +723,14 @@ int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
  * @return 0 on success, -1 if the value was out of range
  */
 int ltc_encoder_set_volume(LTCEncoder *e, double dBFS);
+
+/**
+* Get encoder signal rise-time / signal filtering
+*
+* @param e encoder handle
+* @return the signal rise-time in us (10^(-6) sec)
+*/
+double ltc_encoder_get_filter(LTCEncoder *e);
 
 /**
  * Set encoder signal rise-time / signal filtering

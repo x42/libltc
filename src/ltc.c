@@ -212,6 +212,11 @@ void ltc_encoder_reset(LTCEncoder *e) {
 	e->offset = 0;
 }
 
+double ltc_encoder_get_volume(LTCEncoder *e) {
+    ltcsnd_sample_t diff = (e->enc_hi - e->enc_lo) / 2;
+    return 20.0 * log10((double)diff / 127.0);
+}
+
 int ltc_encoder_set_volume(LTCEncoder *e, double dBFS) {
 	if (dBFS > 0)
 		return -1;
@@ -222,6 +227,12 @@ int ltc_encoder_set_volume(LTCEncoder *e, double dBFS) {
 	e->enc_lo = SAMPLE_CENTER - diff;
 	e->enc_hi = SAMPLE_CENTER + diff;
 	return 0;
+}
+
+double ltc_encoder_get_filter(LTCEncoder *e) {
+    const double num = -2000000.0 * exp(1.0);
+    const double den = e->sample_rate * log(1.0 - e->filter_const);
+    return num / den;
 }
 
 void ltc_encoder_set_filter(LTCEncoder *e, double rise_time) {
