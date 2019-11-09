@@ -251,14 +251,18 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time) {
 }
 
 int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps) {
-	free (e->buf);
-	e->offset = 0;
-	e->bufsize = 1 + ceil(sample_rate / fps);
-	e->buf = (ltcsnd_sample_t*) calloc(e->bufsize, sizeof(ltcsnd_sample_t));
-	if (!e->buf) {
-		return -1;
-	}
-	return 0;
+	return ltc_encoder_set_buffersize(e, sample_rate, fps);
+}
+
+int ltc_encoder_set_buffersize(LTCEncoder *e, double sample_rate, double fps) {
+    free (e->buf);
+    e->offset = 0;
+    e->bufsize = 1 + ceil(sample_rate / fps);
+    e->buf = (ltcsnd_sample_t*) calloc(e->bufsize, sizeof(ltcsnd_sample_t));
+    if (!e->buf) {
+        return -1;
+    }
+    return 0;
 }
 
 int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed) {
@@ -357,10 +361,14 @@ ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush) {
 }
 
 int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf) {
-	const int len = e->offset;
-	memcpy(buf, e->buf, len * sizeof(ltcsnd_sample_t) );
-	e->offset = 0;
-	return(len);
+    return ltc_encoder_copy_buffer(e, buf);
+}
+
+int ltc_encoder_copy_buffer(LTCEncoder *e, ltcsnd_sample_t *buf) {
+    const int len = e->offset;
+    memcpy(buf, e->buf, len * sizeof(ltcsnd_sample_t) );
+    e->offset = 0;
+    return len;
 }
 
 void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard) {
