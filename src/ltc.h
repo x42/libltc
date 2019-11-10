@@ -616,9 +616,22 @@ void ltc_encoder_get_frame(LTCEncoder *e, LTCFrame *f);
  * to hold \ref ltc_encoder_get_buffersize bytes
  * @return the number of bytes written to the memory area
  * pointed to by buf.
+ *
+ * @deprecated please use ltc_encoder_copy_buffer() instead
  */
-int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf);
+int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf) DEPRECATED_EXPORT;
 
+/**
+* Copy the accumulated encoded audio to the given
+* sample-buffer and flush the internal buffer.
+*
+* @param e encoder handle
+* @param buf place to store the audio-samples, needs to be large enough
+* to hold \ref ltc_encoder_get_buffersize bytes
+* @return the number of bytes written to the memory area
+* pointed to by buf.
+*/
+int ltc_encoder_copy_buffer(LTCEncoder *e, ltcsnd_sample_t *buf);
 
 /**
  * Retrieve a pointer to the accumulated encoded audio-data.
@@ -656,7 +669,7 @@ size_t ltc_encoder_get_buffersize(LTCEncoder *e);
  * and biphase state reset.
  *
  * This call will fail if the internal buffer is too small
- * to hold one full LTC frame. Use \ref ltc_encoder_set_bufsize to
+ * to hold one full LTC frame. Use \ref ltc_encoder_set_buffersize to
  * prepare an internal buffer large enough to accommodate all
  * sample_rate, fps combinations that you would like to re-init to.
  *
@@ -701,8 +714,29 @@ void ltc_encoder_reset(LTCEncoder *e);
  * @param fps video-frames per second (e.g. 25.0)
  * @return 0 on success, -1 if allocation fails (which makes the
  *   encoder unusable, call \ref ltc_encoder_free or realloc the buffer)
+ *
+ * @deprecated please use ltc_encoder_set_buffersize() instead
  */
-int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps);
+int ltc_encoder_set_bufsize(LTCEncoder *e, double sample_rate, double fps) DEPRECATED_EXPORT;
+
+/**
+ * Configure a custom size for the internal buffer.
+ *
+ * This is needed if you are planning to call \ref ltc_encoder_reinit()
+ * or if you want to keep more than one LTC frame's worth of data in
+ * the library's internal buffer.
+ *
+ * The buffer-size is (1 + sample_rate / fps) bytes.
+ * resizing the internal buffer will flush all existing data
+ * in it - alike \ref ltc_encoder_buffer_flush.
+ *
+ * @param e encoder handle
+ * @param sample_rate audio sample rate (eg. 48000)
+ * @param fps video-frames per second (e.g. 25.0)
+ * @return 0 on success, -1 if allocation fails (which makes the
+ *   encoder unusable, call \ref ltc_encoder_free or realloc the buffer)
+ */
+int ltc_encoder_set_buffersize(LTCEncoder *e, double sample_rate, double fps);
 
 /**
  * Query the volume of the generated LTC signal
@@ -760,7 +794,7 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
  * Generate LTC audio for given byte of the LTC-frame and
  * place it into the internal buffer.
  *
- * see \ref ltc_encoder_get_buffer and  \ref ltc_encoder_get_bufptr
+ * see \ref ltc_encoder_copy_buffer and  \ref ltc_encoder_get_bufptr
  *
  * LTC has 10 bytes per frame: 0 <= bytecnt < 10
  * use SMPTESetTime(..) to set the current frame before Encoding.
@@ -770,7 +804,7 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
  * see also \ref ltc_encoder_set_volume
  *
  * if speed is < 0, the bits are encoded in reverse.
- * slowdown > 10.0 requires custom buffer sizes; see \ref ltc_encoder_set_bufsize
+ * slowdown > 10.0 requires custom buffer sizes; see \ref ltc_encoder_set_buffersize
  *
  * @param e encoder handle
  * @param byte byte of the LTC-frame to encode 0..9
@@ -787,7 +821,7 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
  *
  * Note: The internal buffer must be empty before calling this function.
  * Otherwise it may overflow. This is usually the case if it is read with
- * \ref ltc_encoder_get_buffer after calling this function.
+ * \ref ltc_encoder_copy_buffer after calling this function.
  *
  * The default internal buffersize is exactly one full LTC frame at speed 1.0.
  *
@@ -802,7 +836,7 @@ void ltc_encoder_encode_frame(LTCEncoder *e);
  *
  * Note: The internal buffer must be empty before calling this function.
  * Otherwise it may overflow. This is usually the case if it is read with
- * \ref ltc_encoder_get_buffer after calling this function.
+ * \ref ltc_encoder_copy_buffer after calling this function.
  *
  * @param e encoder handle
  */
