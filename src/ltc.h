@@ -59,6 +59,12 @@ extern "C" {
 # endif
 #endif
 
+#if defined(__GNUC__) && __GNUC__ >= 4
+# define DEPRECATED_EXPORT __attribute__((__deprecated__))
+#else
+# define DEPRECATED_EXPORT
+#endif
+
 #include <stddef.h> /* size_t */
 
 #ifndef DOXYGEN_IGNORE
