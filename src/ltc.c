@@ -355,10 +355,10 @@ void ltc_encoder_buffer_flush(LTCEncoder *e) {
 }
 
 int ltc_encoder_get_bufferptr(LTCEncoder *e, ltcsnd_sample_t **buf, int flush) {
-        const int len = e->offset;
-        if (buf) *buf = e->buf;
-        if (flush) e->offset = 0;
-        return len;
+	const int len = e->offset;
+	if (buf) *buf = e->buf;
+	if (flush) e->offset = 0;
+	return len;
 }
 
 ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush) {

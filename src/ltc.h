@@ -650,6 +650,17 @@ ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush) DEP
  * @param buf if set, the pointer to encoder-buffer
  * @param flush call \ref ltc_encoder_buffer_flush - reset the buffer write-pointer
  * @return the number of valid bytes in the buffer
+ * @deprecated please use ltc_encoder_get_bufferptr() instead
+ */
+ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush) DEPRECATED_EXPORT;
+
+/**
+ * Retrieve a pointer to the accumulated encoded audio-data.
+ *
+ * @param e encoder handle
+ * @param buf if set, the pointer to encoder-buffer
+ * @param flush call \ref ltc_encoder_buffer_flush - reset the buffer write-pointer
+ * @return the number of valid bytes in the buffer
  */
 int ltc_encoder_get_bufferptr(LTCEncoder *e, ltcsnd_sample_t **buf, int flush);
 
@@ -871,12 +882,12 @@ void ltc_encoder_encode_reversed_frame(LTCEncoder *e);
 void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard);
 
 /**
- * Parse Binary Group Flags into standard independent format:
+ * Parse Binary Coded Group Flags into standard independent format:
  * bit 0 (1) - BGF 0,
  * bit 1 (2) - BGF 1,
  * bit 2 (4) - BGF 2
  *
- * @param f LTC frame data analyze
+ * @param frame LTC frame data analyze
  * @param standard the TV standard to use -- see \ref LTCFrame for BGF assignment
  * @return LTC Binary Group Flags
  * @deprecated please use ltc_frame_parse_bcg_flags() instead
