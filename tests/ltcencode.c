@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 	}
 
 	encoder = ltc_encoder_create(1, 1, 0, LTC_USE_DATE);
-	ltc_encoder_set_bufsize(encoder, sampleRate, fps);
+	ltc_encoder_set_buffersize(encoder, sampleRate, fps);
 	ltc_encoder_reinit(encoder, sampleRate, fps,
 			fps==25?LTC_TV_625_50:LTC_TV_525_60, LTC_USE_DATE);
 
