@@ -640,8 +640,20 @@ int ltc_encoder_copy_buffer(LTCEncoder *e, ltcsnd_sample_t *buf);
  * @param size if set, the number of valid bytes in the buffer is stored there
  * @param flush call \ref ltc_encoder_buffer_flush - reset the buffer write-pointer
  * @return pointer to encoder-buffer
+ *
+ * @deprecated please use ltc_encoder_get_bufferptr() instead
  */
-ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush);
+ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush) DEPRECATED_EXPORT;
+
+/**
+ * Retrieve a pointer to the accumulated encoded audio-data.
+ *
+ * @param e encoder handle
+ * @param buf if set, the pointer to encoder-buffer
+ * @param flush call \ref ltc_encoder_buffer_flush - reset the buffer write-pointer
+ * @return the number of valid bytes in the buffer
+ */
+int ltc_encoder_get_bufferptr(LTCEncoder *e, ltcsnd_sample_t **buf, int flush);
 
 /**
  * reset the write-pointer of the encoder-buffer
@@ -655,7 +667,7 @@ void ltc_encoder_buffer_flush(LTCEncoder *e);
  * sample-rate and frame-rate.  ie. (1 + sample-rate / fps) bytes
  *
  * Note this returns the total size of the buffer, not the used/free
- * part. See also \ref ltc_encoder_get_bufptr
+ * part. See also \ref ltc_encoder_get_bufferptr
  *
  * @param e encoder handle
  * @return size of the allocated internal buffer.
@@ -794,7 +806,7 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
  * Generate LTC audio for given byte of the LTC-frame and
  * place it into the internal buffer.
  *
- * see \ref ltc_encoder_copy_buffer and  \ref ltc_encoder_get_bufptr
+ * see \ref ltc_encoder_copy_buffer and  \ref ltc_encoder_get_bufferptr
  *
  * LTC has 10 bytes per frame: 0 <= bytecnt < 10
  * use SMPTESetTime(..) to set the current frame before Encoding.
