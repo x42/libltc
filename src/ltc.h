@@ -673,19 +673,6 @@ void ltc_encoder_buffer_flush(LTCEncoder *e);
 size_t ltc_encoder_get_buffersize(LTCEncoder *e);
 
 /**
- * Query the offset into the internal buffer. It is allocated
- * to hold audio-frames for exactly one LTC frame for the given
- * sample-rate and frame-rate.  ie. (1 + sample-rate / fps) bytes
- *
- * Note that this returns the used/free part of the buffer,
- * not the total size. See also \ref ltc_encoder_get_bufferptr
- *
- * @param e encoder handle
- * @return size of the offset into the internal buffer.
- */
-size_t ltc_encoder_get_bufferoffset(LTCEncoder *e);
-
-/**
  * Change the encoder settings without re-allocating any
  * library internal data structure (realtime safe).
  * changing the fps and or sample-rate implies a buffer flush,
@@ -893,7 +880,7 @@ void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard);
  * @param standard the TV standard to use -- see \ref LTCFrame for BGF assignment
  * @return LTC Binary Group Flags
  */
-int parse_bcg_flags(LTCFrame *f, enum LTC_TV_STANDARD standard);
+int ltc_frame_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard);
 
 /**
  * LTCFrame sample alignment offset.

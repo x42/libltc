@@ -312,21 +312,21 @@ void ltc_encoder_set_user_bits(LTCEncoder *e, unsigned long data){
 
 unsigned long ltc_frame_get_user_bits(LTCFrame *f){
 	unsigned long data = 0;
-	data += f->user8;
+	data |= f->user8;
 	data <<= 4;
-	data += f->user7;
+	data |= f->user7;
 	data <<= 4;
-	data += f->user6;
+	data |= f->user6;
 	data <<= 4;
-	data += f->user5;
+	data |= f->user5;
 	data <<= 4;
-	data += f->user4;
+	data |= f->user4;
 	data <<= 4;
-	data += f->user3;
+	data |= f->user3;
 	data <<= 4;
-	data += f->user2;
+	data |= f->user2;
 	data <<= 4;
-	data += f->user1;
+	data |= f->user1;
 	return data;
 }
 
@@ -348,10 +348,6 @@ int ltc_encoder_dec_timecode(LTCEncoder *e) {
 
 size_t ltc_encoder_get_buffersize(LTCEncoder *e) {
 	return(e->bufsize);
-}
-
-size_t ltc_encoder_get_bufferoffset(LTCEncoder *e) {
-        return e->offset;
 }
 
 void ltc_encoder_buffer_flush(LTCEncoder *e) {
