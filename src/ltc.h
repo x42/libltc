@@ -557,22 +557,22 @@ void ltc_encoder_set_timecode(LTCEncoder *e, SMPTETimecode *t);
 void ltc_encoder_get_timecode(LTCEncoder *e, SMPTETimecode *t);
 
 /**
-* Set the user-bits of the frame to the given data.
-*
-* The data should be a 32-bits unsigned integer.
-* It is written LSB first continiously int the eight user fields.
-*
-* @param e encoder handle
-* @param data the data to write
-*/
+ * Set the user-bits of the frame to the given data.
+ *
+ * The data should be a 32-bits unsigned integer.
+ * It is written LSB first continiously int the eight user fields.
+ *
+ * @param e encoder handle
+ * @param data the data to write
+ */
 void ltc_encoder_set_user_bits(LTCEncoder *e, unsigned long data);
 
 /**
-* Get the 32-bits unsigned integer from the user-data bits.
-* The data should be written LSB first in the frame
-*
-* @param f LTC frame data to parse
-*/
+ * Get the 32-bits unsigned integer from the user-data bits.
+ * The data should be written LSB first in the frame
+ *
+ * @param f LTC frame data to parse
+ */
 unsigned long ltc_frame_get_user_bits(LTCFrame *f);
 
 /**
@@ -622,15 +622,15 @@ void ltc_encoder_get_frame(LTCEncoder *e, LTCFrame *f);
 int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf) DEPRECATED_EXPORT;
 
 /**
-* Copy the accumulated encoded audio to the given
-* sample-buffer and flush the internal buffer.
-*
-* @param e encoder handle
-* @param buf place to store the audio-samples, needs to be large enough
-* to hold \ref ltc_encoder_get_buffersize bytes
-* @return the number of bytes written to the memory area
-* pointed to by buf.
-*/
+ * Copy the accumulated encoded audio to the given
+ * sample-buffer and flush the internal buffer.
+ *
+ * @param e encoder handle
+ * @param buf place to store the audio-samples, needs to be large enough
+ * to hold \ref ltc_encoder_get_buffersize bytes
+ * @return the number of bytes written to the memory area
+ * pointed to by buf.
+ */
 int ltc_encoder_copy_buffer(LTCEncoder *e, ltcsnd_sample_t *buf);
 
 /**
@@ -765,11 +765,11 @@ double ltc_encoder_get_volume(LTCEncoder *e);
 int ltc_encoder_set_volume(LTCEncoder *e, double dBFS);
 
 /**
-* Get encoder signal rise-time / signal filtering
-*
-* @param e encoder handle
-* @return the signal rise-time in us (10^(-6) sec)
-*/
+ * Get encoder signal rise-time / signal filtering
+ *
+ * @param e encoder handle
+ * @return the signal rise-time in us (10^(-6) sec)
+ */
 double ltc_encoder_get_filter(LTCEncoder *e);
 
 /**
