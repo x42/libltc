@@ -350,14 +350,25 @@ size_t ltc_encoder_get_buffersize(LTCEncoder *e) {
 	return(e->bufsize);
 }
 
+size_t ltc_encoder_get_bufferoffset(LTCEncoder *e) {
+        return e->offset;
+}
+
 void ltc_encoder_buffer_flush(LTCEncoder *e) {
 	e->offset = 0;
 }
 
 ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush) {
-	if (size) *size = e->offset;
-	if (flush) e->offset = 0;
-	return e->buf;
+        ltcsnd_sample_t *buf;
+        *size = ltc_encoder_get_bufferptr(e, buf, flush);
+        return buf;
+}
+
+int ltc_encoder_get_bufferptr(LTCEncoder *e, ltcsnd_sample_t *buf, int flush) {
+        const int len = e->offset;
+        if (buf) *buf = e->buf;
+        if (flush) e->offset = 0;
+        return len;
 }
 
 int ltc_encoder_get_buffer(LTCEncoder *e, ltcsnd_sample_t *buf) {

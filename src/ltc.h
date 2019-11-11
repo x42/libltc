@@ -639,8 +639,19 @@ int ltc_encoder_copy_buffer(LTCEncoder *e, ltcsnd_sample_t *buf);
  * @param size if set, the number of valid bytes in the buffer is stored there
  * @param flush call \ref ltc_encoder_buffer_flush - reset the buffer write-pointer
  * @return pointer to encoder-buffer
+ * @deprecated please use ltc_encoder_get_bufferptr() instead
  */
-ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush);
+ltcsnd_sample_t *ltc_encoder_get_bufptr(LTCEncoder *e, int *size, int flush) DEPRECATED_EXPORT;
+
+/**
+ * Retrieve a pointer to the accumulated encoded audio-data.
+ *
+ * @param e encoder handle
+ * @param size if set, the number of valid bytes in the buffer is stored there
+ * @param flush call \ref ltc_encoder_buffer_flush - reset the buffer write-pointer
+ * @return pointer to encoder-buffer
+ */
+int ltc_encoder_get_bufferptr(LTCEncoder *e, ltcsnd_sample_t *buf, int flush);
 
 /**
  * reset the write-pointer of the encoder-buffer
@@ -654,12 +665,25 @@ void ltc_encoder_buffer_flush(LTCEncoder *e);
  * sample-rate and frame-rate.  ie. (1 + sample-rate / fps) bytes
  *
  * Note this returns the total size of the buffer, not the used/free
- * part. See also \ref ltc_encoder_get_bufptr
+ * part. See also \ref ltc_encoder_get_bufferptr
  *
  * @param e encoder handle
  * @return size of the allocated internal buffer.
  */
 size_t ltc_encoder_get_buffersize(LTCEncoder *e);
+
+/**
+ * Query the offset into the internal buffer. It is allocated
+ * to hold audio-frames for exactly one LTC frame for the given
+ * sample-rate and frame-rate.  ie. (1 + sample-rate / fps) bytes
+ *
+ * Note that this returns the used/free part of the buffer,
+ * not the total size. See also \ref ltc_encoder_get_bufferptr
+ *
+ * @param e encoder handle
+ * @return size of the offset into the internal buffer.
+ */
+size_t ltc_encoder_get_bufferoffset(LTCEncoder *e);
 
 /**
  * Change the encoder settings without re-allocating any
@@ -668,7 +692,7 @@ size_t ltc_encoder_get_buffersize(LTCEncoder *e);
  * and biphase state reset.
  *
  * This call will fail if the internal buffer is too small
- * to hold one full LTC frame. Use \ref ltc_encoder_set_bufsize to
+ * to hold one full LTC frame. Use \ref ltc_encoder_set_buffersize to
  * prepare an internal buffer large enough to accommodate all
  * sample_rate, fps combinations that you would like to re-init to.
  *
@@ -792,7 +816,7 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
  * Generate LTC audio for given byte of the LTC-frame and
  * place it into the internal buffer.
  *
- * see \ref ltc_encoder_get_buffer and  \ref ltc_encoder_get_bufptr
+ * see \ref ltc_encoder_copy_buffer and  \ref ltc_encoder_get_bufferptr
  *
  * LTC has 10 bytes per frame: 0 <= bytecnt < 10
  * use SMPTESetTime(..) to set the current frame before Encoding.
@@ -802,7 +826,7 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
  * see also \ref ltc_encoder_set_volume
  *
  * if speed is < 0, the bits are encoded in reverse.
- * slowdown > 10.0 requires custom buffer sizes; see \ref ltc_encoder_set_bufsize
+ * slowdown > 10.0 requires custom buffer sizes; see \ref ltc_encoder_set_buffersize
  *
  * @param e encoder handle
  * @param byte byte of the LTC-frame to encode 0..9
@@ -819,7 +843,7 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
  *
  * Note: The internal buffer must be empty before calling this function.
  * Otherwise it may overflow. This is usually the case if it is read with
- * \ref ltc_encoder_get_buffer after calling this function.
+ * \ref ltc_encoder_copy_buffer after calling this function.
  *
  * The default internal buffersize is exactly one full LTC frame at speed 1.0.
  *
@@ -834,7 +858,7 @@ void ltc_encoder_encode_frame(LTCEncoder *e);
  *
  * Note: The internal buffer must be empty before calling this function.
  * Otherwise it may overflow. This is usually the case if it is read with
- * \ref ltc_encoder_get_buffer after calling this function.
+ * \ref ltc_encoder_copy_buffer after calling this function.
  *
  * @param e encoder handle
  */
