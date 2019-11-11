@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
 
 		ltc_encoder_encode_frame(encoder);
 
-		buf = ltc_encoder_get_bufptr(encoder, &len, 1);
+		len = ltc_encoder_get_bufferptr(encoder, &buf, 1);
 
 		if (len > 0) {
 			fwrite(buf, sizeof(ltcsnd_sample_t), len, file);

@@ -139,8 +139,7 @@ int main(int argc, char **argv) {
 #ifdef USE_LOCAL_BUFFER
 			int len = ltc_encoder_copy_buffer(encoder, buf);
 #else
-			int len;
-			buf = ltc_encoder_get_bufptr(encoder, &len, 1);
+			int len = ltc_encoder_get_bufferptr (encoder, &buf, 1);
 #endif
 			if (len > 0) {
 				fwrite(buf, sizeof(ltcsnd_sample_t), len, file);
@@ -153,8 +152,7 @@ int main(int argc, char **argv) {
 #ifdef USE_LOCAL_BUFFER
 		int len = ltc_encoder_copy_buffer(encoder, buf);
 #else
-		int len;
-		buf = ltc_encoder_get_bufptr(encoder, &len, 1);
+		int len = ltc_encoder_get_bufferptr(encoder, &buf, 1);
 #endif
 
 		if (len > 0) {
