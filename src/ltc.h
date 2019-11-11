@@ -879,6 +879,19 @@ void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard);
  * @param f LTC frame data analyze
  * @param standard the TV standard to use -- see \ref LTCFrame for BGF assignment
  * @return LTC Binary Group Flags
+ * @deprecated please use ltc_frame_parse_bcg_flags() instead
+ */
+int parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard) DEPRECATED_EXPORT;
+
+/**
+ * Parse Binary Group Flags into standard independent format:
+ * bit 0 (1) - BGF 0,
+ * bit 1 (2) - BGF 1,
+ * bit 2 (4) - BGF 2
+ *
+ * @param f LTC frame data analyze
+ * @param standard the TV standard to use -- see \ref LTCFrame for BGF assignment
+ * @return LTC Binary Group Flags
  */
 int ltc_frame_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard);
 

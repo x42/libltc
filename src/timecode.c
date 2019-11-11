@@ -449,3 +449,7 @@ int ltc_frame_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard) {
 			break;
 	}
 }
+
+int parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard) {
+        return ltc_frame_parse_bcg_flags(frame, standard);
+}
