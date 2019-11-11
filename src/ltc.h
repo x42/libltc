@@ -883,7 +883,7 @@ void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard);
  * @param standard the TV standard to use -- see \ref LTCFrame for BGF assignment
  * @return LTC Binary Group Flags
  */
-int ltc_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard);
+int ltc_frame_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard);
 
 /**
  * LTCFrame sample alignment offset.

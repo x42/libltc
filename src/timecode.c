@@ -431,7 +431,7 @@ int ltc_frame_decrement(LTCFrame* frame, int fps, enum LTC_TV_STANDARD standard,
 	return rv;
 }
 
-int ltc_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard) {
+int ltc_frame_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard) {
 	switch (standard) {
 		case LTC_TV_625_50: /* 25 fps mode */
 			return (
