@@ -874,16 +874,16 @@ void ltc_encoder_encode_reversed_frame(LTCEncoder *e);
 void ltc_frame_set_parity(LTCFrame *frame, enum LTC_TV_STANDARD standard);
 
 /**
- * Parse Binary Group Flags into standard independent format:
+ * Parse Binary Coded Group Flags into standard independent format:
  * bit 0 (1) - BGF 0,
  * bit 1 (2) - BGF 1,
  * bit 2 (4) - BGF 2
  *
- * @param f LTC frame data analyze
+ * @param frame LTC frame data analyze
  * @param standard the TV standard to use -- see \ref LTCFrame for BGF assignment
  * @return LTC Binary Group Flags
  */
-int parse_bcg_flags(LTCFrame *f, enum LTC_TV_STANDARD standard);
+int ltc_parse_bcg_flags(LTCFrame *frame, enum LTC_TV_STANDARD standard);
 
 /**
  * LTCFrame sample alignment offset.
