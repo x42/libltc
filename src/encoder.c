@@ -29,8 +29,12 @@
  * add values to the output buffer
  */
 static int addvalues(LTCEncoder *e, int n) {
+	
+	double tcf;
+	ltcsnd_sample_t * wave;
+	
 	const ltcsnd_sample_t tgtval = e->state ? e->enc_hi : e->enc_lo;
-
+	
 	if (e->offset + n >= e->bufsize) {
 #if 0
 		fprintf(stderr, "libltc: buffer overflow: %d/%lu\n", (int) e->offset, (unsigned long) e->bufsize);
@@ -38,8 +42,8 @@ static int addvalues(LTCEncoder *e, int n) {
 		return 1;
 	}
 
-	ltcsnd_sample_t * const wave = &(e->buf[e->offset]);
-	const double tcf =  e->filter_const;
+	wave = &(e->buf[e->offset]);
+	tcf =  e->filter_const;
 	if (tcf > 0) {
 		/* low-pass-filter
 		 * LTC signal should have a rise time of 40 us +/- 10 us.
@@ -51,10 +55,12 @@ static int addvalues(LTCEncoder *e, int n) {
 		 * e->cutoff = 1.0 -exp( -1.0 / (sample_rate * .000020 / exp(1.0)) );
 		 */
 		int i;
+		int m;
+		
 		ltcsnd_sample_t val = SAMPLE_CENTER;
-		int m = (n+1)>>1;
+		m = (n+1)>>1;
 		for (i = 0 ; i < m ; i++) {
-			val = val + tcf * (tgtval - val);
+			val = (ltcsnd_sample_t) ( val + tcf * (tgtval - val)); 
 			wave[n-i-1] = wave[i] = val;
 		}
 	} else {
@@ -67,14 +73,20 @@ static int addvalues(LTCEncoder *e, int n) {
 }
 
 int encode_byte(LTCEncoder *e, int byte, double speed) {
+
+	int err = 0;
+	unsigned char c;
+	unsigned char b;
+	double spc;
+	double sph;
+	
 	if (byte < 0 || byte > 9) return -1;
 	if (speed ==0) return -1;
 
-	int err = 0;
-	const unsigned char c = ((unsigned char*)&e->f)[byte];
-	unsigned char b = (speed < 0)?128:1; // bit
-	const double spc = e->samples_per_clock * fabs(speed);
-	const double sph = e->samples_per_clock_2 * fabs(speed);
+	c = ((unsigned char*)&e->f)[byte];
+	b = (speed < 0)?128:1; // bit
+	spc = e->samples_per_clock * fabs(speed);
+	sph = e->samples_per_clock_2 * fabs(speed);
 
 	do
 	{

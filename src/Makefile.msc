@@ -1,0 +1,69 @@
+# Makefile for libltc using Microsoft (Visual) C
+#
+# Usage:
+#   nmake -f Makefile.msc                          (standard build)
+#
+# run within src folder!
+
+# The toplevel directory of the source tree.
+#
+TOP = .
+
+# optional build flags
+LOC =
+
+# variables
+STATICLIB = libltc.lib
+SHAREDLIB = libltc.dll
+IMPLIB    = libltc.lib
+
+CC = cl
+AS = ml
+LD = link
+AR = lib
+RC = rc
+CFLAGS  = -nologo /MT -W3 -O2 -Oy- -Fd"libltc" $(LOC)  /GF  -DWIN32 /TC  
+WFLAGS  = -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE
+ASFLAGS = -coff -Zi $(LOC)
+LDFLAGS = -nologo -incremental:no -opt:ref
+ARFLAGS = -nologo
+RCFLAGS = /dWIN32 /r
+
+OBJS = ltc.obj encoder.obj decoder.obj timecode.obj
+OBJA =
+
+#
+
+
+# targets
+all: $(STATICLIB) $(SHAREDLIB)
+
+$(STATICLIB): $(OBJS) $(OBJA)
+	$(AR) $(ARFLAGS) -out:$@ $(OBJS) $(OBJA)
+
+$(SHAREDLIB):  $(OBJS) $(OBJA)  libltc.res
+	$(LD) $(LDFLAGS) -dll -implib:$(IMPLIB) \
+	  -out:$@ $(OBJS) $(OBJA)  -def:$(TOP)/libltc.def libltc.res
+
+
+libltc.res: $(TOP)/libltc.rc
+	$(RC) $(RCFLAGS) /fo$@ $(TOP)/libltc.rc
+
+{$(TOP)}.c.obj:
+	$(CC) -c $(WFLAGS) $(CFLAGS) $<
+
+
+
+
+# cleanup
+clean:
+	-del $(STATICLIB)
+	-del $(SHAREDLIB)
+	-del $(IMPLIB)
+	-del *.obj
+	-del *.res
+	-del *.exp
+	-del *.exe
+	-del *.pdb
+	-del *.manifest
+	

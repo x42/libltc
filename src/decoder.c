@@ -106,7 +106,13 @@
 #endif
 
 #if (!defined INFINITY && defined _MSC_VER)
+
+#ifdef  __cplusplus
 #define INFINITY std::numeric_limits<double>::infinity()
+#else
+// #define INFINITY 
+#endif
+
 #endif
 #if (!defined INFINITY && defined HUGE_VAL)
 #define INFINITY HUGE_VAL
@@ -125,7 +131,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 		memset(&d->ltc_frame, 0, sizeof(LTCFrame));
 
 		if (d->frame_start_prev < 0) {
-			d->frame_start_off = posinfo - d->snd_to_biphase_period;
+			d->frame_start_off = (ltc_off_t) (posinfo - d->snd_to_biphase_period); 
 		} else {
 			d->frame_start_off = d->frame_start_prev;
 		}
@@ -153,7 +159,7 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 			((unsigned char*)&d->ltc_frame)[k] = bo;
 		}
 
-		d->frame_start_off += ceil(d->snd_to_biphase_period);
+		d->frame_start_off += (ltc_off_t) ceil(d->snd_to_biphase_period);
 		d->bit_cnt--;
 	}
 
@@ -243,9 +249,9 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 				d->queue[d->queue_write_off].biphase_tics[bc] = d->biphase_tics[btc];
 			}
 
-			d->queue[d->queue_write_off].off_start = d->frame_start_off - 16 * d->snd_to_biphase_period;
-			d->queue[d->queue_write_off].off_end = posinfo + (ltc_off_t) offset - 1LL - 16 * d->snd_to_biphase_period;
-			d->queue[d->queue_write_off].reverse = (LTC_FRAME_BIT_COUNT >> 3) * 8 * d->snd_to_biphase_period;
+			d->queue[d->queue_write_off].off_start = (ltc_off_t) (d->frame_start_off - 16 * d->snd_to_biphase_period);
+			d->queue[d->queue_write_off].off_end = (ltc_off_t) (posinfo + (ltc_off_t) offset - 1LL - 16 * d->snd_to_biphase_period);
+			d->queue[d->queue_write_off].reverse = (int) ((LTC_FRAME_BIT_COUNT >> 3) * 8 * d->snd_to_biphase_period);
 			d->queue[d->queue_write_off].volume = calc_volume_db(d);
 			d->queue[d->queue_write_off].sample_min = d->snd_to_biphase_min;
 			d->queue[d->queue_write_off].sample_max = d->snd_to_biphase_max;
@@ -261,10 +267,10 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 
 static inline void biphase_decode2(LTCDecoder *d, ltc_off_t offset, ltc_off_t pos) {
 
-	d->biphase_tics[d->biphase_tic] = d->snd_to_biphase_period;
+	d->biphase_tics[d->biphase_tic] = (float) d->snd_to_biphase_period;
 	d->biphase_tic = (d->biphase_tic + 1) % LTC_FRAME_BIT_COUNT;
 	if (d->snd_to_biphase_cnt <= 2 * d->snd_to_biphase_period) {
-		pos -= (d->snd_to_biphase_period - d->snd_to_biphase_cnt);
+		pos -= (ltc_off_t) (d->snd_to_biphase_period - d->snd_to_biphase_cnt); 
 	}
 
 	if (d->snd_to_biphase_state == d->biphase_prev) {
