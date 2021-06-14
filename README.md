@@ -16,6 +16,6 @@ Documentation
 
 The API reference, examples, as well as introduction can be found at
 
-http://x42.github.com/libltc/
+https://x42.github.io/libltc/
 
 This site is part or the source-code in the doc/ folder.
