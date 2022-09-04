@@ -106,3 +106,21 @@ int encode_byte(LTCEncoder *e, int byte, double speed) {
 
 	return err;
 }
+
+int encode_transition(LTCEncoder *e) {
+	if (e->offset + 1 >= e->bufsize) {
+		return -1;
+	}
+
+	int off = e->offset;
+
+	int n = e->bufsize - e->offset - 1;
+	e->state = !e->state;
+	int err = addvalues(e, n);
+
+	if (e->filter_const <= 0) {
+		e->offset = off + 1;
+	}
+
+	return err;
+}

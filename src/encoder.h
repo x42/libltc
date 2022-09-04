@@ -45,3 +45,4 @@ struct LTCEncoder {
 };
 
 int encode_byte(LTCEncoder *e, int byte, double speed);
+int encode_transition(LTCEncoder *e);

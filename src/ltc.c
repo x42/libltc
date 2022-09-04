@@ -269,6 +269,10 @@ int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed) {
 	return encode_byte(e, byte, speed);
 }
 
+int ltc_encoder_end_encode(LTCEncoder *e) {
+	return encode_transition(e);
+}
+
 void ltc_encoder_encode_frame(LTCEncoder *e) {
 	int byte;
 	for (byte = 0 ; byte < 10 ; byte++) {

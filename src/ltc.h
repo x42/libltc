@@ -827,6 +827,27 @@ void ltc_encoder_set_filter(LTCEncoder *e, double rise_time);
 int ltc_encoder_encode_byte(LTCEncoder *e, int byte, double speed);
 
 /**
+ * Terminate encoding and add final transition
+ *
+ * Refer to the image at \ref LTCFrame. In this example, the encoded data
+ * starts and ends with a rising edge.
+ * The transition at the start of tne next frame marks the end of
+ * the previous frame. This transition is encoded at the
+ * beginning of a frame. However if there is no additional frame to be encoded,
+ * a final terminating transition has to be added.
+ *
+ * Since LTC is usually sent as continuous stream, this is of no concern.
+ * However for a fixed, finite duration to be encoded, this method adds
+ * a terminating transition to the buffer.
+ *
+ * After this one must either call \ref ltc_encoder_reset() or \ref ltc_encoder_free.
+ *
+ * @param e encoder handle
+ * @return 0 on success, -1 if byte is invalid or buffer overflow (speed > 10.0)
+ */
+int ltc_encoder_end_encode(LTCEncoder *e);
+
+/**
  * Encode a full LTC frame at fixed speed.
  * This is equivalent to calling \ref ltc_encoder_encode_byte 10 times for
  * bytes 0..9 with speed 1.0.
