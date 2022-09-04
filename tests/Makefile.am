@@ -1,4 +1,4 @@
-check_PROGRAMS = ltcencode ltcdecode
+check_PROGRAMS = ltcencode ltcdecode ltcloop
 
 CLEANFILES = output.raw atconfig
 
@@ -18,6 +18,11 @@ ltcencode_SOURCES = ltcencode.c
 ltcencode_CFLAGS=-g -Wall
 ltcencode_LDADD = $(LIBLTCDIR)/libltc.la -lm
 
+ltcloop_SOURCES = ltcloop.c
+ltcloop_CFLAGS=-g -Wall
+ltcloop_LDADD = $(LIBLTCDIR)/libltc.la -lm
+
+
 check: $(check_PROGRAMS)
 	 date
 	 uname -a
@@ -29,6 +34,8 @@ check: $(check_PROGRAMS)
 	 ./ltcdecode output.raw 7680 | diff -q $(srcdir)/expect_96k_2sec.txt -
 	 @echo "-----------------------------------------------------------------"
 	 ./ltcdecode $(srcdir)/timecode.raw 882 | diff -q $(srcdir)/timecode.txt -
+	 @echo "-----------------------------------------------------------------"
+	 ./ltcloop
 	 @echo "-----------------------------------------------------------------"
 	 @echo "  ${PACKAGE}-${VERSION} passed all tests."
 	 @echo "-----------------------------------------------------------------"

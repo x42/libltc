@@ -16,6 +16,7 @@ config.*
 *.swp
 tests/ltcdecode
 tests/ltcencode
+tests/ltcloop
 tests/output.raw
 
 doc/html/
