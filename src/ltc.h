@@ -69,17 +69,17 @@ extern "C" {
 
 #ifndef DOXYGEN_IGNORE
 /* libltc version */
-#define LIBLTC_VERSION "1.3.1"
+#define LIBLTC_VERSION "1.3.2"
 #define LIBLTC_VERSION_MAJOR  1
 #define LIBLTC_VERSION_MINOR  3
-#define LIBLTC_VERSION_MICRO  1
+#define LIBLTC_VERSION_MICRO  2
 
 /* interface revision number
  * http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
  */
-#define LIBLTC_CUR 12
+#define LIBLTC_CUR 13
 #define LIBLTC_REV  0
-#define LIBLTC_AGE  1
+#define LIBLTC_AGE  2
 #endif /* end DOXYGEN_IGNORE */
 
 /**

@@ -1,3 +1,9 @@
+2022-09-04 (v1.3.2) Robin Gareus <robin@gareus.org>
+* Fixed decoder ringbuffer off by one (allow queue-size of 1)
+* Add interface to end encoding, add a final transition
+(https://github.com/x42/libltc/issues/65)
+* Add unit-test for ltc_encoder_end_encode()
+
 2019-04-04 (v1.3.1) Robin Gareus <robin@gareus.org>
 * Added methods to write and read numbers from user bytes
 * Fix compilation for Ardunio/AVR (missing rint)
