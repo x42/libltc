@@ -2,7 +2,7 @@
    libltc - en+decode linear timecode
 
    Copyright (C) 2005 Maarten de Boer <mdeboer@iua.upf.es>
-   Copyright (C) 2006-2016 Robin Gareus <robin@gareus.org>
+   Copyright (C) 2006-2022 Robin Gareus <robin@gareus.org>
    Copyright (C) 2008-2009 Jan <jan@geheimwerk.de>
 
    Binary constant generator macro for endianess conversion
