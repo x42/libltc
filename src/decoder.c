@@ -180,6 +180,10 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 		if (d->bit_cnt == LTC_FRAME_BIT_COUNT) {
 			int bc;
 
+			if (d->queue_write_off == d->queue_len) {
+				d->queue_write_off = 0;
+			}
+
 			memcpy( &d->queue[d->queue_write_off].ltc,
 				&d->ltc_frame,
 				sizeof(LTCFrame));
@@ -198,8 +202,6 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 
 			d->queue_write_off++;
 
-			if (d->queue_write_off == d->queue_len)
-				d->queue_write_off = 0;
 		}
 		d->bit_cnt = 0;
 	}
@@ -234,6 +236,10 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 				((unsigned char*)&d->ltc_frame)[byte_num_max-1-k] = bi;
 			}
 
+			if (d->queue_write_off == d->queue_len) {
+				d->queue_write_off = 0;
+			}
+
 			memcpy( &d->queue[d->queue_write_off].ltc,
 				&d->ltc_frame,
 				sizeof(LTCFrame));
@@ -251,9 +257,6 @@ static void parse_ltc(LTCDecoder *d, unsigned char bit, ltc_off_t offset, ltc_of
 			d->queue[d->queue_write_off].sample_max = d->snd_to_biphase_max;
 
 			d->queue_write_off++;
-
-			if (d->queue_write_off == d->queue_len)
-				d->queue_write_off = 0;
 		}
 		d->bit_cnt = 0;
 	}
